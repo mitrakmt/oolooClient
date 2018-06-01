@@ -1,5 +1,5 @@
 module.exports = {
-    "extends": "airbnb",
+    "extends": ["airbnb", "prettier", "prettier/react"],
     "parser": "babel-eslint",
     "env": {
       "jest": true,
@@ -8,10 +8,18 @@ module.exports = {
       "react/jsx-filename-extension": 0,
       "react/jsx-filename-extension": 0,
       "no-use-before-define": 0,
+      'prettier/prettier': [
+        'error',
+        {
+          singleQuote: true, 
+          trailingComma: 'all',
+        },
+      ]
     },
     "plugins": [
        "react",
        "jsx-a11y",
-       "import"
+       "import",
+       "prettier"
     ]
 };
