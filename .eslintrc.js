@@ -6,7 +6,6 @@ module.exports = {
     },
     "rules": {
       "react/jsx-filename-extension": 0,
-      "react/jsx-filename-extension": 0,
       "no-use-before-define": 0,
       'prettier/prettier': [
         'error',
