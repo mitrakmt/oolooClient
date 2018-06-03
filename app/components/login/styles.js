@@ -3,6 +3,8 @@ const colors = {
   darkCyan: '#2f5658',
   grayishBlue: '#aebcc5',
   white: '#ffffff',
+  textInputColor: '#5c7a7b',
+  buttonColor: '#01a38d',
 }
 
 const containerStyles = {
@@ -28,7 +30,7 @@ const formStyles = {
   },
 }
 
-const inputStyles = {
+const usernameContainerStyles = {
   borderBottomColor: colors.darkCyan,
   borderTopWidth: 0,
   borderRightWidth: 0,
@@ -37,10 +39,26 @@ const inputStyles = {
   height: 50,
 }
 
+const passwordContainerStyle = {
+  ...usernameContainerStyles,
+  marginTop: '10%',
+  marginLeft: '10%',
+  marginRight: '10%',
+  borderBottomColor: colors.grayishBlue,
+}
+
+const textInputStyles = {
+  textAlign: 'center',
+  fontWeight: 'bold',
+  marginTop: '7%',
+}
+
 const styles = {
   containerStyles,
   formStyles,
-  inputStyles,
+  usernameContainerStyles,
+  passwordContainerStyle,
+  textInputStyles,
 }
 
 export default styles

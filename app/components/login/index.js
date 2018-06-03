@@ -7,6 +7,7 @@ class Login extends Component {
     super(props)
     this.state = {
       username: 'Username',
+      password: 'Password',
     }
   }
 
@@ -14,8 +15,22 @@ class Login extends Component {
     return (
       <View style={styles.containerStyles}>
         <View style={styles.formStyles}>
-          <View style={styles.inputStyles}>
-            <TextInput placeholder={this.state.username} />
+          <View style={styles.usernameContainerStyles}>
+            <TextInput
+              style={styles.textInputStyles}
+              placeholder={this.state.username}
+              fontSize={20}
+              placeholderTextColor="#5c7a7b"
+            />
+          </View>
+
+          <View style={styles.passwordContainerStyle}>
+            <TextInput
+              style={styles.textInputStyles}
+              placeholder={this.state.password}
+              fontSize={16}
+              placeholderTextColor="#5c7a7b"
+            />
           </View>
         </View>
       </View>
