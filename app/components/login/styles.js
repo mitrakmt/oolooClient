@@ -53,12 +53,23 @@ const textInputStyles = {
   marginTop: '7%',
 }
 
+const buttonStyles = {
+  borderRadius: 10,
+  backgroundColor: colors.buttonColor,
+  top: '25%',
+  width: '50%',
+  padding: '3%',
+  marginLeft: 'auto',
+  marginRight: 'auto',
+}
+
 const styles = {
   containerStyles,
   formStyles,
   usernameContainerStyles,
   passwordContainerStyle,
   textInputStyles,
+  buttonStyles,
 }
 
 export default styles
