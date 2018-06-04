@@ -3,12 +3,50 @@ import { TextInput, View, Button } from 'react-native'
 import * as EmailValidator from 'email-validator'
 import styles from './styles'
 
+const API_URL = `https://ooloo-api.herokuapp.com/api`
+
+const prepPayload = (username, password) => {
+  const body = JSON.stringify({
+    email: username !== 'test@test.com' ? 'test@test.com' : username,
+    password: password.length > 1 ? 'password' : password,
+  })
+
+  const payload = {
+    method: 'post',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body,
+  }
+
+  return payload
+}
+
+const loginUser = async (username, password) => {
+  const payload = prepPayload(username, password)
+
+  try {
+    const serverResponse = await fetch(`${API_URL}/user/login`, payload).then(
+      response => {
+        console.log('serverResponse inside fetch ', response)
+
+        return response.json()
+      },
+    )
+
+    console.log('the serverResponse is ', serverResponse)
+  } catch (error) {
+    console.log('error from serverResponse ', error)
+  }
+}
+
 class Login extends Component {
   constructor(props) {
     super(props)
     this.state = {
       username: 'Username',
-      password: 'Password',
+      password: '',
     }
     this.handleUsernameInput = this.handleUsernameInput.bind(this)
     this.handlePasswordInput = this.handlePasswordInput.bind(this)
@@ -27,20 +65,24 @@ class Login extends Component {
   }
 
   handleSubmit() {
-    const { username } = this.state
+    let { username } = this.state
+    const { password } = this.state
+    username = EmailValidator.validate(username)
 
-    const isEmail = EmailValidator.validate(username)
+    console.log('does username have a legit email? ', username)
 
-    console.log('does username have a legit email? ', isEmail)
-
-    this.setState({
-      username: 'Username',
-      password: 'Password',
-    })
+    if (username) {
+      this.setState(
+        {
+          username: 'Username',
+          password: '',
+        },
+        () => loginUser(username, password),
+      )
+    }
   }
 
   render() {
-    console.log('login state is ', this.state)
     return (
       <View style={styles.containerStyles}>
         <View style={styles.formStyles}>
@@ -48,6 +90,7 @@ class Login extends Component {
             <TextInput
               style={styles.textInputStyles}
               placeholder={this.state.username}
+              value={this.state.username}
               fontSize={17}
               autoCapitalize="none"
               placeholderTextColor="#5c7a7b"
@@ -58,7 +101,7 @@ class Login extends Component {
           <View style={styles.passwordContainerStyle}>
             <TextInput
               style={styles.textInputStyles}
-              placeholder={this.state.password}
+              value={this.state.password}
               fontSize={16}
               autoCapitalize="none"
               secureTextEntry="true"
