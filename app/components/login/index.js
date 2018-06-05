@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { TextInput, Text, View, Button } from 'react-native'
 import * as EmailValidator from 'email-validator'
+import * as Keychain from 'react-native-keychain'
 import { prepPayload, fetchUser } from './utils'
 import styles from './styles'
 
@@ -29,19 +30,16 @@ class Login extends Component {
   }
 
   handleSubmit() {
-    let { username } = this.state
+    let haveUser = this.state.username
     const { password } = this.state
-    username = EmailValidator.validate(username)
+    haveUser = EmailValidator.validate(haveUser)
 
-    console.log('does username have a legit email? ', username)
-
-    if (username) {
+    if (haveUser) {
       this.setState(
         {
-          username: 'Username',
           password: '',
         },
-        () => this.loginUser(username, password),
+        () => this.loginUser('test@test.com', password), // use this.state.username in prod
       )
     } else {
       this.handleError()
@@ -64,12 +62,28 @@ class Login extends Component {
 
     try {
       const serverResponse = await fetchUser(payload)
-      console.log('serverResponse is ', serverResponse)
-      if (!serverResponse.Authorization) this.handleError()
+
+      if (!serverResponse) {
+        this.handleError()
+      } else {
+        this.storeToken(username, serverResponse)
+      }
     } catch (err) {
       console.log('error from serverResponse ', err)
       this.handleError()
     }
+  }
+
+  storeToken = async (username, Authorization) => {
+    // Store the credentials, returns a boolean
+    const storeToken = await Keychain.setGenericPassword(
+      username,
+      Authorization,
+    )
+
+    console.log('did we store the token? ', storeToken)
+
+    await Keychain.resetGenericPassword() // Returns a boolean if Keychain was reset
   }
 
   render() {
