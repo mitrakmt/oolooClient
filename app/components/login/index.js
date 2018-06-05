@@ -10,11 +10,13 @@ class Login extends Component {
     super(props)
     this.state = {
       username: 'Username',
-      password: '',
+      password: 'Password',
       status: {},
+      togglePassword: false,
     }
     this.handleUsernameInput = this.handleUsernameInput.bind(this)
     this.handlePasswordInput = this.handlePasswordInput.bind(this)
+    this.toggleField = this.toggleField.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
   handleUsernameInput(text) {
@@ -29,6 +31,28 @@ class Login extends Component {
     })
   }
 
+  toggleField(field) {
+    // removes placeholder text when user focuses on a field
+    // add placeholder text back if length of field is zero after editing is finished
+    if (field === 'username') {
+      const { username } = this.state
+      if (username.length === 0) {
+        this.setState({ username: 'Username' })
+      } else if (username.match(/Username/i)) {
+        this.setState({ username: '' })
+      }
+    }
+
+    if (field === 'password') {
+      const { password } = this.state
+      if (password.length === 0) {
+        this.setState({ password: 'Password', togglePassword: false })
+      } else if (password.match(/Password/i)) {
+        this.setState({ password: '', togglePassword: true })
+      }
+    }
+  }
+
   handleSubmit() {
     let haveUser = this.state.username
     const { password } = this.state
@@ -37,7 +61,7 @@ class Login extends Component {
     if (haveUser) {
       this.setState(
         {
-          password: '',
+          password: 'Password',
         },
         () => this.loginUser('test@test.com', password), // use this.state.username in prod
       )
@@ -87,7 +111,9 @@ class Login extends Component {
   }
 
   render() {
-    const { status } = this.state
+    const { status, togglePassword } = this.state
+
+    console.log('current state is ', this.state)
     return (
       <View style={styles.containerStyles}>
         <View style={styles.formStyles}>
@@ -95,23 +121,27 @@ class Login extends Component {
             <TextInput
               style={styles.textInputStyles}
               placeholder={this.state.username}
-              value={this.state.username}
               fontSize={17}
               autoCapitalize="none"
-              placeholderTextColor="#5c7a7b"
+              value={this.state.username}
+              onFocus={() => this.toggleField('username')}
               onChangeText={this.handleUsernameInput}
+              onEndEditing={() => this.toggleField('username')}
+              placeholderTextColor="#5c7a7b"
             />
           </View>
 
           <View style={styles.passwordContainerStyle}>
             <TextInput
               style={styles.textInputStyles}
-              value={this.state.password}
               fontSize={16}
               autoCapitalize="none"
-              secureTextEntry="true"
-              placeholderTextColor="#5c7a7b"
+              secureTextEntry={togglePassword}
+              value={this.state.password}
+              onFocus={() => this.toggleField('password')}
               onChangeText={this.handlePasswordInput}
+              onEndEditing={() => this.toggleField('password')}
+              placeholderTextColor="#5c7a7b"
             />
           </View>
 
