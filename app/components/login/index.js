@@ -2,44 +2,7 @@ import React, { Component } from 'react'
 import { TextInput, View, Button } from 'react-native'
 import * as EmailValidator from 'email-validator'
 import styles from './styles'
-
-const API_URL = `https://ooloo-api.herokuapp.com/api`
-
-const prepPayload = (username, password) => {
-  const body = JSON.stringify({
-    email: username !== 'test@test.com' ? 'test@test.com' : username,
-    password: password.length > 1 ? 'password' : password,
-  })
-
-  const payload = {
-    method: 'post',
-    mode: 'cors',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body,
-  }
-
-  return payload
-}
-
-const loginUser = async (username, password) => {
-  const payload = prepPayload(username, password)
-
-  try {
-    const serverResponse = await fetch(`${API_URL}/user/login`, payload).then(
-      response => {
-        console.log('serverResponse inside fetch ', response)
-
-        return response.json()
-      },
-    )
-
-    console.log('the serverResponse is ', serverResponse)
-  } catch (error) {
-    console.log('error from serverResponse ', error)
-  }
-}
+import { loginUser } from './utils'
 
 class Login extends Component {
   constructor(props) {
