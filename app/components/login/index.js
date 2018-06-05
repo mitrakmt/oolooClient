@@ -113,40 +113,43 @@ class Login extends Component {
   render() {
     const { status, togglePassword } = this.state
 
-    console.log('current state is ', this.state)
     return (
       <View style={styles.containerStyles}>
         <View style={styles.formStyles}>
-          <View style={styles.usernameContainerStyles}>
-            <TextInput
-              style={styles.textInputStyles}
-              placeholder={this.state.username}
-              fontSize={17}
-              autoCapitalize="none"
-              value={this.state.username}
-              onFocus={() => this.toggleField('username')}
-              onChangeText={this.handleUsernameInput}
-              onEndEditing={() => this.toggleField('username')}
-              placeholderTextColor="#5c7a7b"
-            />
-          </View>
-
-          <View style={styles.passwordContainerStyle}>
-            <TextInput
-              style={styles.textInputStyles}
-              fontSize={16}
-              autoCapitalize="none"
-              secureTextEntry={togglePassword}
-              value={this.state.password}
-              onFocus={() => this.toggleField('password')}
-              onChangeText={this.handlePasswordInput}
-              onEndEditing={() => this.toggleField('password')}
-              placeholderTextColor="#5c7a7b"
-            />
-          </View>
-
           <View>
-            <Text>{status.error ? status.error.message : null}</Text>
+            <View style={styles.usernameContainerStyle}>
+              <TextInput
+                style={styles.textInputStyles}
+                placeholder={this.state.username}
+                fontSize={17}
+                autoCapitalize="none"
+                value={this.state.username}
+                onFocus={() => this.toggleField('username')}
+                onChangeText={this.handleUsernameInput}
+                onEndEditing={() => this.toggleField('username')}
+                placeholderTextColor="#5c7a7b"
+              />
+            </View>
+
+            <View style={styles.passwordContainerStyle}>
+              <TextInput
+                style={styles.textInputStyles}
+                fontSize={16}
+                autoCapitalize="none"
+                secureTextEntry={togglePassword}
+                value={this.state.password}
+                onFocus={() => this.toggleField('password')}
+                onChangeText={this.handlePasswordInput}
+                onEndEditing={() => this.toggleField('password')}
+                placeholderTextColor="#5c7a7b"
+              />
+            </View>
+          </View>
+
+          <View style={styles.errorContainerStyle}>
+            <Text style={{ textAlign: 'center', color: '#f14169' }}>
+              {status.error ? status.error.message : null}
+            </Text>
           </View>
 
           <View style={styles.buttonStyles}>

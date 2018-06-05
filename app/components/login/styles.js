@@ -7,14 +7,24 @@ const colors = {
   buttonColor: '#01a38d',
 }
 
+const baseInputField = {
+  borderTopWidth: 0,
+  borderRightWidth: 0,
+  borderLeftWidth: 0,
+  borderBottomWidth: 1.5,
+  height: 50,
+}
+
 const containerStyles = {
   display: 'flex',
   alignItems: 'center',
 }
 
 const formStyles = {
-  padding: 20,
   backgroundColor: colors.white,
+
+  display: 'flex',
+  justifyContent: 'space-around',
 
   top: '53%',
   height: '70%',
@@ -30,21 +40,24 @@ const formStyles = {
   },
 }
 
-const usernameContainerStyles = {
+const usernameContainerStyle = {
   borderBottomColor: colors.darkCyan,
-  borderTopWidth: 0,
-  borderRightWidth: 0,
-  borderLeftWidth: 0,
-  borderBottomWidth: 1.5,
-  height: 50,
+  ...baseInputField,
+  marginLeft: '7%',
+  marginRight: '7%',
 }
 
 const passwordContainerStyle = {
-  ...usernameContainerStyles,
+  ...baseInputField,
   marginTop: '10%',
   marginLeft: '10%',
   marginRight: '10%',
   borderBottomColor: colors.grayishBlue,
+}
+
+const errorContainerStyle = {
+  marginLeft: '10%',
+  marginRight: '10%',
 }
 
 const textInputStyles = {
@@ -56,7 +69,6 @@ const textInputStyles = {
 const buttonStyles = {
   borderRadius: 10,
   backgroundColor: colors.buttonColor,
-  top: '25%',
   width: '50%',
   padding: '3%',
   marginLeft: 'auto',
@@ -66,8 +78,9 @@ const buttonStyles = {
 const styles = {
   containerStyles,
   formStyles,
-  usernameContainerStyles,
+  usernameContainerStyle,
   passwordContainerStyle,
+  errorContainerStyle,
   textInputStyles,
   buttonStyles,
 }
