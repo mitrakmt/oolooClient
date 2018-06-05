@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { TextInput, View, Button } from 'react-native'
+import { TextInput, Text, View, Button } from 'react-native'
 import * as EmailValidator from 'email-validator'
+import { prepPayload, fetchUser } from './utils'
 import styles from './styles'
-import { loginUser } from './utils'
 
 class Login extends Component {
   constructor(props) {
@@ -10,6 +10,7 @@ class Login extends Component {
     this.state = {
       username: 'Username',
       password: '',
+      status: {},
     }
     this.handleUsernameInput = this.handleUsernameInput.bind(this)
     this.handlePasswordInput = this.handlePasswordInput.bind(this)
@@ -40,12 +41,39 @@ class Login extends Component {
           username: 'Username',
           password: '',
         },
-        () => loginUser(username, password),
+        () => this.loginUser(username, password),
       )
+    } else {
+      this.handleError()
+    }
+  }
+
+  handleError() {
+    this.setState({
+      status: {
+        error: {
+          message:
+            'There was an error processing your request. Please try again.',
+        },
+      },
+    })
+  }
+
+  loginUser = async (username, password) => {
+    const payload = prepPayload(username, password)
+
+    try {
+      const serverResponse = await fetchUser(payload)
+      console.log('serverResponse is ', serverResponse)
+      if (!serverResponse.Authorization) this.handleError()
+    } catch (err) {
+      console.log('error from serverResponse ', err)
+      this.handleError()
     }
   }
 
   render() {
+    const { status } = this.state
     return (
       <View style={styles.containerStyles}>
         <View style={styles.formStyles}>
@@ -71,6 +99,10 @@ class Login extends Component {
               placeholderTextColor="#5c7a7b"
               onChangeText={this.handlePasswordInput}
             />
+          </View>
+
+          <View>
+            <Text>{status.error ? status.error.message : null}</Text>
           </View>
 
           <View style={styles.buttonStyles}>

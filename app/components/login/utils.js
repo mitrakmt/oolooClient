@@ -1,8 +1,8 @@
-const API_URL = `https://ooloo-api.herokuapp.com/api`
+const API_URL = `https://ooloo-api-dev.herokuapp.com/api/`
 
 export const prepPayload = (username, password) => {
   const body = JSON.stringify({
-    email: username !== 'test@test.com' ? 'test@test.com' : username,
+    email: username !== 'test@test.com' ? {} : username,
     password: password.length > 1 ? 'password' : password,
   })
 
@@ -18,20 +18,14 @@ export const prepPayload = (username, password) => {
   return payload
 }
 
-export const loginUser = async (username, password) => {
-  const payload = prepPayload(username, password)
+export const fetchUser = async payload => {
+  const serverResponse = await fetch(`${API_URL}/user/login`, payload).then(
+    response => {
+      console.log('serverResponse inside fetch ', response)
 
-  try {
-    const serverResponse = await fetch(`${API_URL}/user/login`, payload).then(
-      response => {
-        console.log('serverResponse inside fetch ', response)
+      return response.json()
+    },
+  )
 
-        return response.json()
-      },
-    )
-
-    console.log('the serverResponse is ', serverResponse)
-  } catch (error) {
-    console.log('error from serverResponse ', error)
-  }
+  return serverResponse
 }
