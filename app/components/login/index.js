@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { TextInput, Text, View, Button } from 'react-native'
 import * as EmailValidator from 'email-validator'
 import * as Keychain from 'react-native-keychain'
-import { prepPayload, fetchUser } from './utils'
 import styles from './styles'
+import { prepPayload, fetchUser } from './utils'
 
 class Login extends Component {
   constructor(props) {
