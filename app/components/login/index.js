@@ -141,7 +141,7 @@ class Login extends Component {
         </View>
 
         <View style={styles.formStyles}>
-          <View>
+          <View style={styles.inputFieldsContainerStyle}>
             <View style={styles.usernameContainerStyle}>
               <TextInput
                 style={styles.textInputStyles}
@@ -177,13 +177,21 @@ class Login extends Component {
             </Text>
           </View>
 
-          <View style={styles.buttonStyles}>
-            <Button
-              onPress={this.handleSubmit}
-              title="Log in!"
-              color="white"
-              accessibilityLabel="Log in button for OOLOO Quiz App"
-            />
+          <View style={styles.buttonContainerStyle}>
+            <View style={styles.buttonStyles}>
+              <Button
+                onPress={this.handleSubmit}
+                title="Log in!"
+                color="white"
+                accessibilityLabel="Log in button for OOLOO Quiz App"
+              />
+            </View>
+
+            <View>
+              <Text style={{ fontSize: 16, textDecorationLine: 'underline' }}>
+                Or Sign Up
+              </Text>
+            </View>
           </View>
         </View>
       </View>

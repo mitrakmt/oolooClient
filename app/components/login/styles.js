@@ -67,6 +67,10 @@ const formStyles = {
   },
 }
 
+const inputFieldsContainerStyle = {
+  height: '50%',
+}
+
 const usernameContainerStyle = {
   borderBottomColor: colors.darkCyan,
   ...baseInputField,
@@ -85,6 +89,14 @@ const passwordContainerStyle = {
 const errorContainerStyle = {
   marginLeft: '10%',
   marginRight: '10%',
+}
+
+const buttonContainerStyle = {
+  height: '35%',
+  display: 'flex',
+
+  alignItems: 'center',
+  justifyContent: 'space-around',
 }
 
 const textInputStyles = {
@@ -108,9 +120,11 @@ const styles = {
   titleStyles,
   imageVerbiageStyles,
   formStyles,
+  inputFieldsContainerStyle,
   usernameContainerStyle,
   passwordContainerStyle,
   errorContainerStyle,
+  buttonContainerStyle,
   textInputStyles,
   buttonStyles,
 }
