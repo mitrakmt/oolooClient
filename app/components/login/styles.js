@@ -3,6 +3,8 @@ const colors = {
   darkCyan: '#2f5658',
   grayishBlue: '#aebcc5',
   white: '#ffffff',
+
+  titleColor: '#01a38d',
   textInputColor: '#5c7a7b',
   buttonColor: '#01a38d',
 }
@@ -24,14 +26,26 @@ const containerStyles = {
 }
 
 const headerStyles = {
-  borderRadius: 4,
-  borderWidth: 1,
-  borderColor: '#d6d7da',
+  height: '30%',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
 }
 
 const titleStyles = {
-  color: '#2f5658',
+  color: colors.titleColor,
   fontSize: 55,
+  marginBottom: '10%',
+}
+
+const imageVerbiageStyles = {
+  display: 'flex',
+  flexDirection: 'row',
+
+  alignItems: 'center',
+
+  marginLeft: '12%',
+  marginRight: '12%',
 }
 
 const formStyles = {
@@ -39,7 +53,7 @@ const formStyles = {
 
   display: 'flex',
   justifyContent: 'space-around',
-  height: '50%',
+  height: '45%',
   width: '70%',
 
   borderRadius: 10,
@@ -63,8 +77,8 @@ const usernameContainerStyle = {
 const passwordContainerStyle = {
   ...baseInputField,
   marginTop: '10%',
-  marginLeft: '10%',
-  marginRight: '10%',
+  marginLeft: '15%',
+  marginRight: '15%',
   borderBottomColor: colors.grayishBlue,
 }
 
@@ -92,6 +106,7 @@ const styles = {
   containerStyles,
   headerStyles,
   titleStyles,
+  imageVerbiageStyles,
   formStyles,
   usernameContainerStyle,
   passwordContainerStyle,

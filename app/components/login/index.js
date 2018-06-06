@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import { TextInput, Text, View, Button } from 'react-native'
+import { TextInput, Text, View, Button, Image } from 'react-native'
 import * as EmailValidator from 'email-validator'
 import * as Keychain from 'react-native-keychain'
 import { connect } from 'react-redux'
 import styles from './styles'
 import { prepPayload, fetchUser } from './utils'
 import { userAuthenticated } from '../../services/redux/actions/auth'
+import LoginAvatar from './img/ooloo-login-avatar.png'
 
 class Login extends Component {
   constructor(props) {
@@ -122,7 +123,21 @@ class Login extends Component {
     return (
       <View style={styles.containerStyles}>
         <View style={styles.headerStyles}>
-          <Text style={styles.titleStyles}>OOLOO</Text>
+          <View>
+            <Text style={styles.titleStyles}>OOLOO</Text>
+          </View>
+
+          <View style={styles.imageVerbiageStyles}>
+            <View style={{ width: '40%' }}>
+              <Image style={{ width: 90, height: 90 }} source={LoginAvatar} />
+            </View>
+            <View style={{ width: '60%' }}>
+              <Text>
+                Welcome to OOLOO! Show off your knowledge to put your school in
+                the top rankings!
+              </Text>
+            </View>
+          </View>
         </View>
 
         <View style={styles.formStyles}>
