@@ -3,8 +3,8 @@ const API_URL = `https://ooloo-api-dev.herokuapp.com/api/`
 export const prepPayload = (username, password) => {
   // change values in prod, only for testing
   const body = JSON.stringify({
-    email: username !== 'test@test.com' ? 'test@test.com' : username,
-    password: password.length > 1 ? 'password' : password,
+    email: username,
+    password,
   })
 
   const payload = {

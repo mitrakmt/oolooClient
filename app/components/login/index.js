@@ -57,16 +57,16 @@ class Login extends Component {
   }
 
   handleSubmit() {
-    let haveUser = this.state.username
-    const { password } = this.state
-    haveUser = EmailValidator.validate(haveUser)
+    const { username, password } = this.state
+
+    const haveUser = EmailValidator.validate(username)
 
     if (haveUser) {
       this.setState(
         {
           password: 'Password',
         },
-        () => this.loginUser('test@test.com', password), // use this.state.username in prod
+        () => this.loginUser(username, password),
       )
     } else {
       this.handleError()
@@ -85,6 +85,8 @@ class Login extends Component {
   }
 
   loginUser = async (username, password) => {
+    console.log('username is ', username)
+    console.log('password is ', password)
     const payload = prepPayload(username, password)
 
     try {
