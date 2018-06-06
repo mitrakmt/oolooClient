@@ -3,7 +3,7 @@ import { AUTHENTICATED } from '../../actions/auth'
 const authReducer = (state = 'No token', action) => {
   switch (action.type) {
     case AUTHENTICATED:
-      return { ...state, auth: action.payload }
+      return action.payload
     default:
       return state
   }

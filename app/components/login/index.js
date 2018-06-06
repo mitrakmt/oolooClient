@@ -2,8 +2,10 @@ import React, { Component } from 'react'
 import { TextInput, Text, View, Button } from 'react-native'
 import * as EmailValidator from 'email-validator'
 import * as Keychain from 'react-native-keychain'
+import { connect } from 'react-redux'
 import styles from './styles'
 import { prepPayload, fetchUser } from './utils'
+import { userAuthenticated } from '../../services/redux/actions/auth'
 
 class Login extends Component {
   constructor(props) {
@@ -99,6 +101,8 @@ class Login extends Component {
   }
 
   storeToken = async (username, Authorization) => {
+    const { authUser } = this.props
+
     // Store the credentials, returns a boolean
     const storeToken = await Keychain.setGenericPassword(
       username,
@@ -106,6 +110,8 @@ class Login extends Component {
     )
 
     console.log('did we store the token? ', storeToken)
+
+    authUser(Authorization)
 
     await Keychain.resetGenericPassword() // Returns a boolean if Keychain was reset
   }
@@ -166,4 +172,7 @@ class Login extends Component {
   }
 }
 
-export default Login
+export default connect(
+  null,
+  { authUser: userAuthenticated },
+)(Login)
