@@ -121,6 +121,10 @@ class Login extends Component {
 
     return (
       <View style={styles.containerStyles}>
+        <View style={styles.headerStyles}>
+          <Text style={styles.titleStyles}>OOLOO</Text>
+        </View>
+
         <View style={styles.formStyles}>
           <View>
             <View style={styles.usernameContainerStyle}>

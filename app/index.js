@@ -17,9 +17,9 @@ if (environment === 'Development') {
 }
 
 const createStoreWithMiddleware = applyMiddleware(...devMiddleware)(createStore)
-
+const store = createStoreWithMiddleware(rootReducer)
 const App = () => (
-  <Provider store={createStoreWithMiddleware(rootReducer)}>
+  <Provider store={store}>
     <Login />
   </Provider>
 )

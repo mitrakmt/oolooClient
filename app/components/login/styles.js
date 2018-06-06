@@ -17,7 +17,21 @@ const baseInputField = {
 
 const containerStyles = {
   display: 'flex',
+  flexDirection: 'column',
   alignItems: 'center',
+  justifyContent: 'space-around',
+  height: '100%',
+}
+
+const headerStyles = {
+  borderRadius: 4,
+  borderWidth: 1,
+  borderColor: '#d6d7da',
+}
+
+const titleStyles = {
+  color: '#2f5658',
+  fontSize: 55,
 }
 
 const formStyles = {
@@ -25,10 +39,9 @@ const formStyles = {
 
   display: 'flex',
   justifyContent: 'space-around',
-
-  top: '53%',
-  height: '70%',
+  height: '50%',
   width: '70%',
+
   borderRadius: 10,
 
   shadowColor: colors.softCyan,
@@ -77,6 +90,8 @@ const buttonStyles = {
 
 const styles = {
   containerStyles,
+  headerStyles,
+  titleStyles,
   formStyles,
   usernameContainerStyle,
   passwordContainerStyle,
