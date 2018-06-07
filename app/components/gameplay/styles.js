@@ -1,12 +1,10 @@
 const colors = {
   softCyan: '#97d9d7',
-  darkCyan: '#2f5658',
-  grayishBlue: '#aebcc5',
-  white: '#ffffff',
 
-  titleColor: '#01a38d',
-  textInputColor: '#5c7a7b',
+  white: '#ffffff',
+  buttonText: '#304857',
   buttonColor: '#01a38d',
+  answerSelection: '#18a28d',
 }
 
 const containerStyles = {
@@ -35,11 +33,23 @@ const QAnswContainer = {
 }
 
 const questionContainer = {
-  padding: '2%',
+  padding: '5%',
+}
+
+const buttonStyles = {
+  borderRadius: 10,
+  backgroundColor: colors.buttonColor,
+  width: '85%',
+  padding: '3%',
+  marginTop: '3%',
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  height: 'auto',
 }
 
 export default {
   containerStyles,
   QAnswContainer,
   questionContainer,
+  buttonStyles,
 }
