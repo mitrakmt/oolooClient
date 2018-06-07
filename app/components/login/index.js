@@ -85,8 +85,6 @@ class Login extends Component {
   }
 
   loginUser = async (username, password) => {
-    console.log('username is ', username)
-    console.log('password is ', password)
     const payload = prepPayload(username, password)
 
     try {
@@ -107,12 +105,7 @@ class Login extends Component {
     const { authUser } = this.props
 
     // Store the credentials, returns a boolean
-    const storeToken = await Keychain.setGenericPassword(
-      username,
-      Authorization,
-    )
-
-    console.log('did we store the token? ', storeToken)
+    await Keychain.setGenericPassword(username, Authorization)
 
     authUser(Authorization)
 
