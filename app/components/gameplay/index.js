@@ -11,7 +11,6 @@ class GamePlay extends Component {
       question:
         'On a peripheral blood smear of a 52 y/o male with fatigue, localized vertebral tenderness, and high serum calcium, you see a cell with an eccentric nucleus and chromatin in a clock-face distribution. What is the immunologic function of the product released by this cell when it binds to its target?',
     }
-    this.selectAnswer = this.selectAnswer.bind(this)
   }
 
   render() {

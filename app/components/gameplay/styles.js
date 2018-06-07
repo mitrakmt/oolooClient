@@ -40,11 +40,10 @@ const buttonStyles = {
   borderRadius: 10,
   backgroundColor: colors.buttonColor,
   width: '85%',
-  padding: '3%',
   marginTop: '3%',
   marginLeft: 'auto',
   marginRight: 'auto',
-  height: 'auto',
+  height: 35, // fixed for dev, should be 'auto' for prod
 }
 
 export default {
