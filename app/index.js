@@ -2,7 +2,7 @@ import React from 'react'
 import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import { createLogger } from 'redux-logger'
-import Login from './components/login'
+import GamePlay from './components/gameplay'
 import rootReducer from './services/redux/reducers'
 
 const environment = 'Development'
@@ -20,7 +20,7 @@ const createStoreWithMiddleware = applyMiddleware(...devMiddleware)(createStore)
 const store = createStoreWithMiddleware(rootReducer)
 const App = () => (
   <Provider store={store}>
-    <Login />
+    <GamePlay />
   </Provider>
 )
 
