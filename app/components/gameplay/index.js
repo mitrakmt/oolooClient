@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Text, View, ScrollView, Button } from 'react-native'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import styles from './styles'
 import Timer from './timer'
 
@@ -15,9 +16,22 @@ class GamePlay extends Component {
       progress: 300,
       answers: ['A: Choice A', 'B: Choice B', 'C: Choice C', 'D: Choice D'],
     }
+    this.onButtonPress = this.onButtonPress.bind(this)
   }
 
   componentDidMount() {}
+
+  onButtonPress() {
+    const { socket } = this.props
+
+    socket.emit(
+      'say hello',
+      'Greetings from RN, I hope this message reaches you!',
+      data => {
+        console.log('data from socket on server ', data)
+      },
+    )
+  }
 
   renderAnswerChoices() {
     const { answers } = this.state
@@ -25,7 +39,7 @@ class GamePlay extends Component {
     return answers.map(choice => (
       <View key={`${choice}-key`} style={styles.buttonStyles}>
         <Button
-          onPress={() => console.log(`${choice}`)}
+          onPress={this.onButtonPress}
           title={`${choice}`}
           color="white"
           accessibilityLabel={`${choice}`}
@@ -36,9 +50,7 @@ class GamePlay extends Component {
 
   render() {
     const { fetchedQuestion, questionNumber, question } = this.state
-    console.log('this.state inside GamePlay ', this.state)
-    console.log('\n')
-    console.log('this.props inside GamePlay ', this.props)
+
     return (
       <View style={styles.containerStyles}>
         <View>
@@ -65,12 +77,30 @@ class GamePlay extends Component {
   }
 }
 
-function mapStateToProps({ auth, socket }) {
+function mapStateToProps({ socket }) {
   return {
-    auth,
     socket,
   }
 }
+
+GamePlay.propTypes = {
+  socket: PropTypes.shape({
+    acks: PropTypes.object,
+    connected: PropTypes.bool,
+    disconnected: PropTypes.bool,
+    flags: PropTypes.object,
+    id: PropTypes.string,
+    ids: PropTypes.number,
+    io: PropTypes.object,
+    json: PropTypes.object,
+    nsp: PropTypes.string,
+    receiveBuffer: PropTypes.array,
+    sendBuffer: PropTypes.array,
+    subs: PropTypes.array,
+    _callbacks: PropTypes.object,
+  }).isRequired,
+}
+
 export default connect(
   mapStateToProps,
   null,
