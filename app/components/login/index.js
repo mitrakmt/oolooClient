@@ -114,7 +114,6 @@ class Login extends Component {
 
   render() {
     const { status, togglePassword } = this.state
-
     return (
       <View style={styles.containerStyles}>
         <View style={styles.headerStyles}>
