@@ -12,7 +12,7 @@ class GamePlay extends Component {
       fetchedQuestion: true,
       questionNumber: '1',
       question:
-        'On a peripheral blood smear of a 52 y/o male with fatigue, localized vertebral tenderness, and high serum calcium, you see a cell with an eccentric nucleus and chromatin in a clock-face distribution. What is the immunologic function of the product released by this cell when it binds to its target?',
+        'On a peripheral blood smear of a 52 y/o male with fatigue, localized vertebral tenderness, and high serum calcium, you see a cell with an eccentric nucleus and chromatin in a clock-face distribution. What is the immunologic function of the product released by this cell when it binds to its target? On a peripheral blood smear of a 52 y/o male with fatigue, localized vertebral tenderness, and high serum calcium, you see a cell with an eccentric nucleus and chromatin in a clock-face distribution. What is the immunologic function of the product released by this cell when it binds to its target? On a peripheral blood smear of a 52 y/o male with fatigue, localized vertebral tenderness, and high serum calcium, you see a cell with an eccentric nucleus and chromatin in a clock-face distribution. What is the immunologic function of the product released by this cell when it binds to its target?',
       progress: 300,
       answers: ['A: Choice A', 'B: Choice B', 'C: Choice C', 'D: Choice D'],
     }
@@ -53,12 +53,18 @@ class GamePlay extends Component {
 
     return (
       <View style={styles.containerStyles}>
-        <View>
-          <Text>{fetchedQuestion ? `Question ${questionNumber}/20` : ''}</Text>
+        <View style={styles.textContainerStyles}>
+          <Text style={{ fontSize: 15, color: '#01a38d', marginBottom: '3%' }}>
+            {' '}
+            OOLOO
+          </Text>
+          <Text style={{ fontSize: 20 }}>
+            {fetchedQuestion ? `Question ${questionNumber}/20` : ''}
+          </Text>
         </View>
 
         <View style={styles.QAnswContainer}>
-          <ScrollView style={{ height: 20 }}>
+          <ScrollView>
             <Text style={styles.questionContainer}>
               {fetchedQuestion ? `${question}` : ''}
             </Text>

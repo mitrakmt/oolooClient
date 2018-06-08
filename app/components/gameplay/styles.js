@@ -15,6 +15,13 @@ const containerStyles = {
   height: '100%',
 }
 
+const textContainerStyles = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+}
+
 const QAnswContainer = {
   backgroundColor: colors.white,
 
@@ -52,6 +59,7 @@ const buttonStyles = {
 
 export default {
   containerStyles,
+  textContainerStyles,
   QAnswContainer,
   questionContainer,
   answersContainerStyle,

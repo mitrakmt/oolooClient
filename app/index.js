@@ -31,7 +31,12 @@ const App = () => (
           title="Login"
           hideNavBar="true"
         />
-        <Scene key="gameplay" component={GamePlay} title="Game Play" />
+        <Scene
+          key="gameplay"
+          component={GamePlay}
+          title="Game Play"
+          hideNavBar="true"
+        />
       </Scene>
     </Router>
   </Provider>
