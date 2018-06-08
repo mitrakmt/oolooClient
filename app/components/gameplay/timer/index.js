@@ -31,7 +31,7 @@ class Timer extends Component {
           <View
             style={[
               StyleSheet.absoluteFill,
-              { backgroundColor: 'rgba(0,0,0,.5)' },
+              { backgroundColor: 'rgba(255,255,255,.5)' },
             ]}
           >
             <Animated.View
