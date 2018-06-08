@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Text, View, ScrollView, Button } from 'react-native'
+import { connect } from 'react-redux'
 import styles from './styles'
 import Timer from './timer'
 
@@ -16,11 +17,7 @@ class GamePlay extends Component {
     }
   }
 
-  componentDidMount() {
-    setInterval(() => {
-      this.setState(state => ({ progress: state.progress - 1 }))
-    }, 1000)
-  }
+  componentDidMount() {}
 
   renderAnswerChoices() {
     const { answers } = this.state
@@ -39,6 +36,9 @@ class GamePlay extends Component {
 
   render() {
     const { fetchedQuestion, questionNumber, question } = this.state
+    console.log('this.state inside GamePlay ', this.state)
+    console.log('\n')
+    console.log('this.props inside GamePlay ', this.props)
     return (
       <View style={styles.containerStyles}>
         <View>
@@ -65,4 +65,13 @@ class GamePlay extends Component {
   }
 }
 
-export default GamePlay
+function mapStateToProps({ auth, socket }) {
+  return {
+    auth,
+    socket,
+  }
+}
+export default connect(
+  mapStateToProps,
+  null,
+)(GamePlay)
