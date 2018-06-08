@@ -12,6 +12,7 @@ class GamePlay extends Component {
       question:
         'On a peripheral blood smear of a 52 y/o male with fatigue, localized vertebral tenderness, and high serum calcium, you see a cell with an eccentric nucleus and chromatin in a clock-face distribution. What is the immunologic function of the product released by this cell when it binds to its target?',
       progress: 300,
+      answers: ['A: Choice A', 'B: Choice B', 'C: Choice C', 'D: Choice D'],
     }
   }
 
@@ -21,8 +22,22 @@ class GamePlay extends Component {
     }, 1000)
   }
 
+  renderAnswerChoices() {
+    const { answers } = this.state
+
+    return answers.map(choice => (
+      <View key={`${choice}-key`} style={styles.buttonStyles}>
+        <Button
+          onPress={() => console.log(`${choice}`)}
+          title={`${choice}`}
+          color="white"
+          accessibilityLabel={`${choice}`}
+        />
+      </View>
+    ))
+  }
+
   render() {
-    console.log('this.state.progress ', this.state.progress)
     const { fetchedQuestion, questionNumber, question } = this.state
     return (
       <View style={styles.containerStyles}>
@@ -38,42 +53,9 @@ class GamePlay extends Component {
           </ScrollView>
 
           <View style={styles.answersContainerStyle}>
-            <View style={styles.buttonStyles}>
-              <Button
-                onPress={() => console.log('A: Choice A')}
-                title="A: Choice A"
-                color="white"
-                accessibilityLabel="Log in button for OOLOO Quiz App"
-              />
-            </View>
-
-            <View style={styles.buttonStyles}>
-              <Button
-                onPress={() => console.log('B: Choice B')}
-                title="B: Choice B"
-                color="white"
-                accessibilityLabel="Log in button for OOLOO Quiz App"
-              />
-            </View>
-
-            <View style={styles.buttonStyles}>
-              <Button
-                onPress={() => console.log('C: Choice C')}
-                title="C: Choice C"
-                color="white"
-                accessibilityLabel="Log in button for OOLOO Quiz App"
-              />
-            </View>
-
-            <View style={{ ...styles.buttonStyles, marginBottom: '3%' }}>
-              <Button
-                onPress={() => console.log('D: Choice D')}
-                title="D: Choice D"
-                color="white"
-                accessibilityLabel="Log in button for OOLOO Quiz App"
-              />
-            </View>
+            {this.renderAnswerChoices()}
           </View>
+
           <View style={{ flexDirection: 'row', marginBottom: '3%' }}>
             <Timer progress={this.state.progress} />
           </View>

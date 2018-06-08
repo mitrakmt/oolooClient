@@ -36,6 +36,10 @@ const questionContainer = {
   padding: '5%',
 }
 
+const answersContainerStyle = {
+  marginBottom: '3%',
+}
+
 const buttonStyles = {
   borderRadius: 10,
   backgroundColor: colors.buttonColor,
@@ -50,5 +54,6 @@ export default {
   containerStyles,
   QAnswContainer,
   questionContainer,
+  answersContainerStyle,
   buttonStyles,
 }

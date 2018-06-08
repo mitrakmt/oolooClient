@@ -1,9 +1,9 @@
 const timerOuterView = {
-  flex: 1, // timerOuterView is set to row, must specify flex: 1 so it can fill all available space
+  flex: 1, // remove flex: 1 to adjust timerOuterView by width
   flexDirection: 'row',
   height: 30,
-  marginLeft: '5%',
-  marginRight: '5%',
+  marginLeft: '7%',
+  marginRight: '7%',
 }
 
 const borderView = {
