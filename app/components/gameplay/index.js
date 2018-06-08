@@ -23,14 +23,7 @@ class GamePlay extends Component {
 
   onButtonPress() {
     const { socket } = this.props
-
-    socket.emit(
-      'say hello',
-      'Greetings from RN, I hope this message reaches you!',
-      data => {
-        console.log('data from socket on server ', data)
-      },
-    )
+    console.log('socket connection ', socket)
   }
 
   renderAnswerChoices() {

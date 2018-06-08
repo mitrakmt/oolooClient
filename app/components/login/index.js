@@ -11,6 +11,8 @@ import { userAuthenticated } from '../../services/redux/actions/auth'
 import { socketConnected } from '../../services/redux/actions/socket/'
 import LoginAvatar from './img/ooloo-login-avatar.png'
 
+const DEV_API_URL = `https://ooloo-api-dev.herokuapp.com/api`
+
 class Login extends Component {
   constructor(props) {
     super(props)
@@ -114,7 +116,8 @@ class Login extends Component {
     authUser(Authorization)
 
     // Connect to socket and store in Redux store
-    const socket = io('http://localhost:3000')
+    const socket = io(`${DEV_API_URL}/?token=${Authorization}`)
+
     connectSocket(socket)
 
     // Navigate to GamePlay
