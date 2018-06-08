@@ -3,6 +3,7 @@ import { TextInput, Text, View, Button, Image } from 'react-native'
 import * as EmailValidator from 'email-validator'
 import * as Keychain from 'react-native-keychain'
 import { connect } from 'react-redux'
+import { Actions } from 'react-native-router-flux'
 import styles from './styles'
 import { prepPayload, fetchUser } from './utils'
 import { userAuthenticated } from '../../services/redux/actions/auth'
@@ -107,13 +108,16 @@ class Login extends Component {
     // Store the credentials, returns a boolean
     await Keychain.setGenericPassword(username, Authorization)
 
+    // Fires off Redux auth action
     authUser(Authorization)
 
-    await Keychain.resetGenericPassword() // Returns a boolean if Keychain was reset
+    // Navigate to GamePlay
+    Actions.gameplay()
   }
 
   render() {
     const { status, togglePassword } = this.state
+    // console.log('this.props inside Login ', this.props)
     return (
       <View style={styles.containerStyles}>
         <View style={styles.headerStyles}>
