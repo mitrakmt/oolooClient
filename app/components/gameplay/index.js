@@ -13,11 +13,12 @@ class GamePlay extends Component {
     super(props)
     this.state = {
       fetchedQuestion: true,
-      questionNumber: '1',
-      question:
-        'On a peripheral blood smear of a 52 y/o male with fatigue, localized vertebral tenderness, and high serum calcium, you see a cell with an eccentric nucleus and chromatin in a clock-face distribution. What is the immunologic function of the product released by this cell when it binds to its target? On a peripheral blood smear of a 52 y/o male with fatigue, localized vertebral tenderness, and high serum calcium, you see a cell with an eccentric nucleus and chromatin in a clock-face distribution. What is the immunologic function of the product released by this cell when it binds to its target? On a peripheral blood smear of a 52 y/o male with fatigue, localized vertebral tenderness, and high serum calcium, you see a cell with an eccentric nucleus and chromatin in a clock-face distribution. What is the immunologic function of the product released by this cell when it binds to its target?',
+
       progress: 300,
-      answers: ['A: Choice A', 'B: Choice B', 'C: Choice C', 'D: Choice D'],
+
+      questionNumber: null,
+      question: '',
+      possibleAnswers: [],
     }
     this.onButtonPress = this.onButtonPress.bind(this)
   }
@@ -38,8 +39,16 @@ class GamePlay extends Component {
     socket.on('gameResults', results => {
       console.log('results: ', results)
     })
-    socket.on('question', question => {
+    socket.on('question', ({ question, questionNumber, possibleAnswers }) => {
       console.log('question: ', question)
+      console.log('possibleAnswers ', possibleAnswers)
+      console.log('questionNumber ', questionNumber)
+
+      this.setState({
+        question,
+        questionNumber,
+        possibleAnswers,
+      })
     })
   }
 
@@ -48,10 +57,10 @@ class GamePlay extends Component {
   }
 
   renderAnswerChoices() {
-    const { answers } = this.state
+    const { possibleAnswers, questionNumber } = this.state
 
-    return answers.map(choice => (
-      <View key={`${choice}-key`} style={styles.buttonStyles}>
+    return possibleAnswers.map(choice => (
+      <View key={`${choice}-${questionNumber}-key`} style={styles.buttonStyles}>
         <Button
           onPress={this.onButtonPress}
           title={`${choice}`}
@@ -80,7 +89,7 @@ class GamePlay extends Component {
         <View style={styles.QAnswContainer}>
           <ScrollView>
             <Text style={styles.questionContainer}>
-              {fetchedQuestion ? `${question}` : ''}
+              {question ? `${question}` : ''}
             </Text>
           </ScrollView>
 
