@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
 import { Text, View, ScrollView, Button } from 'react-native'
 import { connect } from 'react-redux'
-import io from 'socket.io-client'
 import PropTypes from 'prop-types'
 import styles from './styles'
 import Timer from './timer'
-
-const DEV_API_URL = `https://ooloo-api-dev.herokuapp.com`
+import socketMiddleware from '../../services/socket-io-client'
 
 class GamePlay extends Component {
   constructor(props) {
@@ -25,35 +23,21 @@ class GamePlay extends Component {
 
   componentDidMount() {
     const { auth } = this.props
+    const context = this
 
-    // Connect to socket
-    const socket = io(`${DEV_API_URL}/?token=${auth}`)
-
-    socket.emit('gameStart', gameData => {
-      console.log('gameStarted: ', gameData)
-    })
-
-    socket.on('answerResults', answerResult => {
-      console.log('answerResult: ', answerResult)
-    })
-    socket.on('gameResults', results => {
-      console.log('results: ', results)
-    })
-    socket.on('question', ({ question, questionNumber, possibleAnswers }) => {
-      console.log('question: ', question)
-      console.log('possibleAnswers ', possibleAnswers)
-      console.log('questionNumber ', questionNumber)
-
-      this.setState({
-        question,
-        questionNumber,
-        possibleAnswers,
-      })
-    })
+    // Create socket and store in local state
+    socketMiddleware(auth, context)
   }
 
-  onButtonPress() {
-    console.log('this.state is ', this.state)
+  onButtonPress(answer) {
+    const { socket, questionNumber } = this.state
+
+    const payload = {
+      answer,
+      questionNumber,
+    }
+
+    socket.emit('answer', payload)
   }
 
   renderAnswerChoices() {
@@ -62,7 +46,7 @@ class GamePlay extends Component {
     return possibleAnswers.map(choice => (
       <View key={`${choice}-${questionNumber}-key`} style={styles.buttonStyles}>
         <Button
-          onPress={this.onButtonPress}
+          onPress={() => this.onButtonPress(`${choice}`)}
           title={`${choice}`}
           color="white"
           accessibilityLabel={`${choice}`}
