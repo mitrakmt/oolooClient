@@ -9,10 +9,13 @@
     "test": "jest"
   },
   "dependencies": {
+    "email-validator": "^2.0.4",
     "react": "16.3.1",
     "react-native": "0.55.4",
+    "react-native-keychain": "^3.0.0-rc.3",
     "react-redux": "^5.0.7",
-    "redux": "^4.0.0"
+    "redux": "^4.0.0",
+    "redux-logger": "^3.0.6"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.3",
