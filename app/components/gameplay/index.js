@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import styles from './styles'
 import Timer from './timer'
+import { gameResultsFromSockets } from '../../services/redux/actions/socket'
 import socketMiddleware from '../../services/socket-io-client'
 
 class GamePlay extends Component {
@@ -12,7 +13,7 @@ class GamePlay extends Component {
     this.state = {
       fetchedQuestion: true,
 
-      progress: 300,
+      progress: 300000,
 
       questionNumber: null,
       question: '',
@@ -21,11 +22,17 @@ class GamePlay extends Component {
   }
 
   componentDidMount() {
-    const { auth } = this.props
+    const { auth, socketGameResults } = this.props
     const context = this
 
+    const callbacks = { socketGameResults }
+
     // Create socket and store in local state
-    socketMiddleware(auth, context)
+    socketMiddleware(auth, context, callbacks)
+
+    setInterval(() => {
+      this.setState(state => ({ progress: state.progress - 1000 }))
+    }, 1000)
   }
 
   onButtonPress = answer => {
@@ -97,9 +104,10 @@ function mapStateToProps({ auth }) {
 
 GamePlay.propTypes = {
   auth: PropTypes.string.isRequired,
+  socketGameResults: PropTypes.func.isRequired,
 }
 
 export default connect(
   mapStateToProps,
-  null,
+  { socketGameResults: gameResultsFromSockets },
 )(GamePlay)

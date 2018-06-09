@@ -6,10 +6,14 @@ import styles from './styles'
 class Timer extends Component {
   constructor(props) {
     super(props)
+
+    // create animation property in constructor
     this.animation = new Animated.Value(this.props.progress)
   }
 
   componentDidUpdate(prevProps) {
+    console.log('this.props inside CDU ', this.props.progress)
+    // update width of Animated.View with subtracted progress props
     if (prevProps.progress !== this.props.progress) {
       Animated.timing(this.animation, {
         toValue: this.props.progress,
@@ -19,8 +23,9 @@ class Timer extends Component {
   }
 
   render() {
+    // when component renders, interpolate
     const widthInterpolated = this.animation.interpolate({
-      inputRange: [0, 300],
+      inputRange: [0, 300000], // hardcoded value is 5 minutes (300000ms)
       outputRange: ['0%', '100%'],
       extrapolate: 'clamp',
     })
