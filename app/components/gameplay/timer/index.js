@@ -12,7 +12,6 @@ class Timer extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    console.log('this.props inside CDU ', this.props.progress)
     // update width of Animated.View with subtracted progress props
     if (prevProps.progress !== this.props.progress) {
       Animated.timing(this.animation, {
