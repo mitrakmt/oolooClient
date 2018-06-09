@@ -18,7 +18,6 @@ class GamePlay extends Component {
       question: '',
       possibleAnswers: [],
     }
-    this.onButtonPress = this.onButtonPress.bind(this)
   }
 
   componentDidMount() {
@@ -29,7 +28,7 @@ class GamePlay extends Component {
     socketMiddleware(auth, context)
   }
 
-  onButtonPress(answer) {
+  onButtonPress = answer => {
     const { socket, questionNumber } = this.state
 
     const payload = {
