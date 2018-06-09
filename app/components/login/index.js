@@ -12,10 +12,11 @@ class Login extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      username: 'Username',
+      errorMessage: '',
+      isError: false,
       password: 'Password',
-      status: {},
       togglePassword: false,
+      username: 'Username',
     }
   }
 
@@ -71,12 +72,9 @@ class Login extends Component {
 
   handleError() {
     this.setState({
-      status: {
-        error: {
-          message:
-            'There was an error processing your request. Please try again.',
-        },
-      },
+      errorMessage:
+        'There was an error processing your request. Please try again.',
+      isError: true,
     })
   }
 
@@ -92,7 +90,7 @@ class Login extends Component {
         this.storeToken(username, serverResponse)
       }
     } catch (err) {
-      console.log('error from serverResponse ', err)
+      console.error('Error on loginUser attempt => ', err)
       this.handleError()
     }
   }
@@ -109,7 +107,7 @@ class Login extends Component {
   }
 
   render() {
-    const { status, togglePassword } = this.state
+    const { errorMessage, isError, togglePassword } = this.state
 
     return (
       <View style={styles.containerStyles}>
@@ -164,7 +162,7 @@ class Login extends Component {
 
           <View style={styles.errorContainerStyle}>
             <Text style={{ textAlign: 'center', color: '#f14169' }}>
-              {status.error ? status.error.message : null}
+              {isError ? errorMessage : null}
             </Text>
           </View>
 
