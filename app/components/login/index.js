@@ -17,24 +17,21 @@ class Login extends Component {
       status: {},
       togglePassword: false,
     }
-    this.handleUsernameInput = this.handleUsernameInput.bind(this)
-    this.handlePasswordInput = this.handlePasswordInput.bind(this)
-    this.toggleField = this.toggleField.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
   }
-  handleUsernameInput(text) {
+
+  handleUsernameInput = text => {
     this.setState({
       username: text,
     })
   }
 
-  handlePasswordInput(text) {
+  handlePasswordInput = text => {
     this.setState({
       password: text,
     })
   }
 
-  toggleField(field) {
+  toggleField = field => {
     // removes placeholder text when user focuses on a field
     // add placeholder text back if length of field is zero after editing is finished
     if (field === 'username') {
@@ -56,9 +53,8 @@ class Login extends Component {
     }
   }
 
-  handleSubmit() {
+  handleSubmit = () => {
     const { username, password } = this.state
-
     const haveUser = EmailValidator.validate(username)
 
     if (haveUser) {
