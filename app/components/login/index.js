@@ -4,14 +4,11 @@ import * as EmailValidator from 'email-validator'
 import * as Keychain from 'react-native-keychain'
 import { connect } from 'react-redux'
 import { Actions } from 'react-native-router-flux'
-import io from 'socket.io-client'
 import styles from './styles'
 import { prepPayload, fetchUser } from './utils'
 import { userAuthenticated } from '../../services/redux/actions/auth'
-import { socketConnected } from '../../services/redux/actions/socket/'
-import LoginAvatar from './img/ooloo-login-avatar.png'
 
-const DEV_API_URL = `https://ooloo-api-dev.herokuapp.com/api`
+import LoginAvatar from './img/ooloo-login-avatar.png'
 
 class Login extends Component {
   constructor(props) {
@@ -107,18 +104,13 @@ class Login extends Component {
   }
 
   storeToken = async (username, Authorization) => {
-    const { authUser, connectSocket } = this.props
+    const { authUser } = this.props
 
     // Store the credentials, returns a boolean
     await Keychain.setGenericPassword(username, Authorization)
 
     // Fires off Redux auth action
     authUser(Authorization)
-
-    // Connect to socket and store in Redux store
-    const socket = io(`${DEV_API_URL}/?token=${Authorization}`)
-
-    connectSocket(socket)
 
     // Navigate to GamePlay
     Actions.gameplay()
@@ -210,6 +202,5 @@ export default connect(
   null,
   {
     authUser: userAuthenticated,
-    connectSocket: socketConnected,
   },
 )(Login)

@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
 import { Text, View, ScrollView, Button } from 'react-native'
 import { connect } from 'react-redux'
+import io from 'socket.io-client'
 import PropTypes from 'prop-types'
 import styles from './styles'
 import Timer from './timer'
+
+const DEV_API_URL = `https://ooloo-api-dev.herokuapp.com`
 
 class GamePlay extends Component {
   constructor(props) {
@@ -19,11 +22,29 @@ class GamePlay extends Component {
     this.onButtonPress = this.onButtonPress.bind(this)
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    const { auth } = this.props
+
+    // Connect to socket
+    const socket = io(`${DEV_API_URL}/?token=${auth}`)
+
+    socket.emit('gameStart', gameData => {
+      console.log('gameStarted: ', gameData)
+    })
+
+    socket.on('answerResults', answerResult => {
+      console.log('answerResult: ', answerResult)
+    })
+    socket.on('gameResults', results => {
+      console.log('results: ', results)
+    })
+    socket.on('question', question => {
+      console.log('question: ', question)
+    })
+  }
 
   onButtonPress() {
-    const { socket } = this.props
-    console.log('socket connection ', socket)
+    console.log('this.state is ', this.state)
   }
 
   renderAnswerChoices() {
@@ -76,28 +97,14 @@ class GamePlay extends Component {
   }
 }
 
-function mapStateToProps({ socket }) {
+function mapStateToProps({ auth }) {
   return {
-    socket,
+    auth,
   }
 }
 
 GamePlay.propTypes = {
-  socket: PropTypes.shape({
-    acks: PropTypes.object,
-    connected: PropTypes.bool,
-    disconnected: PropTypes.bool,
-    flags: PropTypes.object,
-    id: PropTypes.string,
-    ids: PropTypes.number,
-    io: PropTypes.object,
-    json: PropTypes.object,
-    nsp: PropTypes.string,
-    receiveBuffer: PropTypes.array,
-    sendBuffer: PropTypes.array,
-    subs: PropTypes.array,
-    _callbacks: PropTypes.object,
-  }).isRequired,
+  auth: PropTypes.string.isRequired,
 }
 
 export default connect(
