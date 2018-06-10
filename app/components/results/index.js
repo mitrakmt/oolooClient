@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, Image } from 'react-native'
+import { Text, View, Image, Button } from 'react-native'
 import { connect } from 'react-redux'
 
 import styles from './styles'
@@ -14,14 +14,17 @@ class Results extends Component {
 
   renderPlayerColumn = statsArray =>
     statsArray.map(stat => (
-      <Text key={`${stat}-player`} style={{ color: '#293f4e', fontSize: 20 }}>
+      <Text key={`${stat}-player`} style={{ color: '#293f4e', fontSize: 15 }}>
         {stat}
       </Text>
     ))
 
   renderLabels = labelArray =>
     labelArray.map(label => (
-      <Text key={`${label}-label`} style={{ color: '#293f4e', fontSize: 20 }}>
+      <Text
+        key={`${label}-label`}
+        style={{ color: '#293f4e', fontWeight: 'bold', fontSize: 20 }}
+      >
         {label}
       </Text>
     ))
@@ -84,7 +87,13 @@ class Results extends Component {
             </View>
           </View>
 
-          <View />
+          <View style={styles.buttonStyles}>
+            <Button
+              title="Play Again!"
+              color="white"
+              accessibilityLabel="Play again button for OOLOO Quiz App"
+            />
+          </View>
         </View>
       </View>
     )

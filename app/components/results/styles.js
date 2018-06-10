@@ -31,6 +31,9 @@ const textContainerStyles = {
 }
 
 const ResultsContainer = {
+  display: 'flex',
+  justifyContent: 'space-around',
+
   backgroundColor: colors.white,
   padding: '1%',
 
@@ -70,8 +73,19 @@ const statContainer = {
 const statColContainer = {
   display: 'flex',
   alignItems: 'center',
-  height: '60%',
+  height: '45%',
   justifyContent: 'space-around',
+  borderWidth: 1,
+  borderColor: 'pink',
+}
+
+const buttonStyles = {
+  borderRadius: 10,
+  backgroundColor: colors.buttonColor,
+  width: 'auto',
+  padding: '2%',
+  marginLeft: 'auto',
+  marginRight: 'auto',
 }
 
 export default {
@@ -82,4 +96,5 @@ export default {
   playerAvatar,
   statContainer,
   statColContainer,
+  buttonStyles,
 }
