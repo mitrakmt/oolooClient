@@ -12,6 +12,30 @@ class Results extends Component {
 
   componentDidMount() {}
 
+  renderStatBlock = (playerOneStat, playerTwoStat, statName) => (
+    <View style={styles.statContainer}>
+      <View>
+        <Text style={{ color: '#293f4e', fontSize: 15 }}>{playerOneStat}</Text>
+      </View>
+
+      <View>
+        <Text
+          style={{
+            color: '#293f4e',
+            fontSize: 20,
+            fontWeight: 'bold',
+          }}
+        >
+          {statName}
+        </Text>
+      </View>
+
+      <View>
+        <Text style={{ color: '#293f4e', fontSize: 15 }}>{playerTwoStat}</Text>
+      </View>
+    </View>
+  )
+
   render() {
     return (
       <View style={styles.containerStyles}>
@@ -28,7 +52,7 @@ class Results extends Component {
             <View>
               <Image
                 style={styles.playerAvatar}
-                source={{ url: 'https://placeimg.com/150/150/any' }}
+                source={{ url: 'https://placeimg.com/300/300/any' }}
               />
               <Text style={{ color: '#293f4e', textAlign: 'center' }}>
                 Player 1
@@ -36,7 +60,11 @@ class Results extends Component {
             </View>
 
             <View>
-              <Text style={{ color: '#293f4e', fontSize: 30 }}>vs.</Text>
+              <Text
+                style={{ color: '#293f4e', fontSize: 30, fontWeight: 'bold' }}
+              >
+                vs.
+              </Text>
             </View>
 
             <View>
@@ -50,6 +78,16 @@ class Results extends Component {
               </Text>
             </View>
           </View>
+          {/* end versusContainer  */}
+
+          <View>
+            {this.renderStatBlock('85%', '90%', 'Overall')}
+            {this.renderStatBlock('4 m 8 s', '5 m 14 s', 'Time')}
+            {this.renderStatBlock('210', '235', 'Total Score')}
+            {this.renderStatBlock('5', '6', 'Rank ')}
+          </View>
+
+          <View />
         </View>
       </View>
     )

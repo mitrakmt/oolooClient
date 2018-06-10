@@ -6,6 +6,12 @@ const colors = {
   buttonColor: '#01a38d',
   answerSelection: '#18a28d',
 }
+const baseStatsPositioning = {
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-around',
+  alignItems: 'center',
+}
 
 const containerStyles = {
   display: 'flex',
@@ -26,6 +32,7 @@ const textContainerStyles = {
 
 const ResultsContainer = {
   backgroundColor: colors.white,
+  padding: '1%',
 
   height: '70%',
   width: '85%',
@@ -42,10 +49,7 @@ const ResultsContainer = {
 }
 
 const versusContainer = {
-  display: 'flex',
-  flexDirection: 'row',
-  justifyContent: 'space-around',
-  alignItems: 'center',
+  ...baseStatsPositioning,
 
   height: '25%',
 }
@@ -57,10 +61,19 @@ const playerAvatar = {
   borderRadius: 37,
 }
 
+const statContainer = {
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-around',
+
+  height: '15%',
+}
+
 export default {
   containerStyles,
   textContainerStyles,
   ResultsContainer,
   versusContainer,
   playerAvatar,
+  statContainer,
 }
