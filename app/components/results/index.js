@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View } from 'react-native'
+import { Text, View, Image } from 'react-native'
 import { connect } from 'react-redux'
 
 import styles from './styles'
@@ -26,14 +26,28 @@ class Results extends Component {
         <View style={styles.ResultsContainer}>
           <View style={styles.versusContainer}>
             <View>
-              <Text>Player 1</Text>
-            </View>
-            <View>
-              <Text>vs.</Text>
+              <Image
+                style={styles.playerAvatar}
+                source={{ url: 'https://placeimg.com/150/150/any' }}
+              />
+              <Text style={{ color: '#293f4e', textAlign: 'center' }}>
+                Player 1
+              </Text>
             </View>
 
             <View>
-              <Text>Player 2</Text>
+              <Text style={{ color: '#293f4e', fontSize: 30 }}>vs.</Text>
+            </View>
+
+            <View>
+              <Image
+                style={styles.playerAvatar}
+                source={{ url: 'https://placeimg.com/300/300/any' }}
+              />
+
+              <Text style={{ color: '#293f4e', textAlign: 'center' }}>
+                Player 2
+              </Text>
             </View>
           </View>
         </View>

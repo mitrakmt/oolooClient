@@ -45,9 +45,16 @@ const versusContainer = {
   display: 'flex',
   flexDirection: 'row',
   justifyContent: 'space-around',
+  alignItems: 'center',
+
+  height: '25%',
+}
+
+const playerAvatar = {
+  width: 75,
+  height: 75,
   borderWidth: 1,
-  borderColor: 'red',
-  height: '20%',
+  borderRadius: 37,
 }
 
 export default {
@@ -55,4 +62,5 @@ export default {
   textContainerStyles,
   ResultsContainer,
   versusContainer,
+  playerAvatar,
 }
