@@ -18,18 +18,18 @@ const socketMiddleware = (auth, context, callbacks) => {
       progress: remainingTime,
     })
   })
-  socket.on(
-    'gameResults',
-    ({ remainingTime, score, totalAnswered, totalCorrect }) => {
-      // 'answers', 'gameID' available from server
-      callbacks.socketGameResults(
-        score,
-        totalAnswered,
-        totalCorrect,
-        remainingTime,
-      )
-    },
-  )
+  socket.on('gameResults', results => {
+    // 'answers', 'gameID' available from server
+    const { remainingTime, score, totalAnswered, totalCorrect } = results
+
+    console.log('gameResults ', results)
+    callbacks.socketGameResults(
+      score,
+      totalAnswered,
+      totalCorrect,
+      remainingTime,
+    )
+  })
   socket.on('question', ({ question, questionNumber, possibleAnswers }) => {
     // on gameInit, questionNumber starts at 0
     context.setState({
