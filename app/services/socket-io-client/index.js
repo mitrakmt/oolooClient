@@ -1,3 +1,4 @@
+import { Actions } from 'react-native-router-flux'
 import io from 'socket.io-client'
 
 const DEV_API_URL = `https://ooloo-api-dev.herokuapp.com`
@@ -10,11 +11,11 @@ const socketMiddleware = (auth, context, callbacks) => {
     console.log('gameStarted: ', gameData)
   })
 
-  socket.on('answerResults', ({ questionNumber, remainingTime }) => {
-    // 'correct', 'score', 'totalAnswered', 'totalCorrect' available from server
-    // store 'correct', 'questionNumber' in local state
+  socket.on('answerResults', ({ remainingTime }) => {
+    // 'correct', 'questionNumber', 'score', 'totalAnswered', 'totalCorrect' available from server
+    // store 'remainingTime' in local state
+
     context.setState({
-      questionNumber: questionNumber + 1,
       progress: remainingTime,
     })
   })
@@ -29,8 +30,16 @@ const socketMiddleware = (auth, context, callbacks) => {
       totalCorrect,
       remainingTime,
     )
+
+    // Will we have a race condition after firing action creator?
+
+    // Navigate to Results
+    Actions.results()
   })
-  socket.on('question', ({ question, questionNumber, possibleAnswers }) => {
+  socket.on('question', response => {
+    const { question, questionNumber, possibleAnswers } = response
+
+    console.log('question from sockets ', response)
     // on gameInit, questionNumber starts at 0
     context.setState({
       question,

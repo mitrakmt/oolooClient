@@ -20,6 +20,8 @@ const textContainerStyles = {
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'space-between',
+  marginLeft: 'auto',
+  marginRight: 'auto',
 }
 
 const ResultsContainer = {
@@ -39,8 +41,18 @@ const ResultsContainer = {
   },
 }
 
+const versusContainer = {
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-around',
+  borderWidth: 1,
+  borderColor: 'red',
+  height: '20%',
+}
+
 export default {
   containerStyles,
   textContainerStyles,
   ResultsContainer,
+  versusContainer,
 }

@@ -24,7 +24,18 @@ class Results extends Component {
         </View>
 
         <View style={styles.ResultsContainer}>
-          <Text>Results</Text>
+          <View style={styles.versusContainer}>
+            <View>
+              <Text>Player 1</Text>
+            </View>
+            <View>
+              <Text>vs.</Text>
+            </View>
+
+            <View>
+              <Text>Player 2</Text>
+            </View>
+          </View>
         </View>
       </View>
     )

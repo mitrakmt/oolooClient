@@ -67,7 +67,13 @@ class GamePlay extends Component {
     return (
       <View style={styles.containerStyles}>
         <View style={styles.textContainerStyles}>
-          <Text style={{ fontSize: 15, color: '#01a38d', marginBottom: '3%' }}>
+          <Text
+            style={{
+              fontSize: 15,
+              color: '#01a38d',
+              marginBottom: '3%',
+            }}
+          >
             {' '}
             OOLOO
           </Text>
