@@ -54,7 +54,7 @@ const ResultsContainer = {
 const versusContainer = {
   ...baseStatsPositioning,
 
-  height: '25%',
+  height: '20%',
 }
 
 const playerAvatar = {
@@ -73,10 +73,8 @@ const statContainer = {
 const statColContainer = {
   display: 'flex',
   alignItems: 'center',
-  height: '45%',
+  height: '50%',
   justifyContent: 'space-around',
-  borderWidth: 1,
-  borderColor: 'pink',
 }
 
 const buttonStyles = {
