@@ -1,4 +1,4 @@
-const API_URL = `https://ooloo-api-dev.herokuapp.com/api/`
+const API_URL = `https://ooloo-api-dev.herokuapp.com/api`
 
 export const prepPayload = (username, password) => {
   // change values in prod, only for testing
