@@ -14,29 +14,27 @@ class Login extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      username: 'Username',
+      errorMessage: '',
+      isError: false,
       password: 'Password',
-      status: {},
       togglePassword: false,
+      username: 'Username',
     }
-    this.handleUsernameInput = this.handleUsernameInput.bind(this)
-    this.handlePasswordInput = this.handlePasswordInput.bind(this)
-    this.toggleField = this.toggleField.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
   }
-  handleUsernameInput(text) {
+
+  handleUsernameInput = text => {
     this.setState({
       username: text,
     })
   }
 
-  handlePasswordInput(text) {
+  handlePasswordInput = text => {
     this.setState({
       password: text,
     })
   }
 
-  toggleField(field) {
+  toggleField = field => {
     // removes placeholder text when user focuses on a field
     // add placeholder text back if length of field is zero after editing is finished
     if (field === 'username') {
@@ -58,9 +56,8 @@ class Login extends Component {
     }
   }
 
-  handleSubmit() {
+  handleSubmit = () => {
     const { username, password } = this.state
-
     const haveUser = EmailValidator.validate(username)
 
     if (haveUser) {
@@ -77,12 +74,9 @@ class Login extends Component {
 
   handleError() {
     this.setState({
-      status: {
-        error: {
-          message:
-            'There was an error processing your request. Please try again.',
-        },
-      },
+      errorMessage:
+        'There was an error processing your request. Please try again.',
+      isError: true,
     })
   }
 
@@ -98,7 +92,7 @@ class Login extends Component {
         this.storeToken(username, serverResponse)
       }
     } catch (err) {
-      console.log('error from serverResponse ', err)
+      console.error('Error on loginUser attempt => ', err)
       this.handleError()
     }
   }
@@ -117,8 +111,8 @@ class Login extends Component {
   }
 
   render() {
-    const { status, togglePassword } = this.state
-    // console.log('this.props inside Login ', this.props)
+    const { errorMessage, isError, togglePassword } = this.state
+
     return (
       <View style={styles.containerStyles}>
         <View style={styles.headerStyles}>
@@ -172,7 +166,7 @@ class Login extends Component {
 
           <View style={styles.errorContainerStyle}>
             <Text style={{ textAlign: 'center', color: '#f14169' }}>
-              {status.error ? status.error.message : null}
+              {isError ? errorMessage : null}
             </Text>
           </View>
 
