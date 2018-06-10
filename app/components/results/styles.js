@@ -65,8 +65,13 @@ const statContainer = {
   display: 'flex',
   flexDirection: 'row',
   justifyContent: 'space-around',
+}
 
-  height: '15%',
+const statColContainer = {
+  display: 'flex',
+  alignItems: 'center',
+  height: '60%',
+  justifyContent: 'space-around',
 }
 
 export default {
@@ -76,4 +81,5 @@ export default {
   versusContainer,
   playerAvatar,
   statContainer,
+  statColContainer,
 }

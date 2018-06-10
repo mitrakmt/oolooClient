@@ -12,29 +12,19 @@ class Results extends Component {
 
   componentDidMount() {}
 
-  renderStatBlock = (playerOneStat, playerTwoStat, statName) => (
-    <View style={styles.statContainer}>
-      <View>
-        <Text style={{ color: '#293f4e', fontSize: 15 }}>{playerOneStat}</Text>
-      </View>
+  renderPlayerColumn = statsArray =>
+    statsArray.map(stat => (
+      <Text key={`${stat}-player`} style={{ color: '#293f4e', fontSize: 20 }}>
+        {stat}
+      </Text>
+    ))
 
-      <View>
-        <Text
-          style={{
-            color: '#293f4e',
-            fontSize: 20,
-            fontWeight: 'bold',
-          }}
-        >
-          {statName}
-        </Text>
-      </View>
-
-      <View>
-        <Text style={{ color: '#293f4e', fontSize: 15 }}>{playerTwoStat}</Text>
-      </View>
-    </View>
-  )
+  renderLabels = labelArray =>
+    labelArray.map(label => (
+      <Text key={`${label}-label`} style={{ color: '#293f4e', fontSize: 20 }}>
+        {label}
+      </Text>
+    ))
 
   render() {
     return (
@@ -80,11 +70,18 @@ class Results extends Component {
           </View>
           {/* end versusContainer  */}
 
-          <View>
-            {this.renderStatBlock('85%', '90%', 'Overall')}
-            {this.renderStatBlock('4 m 8 s', '5 m 14 s', 'Time')}
-            {this.renderStatBlock('210', '235', 'Total Score')}
-            {this.renderStatBlock('5', '6', 'Rank ')}
+          <View style={styles.statContainer}>
+            <View style={styles.statColContainer}>
+              {this.renderPlayerColumn(['85%', '4 m 8 s', '210', '5'])}
+            </View>
+
+            <View style={styles.statColContainer}>
+              {this.renderLabels(['Overall', 'Time', 'Total Score', 'Rank'])}
+            </View>
+
+            <View style={styles.statColContainer}>
+              {this.renderPlayerColumn(['90%', '5 m 14 s', '235', '6'])}
+            </View>
           </View>
 
           <View />
