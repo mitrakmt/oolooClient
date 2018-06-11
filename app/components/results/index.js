@@ -18,9 +18,8 @@ class Results extends Component {
     const { format } = statObject
     if (format) {
       if (format === 'time') {
-        let timeArray = val.toString()
-        timeArray = timeArray.split('')
-        return `${timeArray[0]}m ${timeArray[1]}${timeArray[2]}s`
+        const timeString = val.toString()
+        return `${timeString[0]}m ${timeString[1]}${timeString[2]}s`
       }
 
       if (format === '%') {
