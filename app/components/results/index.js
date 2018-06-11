@@ -1,6 +1,7 @@
+import AnimateNumber from 'react-native-animate-number'
+import { connect } from 'react-redux'
 import React, { Component } from 'react'
 import { Text, View, Image, Button } from 'react-native'
-import { connect } from 'react-redux'
 import { Actions } from 'react-native-router-flux'
 
 import styles from './styles'
@@ -11,13 +12,18 @@ class Results extends Component {
     this.state = {}
   }
 
-  componentDidMount() {}
-
   renderPlayerColumn = statsArray =>
-    statsArray.map(stat => (
-      <Text key={`${stat}-player`} style={{ color: '#293f4e', fontSize: 15 }}>
-        {stat}
-      </Text>
+    statsArray.map(statObject => (
+      // <Text key={`${stat}-player`} style={{ color: '#293f4e', fontSize: 15 }}>
+      //   {stat}
+      // </Text>
+      <AnimateNumber
+        countBy={5}
+        key={`${statObject.value}-player`}
+        style={{ color: '#293f4e', fontSize: 15 }}
+        timing="linear"
+        value={statObject.value}
+      />
     ))
 
   renderLabels = labelArray =>
@@ -76,7 +82,12 @@ class Results extends Component {
 
           <View style={styles.statContainer}>
             <View style={styles.statColContainer}>
-              {this.renderPlayerColumn(['85%', '4 m 8 s', '210', '5'])}
+              {this.renderPlayerColumn([
+                { format: '%', value: '85' },
+                { format: 'time', value: '452' },
+                { value: '210' },
+                { value: '5' },
+              ])}
             </View>
 
             <View style={styles.statColContainer}>
@@ -84,7 +95,12 @@ class Results extends Component {
             </View>
 
             <View style={styles.statColContainer}>
-              {this.renderPlayerColumn(['90%', '5 m 14 s', '235', '6'])}
+              {this.renderPlayerColumn([
+                { format: '%', value: '90' },
+                { format: 'time', value: '439' },
+                { value: '236' },
+                { value: '6' },
+              ])}
             </View>
           </View>
 
