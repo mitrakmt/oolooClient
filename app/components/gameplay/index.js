@@ -43,6 +43,9 @@ class GamePlay extends Component {
       questionNumber,
     }
 
+    console.log('socket is ', socket)
+    console.log('payload is ', payload)
+
     socket.emit('answer', payload)
   }
 
