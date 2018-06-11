@@ -19,28 +19,26 @@ const socketMiddleware = (auth, context, callbacks) => {
       progress: remainingTime,
     })
   })
-  socket.on('gameResults', results => {
-    // 'answers', 'gameID' available from server
-    const { remainingTime, score, totalAnswered, totalCorrect } = results
+  socket.on(
+    'gameResults',
+    ({ remainingTime, score, totalAnswered, totalCorrect }) => {
+      // 'answers', 'gameID' available from server
+      callbacks.socketGameResults(
+        score,
+        totalAnswered,
+        totalCorrect,
+        remainingTime,
+      )
 
-    console.log('gameResults ', results)
-    callbacks.socketGameResults(
-      score,
-      totalAnswered,
-      totalCorrect,
-      remainingTime,
-    )
+      // Will we have a race condition after firing action creator?
 
-    // Will we have a race condition after firing action creator?
-
-    // Navigate to Results
-    Actions.results()
-  })
-  socket.on('question', response => {
-    const { question, questionNumber, possibleAnswers } = response
-
-    console.log('question from sockets ', response)
+      // Navigate to Results
+      Actions.results()
+    },
+  )
+  socket.on('question', ({ question, questionNumber, possibleAnswers }) => {
     // on gameInit, questionNumber starts at 0
+    // incrementing questionNumber in state will cause server crash
     context.setState({
       question,
       questionNumber,
