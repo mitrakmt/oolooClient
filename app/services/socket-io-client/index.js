@@ -1,3 +1,4 @@
+import { Actions } from 'react-native-router-flux'
 import io from 'socket.io-client'
 
 const DEV_API_URL = `https://ooloo-api-dev.herokuapp.com`
@@ -28,6 +29,11 @@ const socketMiddleware = (auth, context, callbacks) => {
         totalCorrect,
         remainingTime,
       )
+
+      // Will we have a race condition after firing action creator?
+
+      // Navigate to Results
+      Actions.results()
     },
   )
   socket.on('question', ({ question, questionNumber, possibleAnswers }) => {
