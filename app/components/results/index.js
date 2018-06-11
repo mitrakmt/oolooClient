@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Text, View, Image, Button } from 'react-native'
 import { connect } from 'react-redux'
+import { Actions } from 'react-native-router-flux'
 
 import styles from './styles'
 
@@ -89,6 +90,7 @@ class Results extends Component {
 
           <View style={styles.buttonStyles}>
             <Button
+              onPress={() => Actions.gameplay()}
               title="Play Again!"
               color="white"
               accessibilityLabel="Play again button for OOLOO Quiz App"

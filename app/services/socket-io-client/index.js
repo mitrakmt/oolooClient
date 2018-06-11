@@ -43,7 +43,7 @@ const socketMiddleware = (auth, context, callbacks) => {
     // on gameInit, questionNumber starts at 0
     context.setState({
       question,
-      questionNumber: questionNumber + 1,
+      questionNumber,
       possibleAnswers,
     })
   })
