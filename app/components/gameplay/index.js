@@ -12,9 +12,7 @@ class GamePlay extends Component {
     super(props)
     this.state = {
       fetchedQuestion: true,
-
       progress: 300000,
-
       questionNumber: null,
       question: '',
       possibleAnswers: [],
@@ -29,10 +27,6 @@ class GamePlay extends Component {
 
     // Create socket and store in local state
     socketMiddleware(auth, context, callbacks)
-
-    setInterval(() => {
-      this.setState(state => ({ progress: state.progress - 1000 }))
-    }, 1000)
   }
 
   onButtonPress = answer => {
@@ -42,9 +36,6 @@ class GamePlay extends Component {
       answer,
       questionNumber,
     }
-
-    console.log('socket is ', socket)
-    console.log('payload is ', payload)
 
     socket.emit('answer', payload)
   }
