@@ -12,6 +12,25 @@ class Results extends Component {
     this.state = {}
   }
 
+  handleFormatting = (val, statObject) => {
+    // quick and dirty handleFormatting, fix for production
+
+    const { format } = statObject
+    if (format) {
+      if (format === 'time') {
+        let timeArray = val.toString()
+        timeArray = timeArray.split('')
+        return `${timeArray[0]}m ${timeArray[1]}${timeArray[2]}s`
+      }
+
+      if (format === '%') {
+        return `${val}%`
+      }
+    }
+
+    return val
+  }
+
   renderPlayerColumn = statsArray =>
     statsArray.map(statObject => (
       // <Text key={`${stat}-player`} style={{ color: '#293f4e', fontSize: 15 }}>
@@ -23,6 +42,7 @@ class Results extends Component {
         style={{ color: '#293f4e', fontSize: 15 }}
         timing="linear"
         value={statObject.value}
+        formatter={val => this.handleFormatting(val, statObject)}
       />
     ))
 
