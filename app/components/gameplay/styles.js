@@ -41,6 +41,7 @@ const QAnswContainer = {
 
 const questionContainer = {
   padding: '5%',
+  fontWeight: '700',
 }
 
 const answersContainerStyle = {
