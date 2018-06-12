@@ -49,7 +49,8 @@ const answersContainerStyle = {
 
 const buttonStyles = {
   borderRadius: 10,
-  backgroundColor: colors.buttonColor,
+  borderWidth: 1,
+  borderColor: '#A1A1A1',
   width: '85%',
   marginTop: '3%',
   marginLeft: 'auto',

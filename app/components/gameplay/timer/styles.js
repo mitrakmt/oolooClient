@@ -2,7 +2,7 @@ const timerOuterView = {
   flex: 1, // remove flex: 1 to adjust timerOuterView by width
   flexDirection: 'row',
   height: 30,
-  marginLeft: '7%',
+  marginLeft: '3%',
   marginRight: '7%',
 }
 

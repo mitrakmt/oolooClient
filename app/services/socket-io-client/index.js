@@ -47,6 +47,7 @@ const socketMiddleware = (auth, context, callbacks) => {
   socket.on('question', ({ question, questionNumber, possibleAnswers }) => {
     // on gameInit, questionNumber starts at 0
     // incrementing questionNumber in state will cause server crash
+
     context.setState({
       question,
       questionNumber,
