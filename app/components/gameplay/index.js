@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Text, View, ScrollView, Button } from 'react-native'
 import { connect } from 'react-redux'
+import Icon from 'react-native-vector-icons/Entypo'
 import PropTypes from 'prop-types'
 import styles from './styles'
 import Timer from './timer'
@@ -88,6 +89,10 @@ class GamePlay extends Component {
           </View>
 
           <View style={{ flexDirection: 'row', marginBottom: '3%' }}>
+            <View style={{ marginLeft: '7%' }}>
+              <Icon name="stopwatch" size={25} />
+            </View>
+
             <Timer progress={this.state.progress} />
           </View>
         </View>
