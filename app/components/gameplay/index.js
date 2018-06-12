@@ -121,7 +121,7 @@ class GamePlay extends Component {
             OOLOO
           </Text>
           <Text style={{ fontSize: 20 }}>
-            {fetchedQuestion ? `Question ${questionNumber + 1}/20` : ''}
+            {fetchedQuestion ? `Question ${questionNumber + 1}/10` : ''}
           </Text>
         </View>
 
