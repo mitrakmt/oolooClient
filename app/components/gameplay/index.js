@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import { Text, View, ScrollView, Button } from 'react-native'
+import { Text, View, ScrollView, Button, Animated } from 'react-native'
 import { connect } from 'react-redux'
 import Icon from 'react-native-vector-icons/Entypo'
 import PropTypes from 'prop-types'
 import styles from './styles'
 import Timer from './timer'
+import generateRandomKey from './utils'
 import { gameResultsFromSockets } from '../../services/redux/actions/socket'
 import socketMiddleware from '../../services/socket-io-client'
 
@@ -17,6 +18,9 @@ class GamePlay extends Component {
       questionNumber: null,
       question: '',
       possibleAnswers: [],
+      chosenAnswer: null,
+      buttonAnimation: new Animated.Value(0),
+      buttonColor: '#344856',
     }
   }
 
@@ -30,29 +34,73 @@ class GamePlay extends Component {
     socketMiddleware(auth, context, callbacks)
   }
 
-  onButtonPress = answer => {
-    const { socket, questionNumber } = this.state
+  componentDidUpdate(_, prevState) {
+    // When a new question comes from sockets, reset button animation
+    if (prevState.questionNumber !== this.state.questionNumber) {
+      this.resetButtonAnimation()
+    }
+  }
+
+  onButtonPress = (answer, idx) => {
+    const { socket, buttonAnimation, questionNumber } = this.state
+
+    // Button backgroundColor animates
+    this.setState({ chosenAnswer: idx }, () => {
+      Animated.timing(buttonAnimation, {
+        toValue: 1,
+      }).start()
+    })
 
     const payload = {
       answer,
       questionNumber,
     }
 
-    socket.emit('answer', payload)
+    // Wait 800ms to allow Animation to finish, then send answer to server
+    setTimeout(() => socket.emit('answer', payload), 800)
+  }
+
+  resetButtonAnimation = () => {
+    this.setState({
+      buttonAnimation: new Animated.Value(0),
+      chosenAnswer: null,
+    })
   }
 
   renderAnswerChoices() {
-    const { possibleAnswers, questionNumber } = this.state
+    const {
+      possibleAnswers,
+      chosenAnswer,
+      questionNumber,
+      buttonAnimation,
+      buttonColor,
+    } = this.state
 
-    return possibleAnswers.map(choice => (
-      <View key={`${choice}-${questionNumber}-key`} style={styles.buttonStyles}>
+    const interpolateBGColor = buttonAnimation.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['#ffffff', '#01a38d'],
+    })
+
+    const animatedStyle = {
+      backgroundColor: interpolateBGColor,
+    }
+
+    return possibleAnswers.map((choice, idx) => (
+      <Animated.View
+        key={generateRandomKey(choice, questionNumber)}
+        style={
+          idx === chosenAnswer
+            ? [styles.buttonStyles, animatedStyle]
+            : styles.buttonStyles
+        }
+      >
         <Button
-          onPress={() => this.onButtonPress(`${choice}`)}
+          onPress={() => this.onButtonPress(`${choice}`, idx)}
           title={`${choice}`}
-          color="white"
+          color={idx === chosenAnswer ? '#ffffff' : buttonColor}
           accessibilityLabel={`${choice}`}
         />
-      </View>
+      </Animated.View>
     ))
   }
 
