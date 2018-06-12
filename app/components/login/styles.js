@@ -114,6 +114,13 @@ const buttonStyles = {
   marginRight: 'auto',
 }
 
+const signUpTextStyles = {
+  color: '#294c4e',
+  fontSize: 16,
+  textDecorationLine: 'underline',
+  fontWeight: 'bold',
+}
+
 const styles = {
   containerStyles,
   headerStyles,
@@ -127,6 +134,7 @@ const styles = {
   buttonContainerStyle,
   textInputStyles,
   buttonStyles,
+  signUpTextStyles,
 }
 
 export default styles

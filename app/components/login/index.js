@@ -181,9 +181,7 @@ class Login extends Component {
             </View>
 
             <View>
-              <Text style={{ fontSize: 16, textDecorationLine: 'underline' }}>
-                Or Sign Up
-              </Text>
+              <Text style={styles.signUpTextStyles}>Or Sign Up</Text>
             </View>
           </View>
         </View>

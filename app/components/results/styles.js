@@ -6,6 +6,12 @@ const colors = {
   buttonColor: '#01a38d',
   answerSelection: '#18a28d',
 }
+const baseStatsPositioning = {
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-around',
+  alignItems: 'center',
+}
 
 const containerStyles = {
   display: 'flex',
@@ -20,10 +26,16 @@ const textContainerStyles = {
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'space-between',
+  marginLeft: 'auto',
+  marginRight: 'auto',
 }
 
-const QAnswContainer = {
+const ResultsContainer = {
+  display: 'flex',
+  justifyContent: 'space-around',
+
   backgroundColor: colors.white,
+  padding: '1%',
 
   height: '70%',
   width: '85%',
@@ -39,29 +51,48 @@ const QAnswContainer = {
   },
 }
 
-const questionContainer = {
-  padding: '5%',
+const versusContainer = {
+  ...baseStatsPositioning,
+
+  height: '20%',
 }
 
-const answersContainerStyle = {
-  marginBottom: '3%',
+const playerAvatar = {
+  width: 75,
+  height: 75,
+  borderWidth: 1,
+  borderRadius: 37,
+}
+
+const statContainer = {
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-around',
+}
+
+const statColContainer = {
+  display: 'flex',
+  alignItems: 'center',
+  height: '50%',
+  justifyContent: 'space-around',
 }
 
 const buttonStyles = {
   borderRadius: 10,
   backgroundColor: colors.buttonColor,
-  width: '85%',
-  marginTop: '3%',
+  width: 'auto',
+  padding: '2%',
   marginLeft: 'auto',
   marginRight: 'auto',
-  height: 35, // fixed for dev, should be 'auto' for prod
 }
 
 export default {
   containerStyles,
   textContainerStyles,
-  QAnswContainer,
-  questionContainer,
-  answersContainerStyle,
+  ResultsContainer,
+  versusContainer,
+  playerAvatar,
+  statContainer,
+  statColContainer,
   buttonStyles,
 }

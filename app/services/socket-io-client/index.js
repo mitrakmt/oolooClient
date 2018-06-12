@@ -7,15 +7,20 @@ const socketMiddleware = (auth, context, callbacks) => {
   // Connect to socket
   const socket = io(`${DEV_API_URL}/?token=${auth}`)
 
+  // setInterval for Timer component
+  const intervalID = setInterval(() => {
+    context.setState(state => ({ progress: state.progress - 1000 }))
+  }, 1000)
+
   socket.emit('gameStart', gameData => {
     console.log('gameStarted: ', gameData)
   })
 
-  socket.on('answerResults', ({ questionNumber, remainingTime }) => {
-    // 'correct', 'score', 'totalAnswered', 'totalCorrect' available from server
-    // store 'correct', 'questionNumber' in local state
+  socket.on('answerResults', ({ remainingTime }) => {
+    // 'correct', 'questionNumber', 'score', 'totalAnswered', 'totalCorrect' available from server
+    // store 'remainingTime' in local state
+
     context.setState({
-      questionNumber: questionNumber + 1,
       progress: remainingTime,
     })
   })
@@ -23,6 +28,7 @@ const socketMiddleware = (auth, context, callbacks) => {
     'gameResults',
     ({ remainingTime, score, totalAnswered, totalCorrect }) => {
       // 'answers', 'gameID' available from server
+
       callbacks.socketGameResults(
         score,
         totalAnswered,
@@ -30,8 +36,10 @@ const socketMiddleware = (auth, context, callbacks) => {
         remainingTime,
       )
 
-      // Will we have a race condition after firing action creator?
+      // clear setInterval
+      clearInterval(intervalID)
 
+      // Will we have a race condition after firing action creator?
       // Navigate to Results
       Actions.results()
     },
@@ -46,6 +54,7 @@ const socketMiddleware = (auth, context, callbacks) => {
     })
   })
 
+  // Store Socket and intervalID in state
   context.setState({ socket })
 }
 
