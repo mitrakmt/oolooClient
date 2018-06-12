@@ -1,5 +1,11 @@
 import React, { Component } from 'react'
-import { Text, View, ScrollView, Button, Animated } from 'react-native'
+import {
+  Text,
+  View,
+  ScrollView,
+  TouchableHighlight,
+  Animated,
+} from 'react-native'
 import { connect } from 'react-redux'
 import Icon from 'react-native-vector-icons/Entypo'
 import PropTypes from 'prop-types'
@@ -88,18 +94,16 @@ class GamePlay extends Component {
     return possibleAnswers.map((choice, idx) => (
       <Animated.View
         key={generateRandomKey(choice, questionNumber)}
-        style={
-          idx === chosenAnswer
-            ? [styles.buttonStyles, animatedStyle]
-            : styles.buttonStyles
-        }
+        style={idx === chosenAnswer ? animatedStyle : ''}
       >
-        <Button
+        <TouchableHighlight
           onPress={() => this.onButtonPress(`${choice}`, idx)}
-          title={`${choice}`}
-          color={idx === chosenAnswer ? '#ffffff' : buttonColor}
-          accessibilityLabel={`${choice}`}
-        />
+          style={styles.buttonStyles}
+        >
+          <Text color={idx === chosenAnswer ? '#ffffff' : buttonColor}>
+            {choice}
+          </Text>
+        </TouchableHighlight>
       </Animated.View>
     ))
   }
