@@ -16,7 +16,17 @@ class Home extends Component {
             {' '}
             OOLOO
           </Text>
-          <Text style={{ fontSize: 20 }}>HEAD TO HEAD TRIVIA</Text>
+          <Text style={{ fontSize: 33, color: '#344856' }}>
+            HEAD TO HEAD TRIVIA
+          </Text>
+        </View>
+
+        <View style={styles.gameTitleContainerStyles}>
+          <Text>Game title</Text>
+        </View>
+
+        <View style={styles.newsContainerStyles}>
+          <Text>News</Text>
         </View>
       </View>
     )

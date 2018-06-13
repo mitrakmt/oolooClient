@@ -15,7 +15,25 @@ const textContainerStyles = {
   marginRight: 'auto',
 }
 
+const gameTitleContainerStyles = {
+  width: '50%',
+  height: '28%',
+  // marginLeft: 'auto',
+  // marginRight: 'auto',
+  borderWidth: 2,
+  borderRadius: 25,
+  borderColor: '#E18678',
+}
+
+const newsContainerStyles = {
+  height: '40%',
+  width: '90%',
+  borderWidth: 1,
+}
+
 export default {
   containerStyles,
   textContainerStyles,
+  gameTitleContainerStyles,
+  newsContainerStyles,
 }
