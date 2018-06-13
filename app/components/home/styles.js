@@ -1,3 +1,7 @@
+const colors = {
+  buttonColor: '#01a38d',
+}
+
 const containerStyles = {
   display: 'flex',
   flexDirection: 'column',
@@ -25,6 +29,23 @@ const gameTitleContainerStyles = {
   borderColor: '#E18678',
 }
 
+const buttonContainerStyle = {
+  height: '35%',
+  display: 'flex',
+
+  alignItems: 'center',
+  justifyContent: 'space-around',
+}
+
+const buttonStyles = {
+  borderRadius: 10,
+  backgroundColor: colors.buttonColor,
+  width: '50%',
+  padding: '3%',
+  marginLeft: 'auto',
+  marginRight: 'auto',
+}
+
 const newsContainerStyles = {
   height: '40%',
   width: '90%',
@@ -35,5 +56,7 @@ export default {
   containerStyles,
   textContainerStyles,
   gameTitleContainerStyles,
+  buttonContainerStyle,
+  buttonStyles,
   newsContainerStyles,
 }

@@ -1,11 +1,16 @@
 import React, { Component } from 'react'
-import { Text, View } from 'react-native'
+import { Text, View, Button } from 'react-native'
+import { Actions } from 'react-native-router-flux'
 import styles from './styles'
 
 class Home extends Component {
   constructor(props) {
     super(props)
     this.state = {}
+  }
+
+  handlePlayPress = () => {
+    Actions.gameplay()
   }
 
   render() {
@@ -23,6 +28,17 @@ class Home extends Component {
 
         <View style={styles.gameTitleContainerStyles}>
           <Text>Game title</Text>
+
+          <View style={styles.buttonContainerStyle}>
+            <View style={styles.buttonStyles}>
+              <Button
+                onPress={this.handlePlayPress}
+                title="Play!"
+                color="white"
+                accessibilityLabel="Play button for OOLOO Quiz App"
+              />
+            </View>
+          </View>
         </View>
 
         <View style={styles.newsContainerStyles}>
