@@ -27,7 +27,13 @@ class Home extends Component {
         </View>
 
         <View style={styles.gameTitleContainerStyles}>
-          <Text>Game title</Text>
+          <View style={styles.gameTitleTextContainerStyles}>
+            <Text style={{ fontSize: 20, color: '#344856', fontWeight: '700' }}>
+              Game title
+            </Text>
+
+            <Text style={{ color: '#344856' }}>Description of game</Text>
+          </View>
 
           <View style={styles.buttonContainerStyle}>
             <View style={styles.buttonStyles}>

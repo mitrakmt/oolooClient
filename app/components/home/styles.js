@@ -32,12 +32,19 @@ const gameTitleContainerStyles = {
   justifyContent: 'space-between',
 }
 
+const gameTitleTextContainerStyles = {
+  height: '40%',
+  display: 'flex',
+  justifyContent: 'space-around',
+  alignItems: 'center',
+}
+
 const buttonContainerStyle = {
   height: '35%',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-around',
-  marginTop: 130,
+  marginTop: 80,
 }
 
 const buttonStyles = {
@@ -59,6 +66,7 @@ export default {
   containerStyles,
   textContainerStyles,
   gameTitleContainerStyles,
+  gameTitleTextContainerStyles,
   buttonContainerStyle,
   buttonStyles,
   newsContainerStyles,
