@@ -27,14 +27,17 @@ const gameTitleContainerStyles = {
   borderWidth: 2,
   borderRadius: 25,
   borderColor: '#E18678',
+
+  display: 'flex',
+  justifyContent: 'space-between',
 }
 
 const buttonContainerStyle = {
   height: '35%',
   display: 'flex',
-
   alignItems: 'center',
   justifyContent: 'space-around',
+  marginTop: 130,
 }
 
 const buttonStyles = {
