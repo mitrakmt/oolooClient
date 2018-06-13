@@ -7,6 +7,7 @@ import styles from './styles'
 import Timer from './timer'
 import generateRandomKey from './utils'
 import { gameResultsFromSockets } from '../../services/redux/actions/socket'
+import tracker from '../../services/analytics-tracker'
 import socketMiddleware from '../../services/socket-io-client'
 
 class GamePlay extends Component {
@@ -22,6 +23,10 @@ class GamePlay extends Component {
       buttonAnimation: new Animated.Value(0),
       buttonColor: '#344856',
     }
+  }
+
+  componentWillMount() {
+    tracker.trackScreenView('Gameplay')
   }
 
   componentDidMount() {
