@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, Button } from 'react-native'
+import { Text, View, Button, Image } from 'react-native'
 import { Actions } from 'react-native-router-flux'
 import styles from './styles'
 
@@ -55,15 +55,35 @@ class Home extends Component {
           </View>
 
           <View style={styles.newsItemsContainerStyles}>
-            <Text style={{ fontWeight: '700' }}>
-              NYU just took over Top School!
-            </Text>
-            <Text style={{ fontWeight: '700' }}>
-              Sammers00 just scored a 90% on the EKG Challenge!
-            </Text>
-            <Text style={{ fontWeight: '700' }}>
-              waynescrew12 just took 2nd place on the leaderboard!
-            </Text>
+            <View style={styles.singleNewsItem}>
+              <Image
+                style={styles.playerAvatar}
+                source={{ url: 'https://placeimg.com/150/150/any' }}
+              />
+              <Text style={styles.singleNewsItemText}>
+                NYU just took over Top School!
+              </Text>
+            </View>
+
+            <View style={styles.singleNewsItem}>
+              <Image
+                style={styles.playerAvatar}
+                source={{ url: 'https://placeimg.com/150/150/any' }}
+              />
+              <Text style={styles.singleNewsItemText}>
+                Sammers00 just scored a 90% on the EKG Challenge!
+              </Text>
+            </View>
+
+            <View style={styles.singleNewsItem}>
+              <Image
+                style={styles.playerAvatar}
+                source={{ url: 'https://placeimg.com/150/150/any' }}
+              />
+              <Text style={styles.singleNewsItemText}>
+                waynescrew12 just took 2nd place on the leaderboard!
+              </Text>
+            </View>
           </View>
         </View>
       </View>
