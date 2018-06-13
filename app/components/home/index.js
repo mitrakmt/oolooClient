@@ -21,7 +21,7 @@ class Home extends Component {
             {' '}
             OOLOO
           </Text>
-          <Text style={{ fontSize: 33, color: '#344856' }}>
+          <Text style={{ fontSize: 33, color: '#344856', fontWeight: '300' }}>
             HEAD TO HEAD TRIVIA
           </Text>
         </View>
@@ -48,7 +48,23 @@ class Home extends Component {
         </View>
 
         <View style={styles.newsContainerStyles}>
-          <Text>News</Text>
+          <View>
+            <Text style={{ fontSize: 35, color: '#344856', fontWeight: '300' }}>
+              News
+            </Text>
+          </View>
+
+          <View style={styles.newsItemsContainerStyles}>
+            <Text style={{ fontWeight: '700' }}>
+              NYU just took over Top School!
+            </Text>
+            <Text style={{ fontWeight: '700' }}>
+              Sammers00 just scored a 90% on the EKG Challenge!
+            </Text>
+            <Text style={{ fontWeight: '700' }}>
+              waynescrew12 just took 2nd place on the leaderboard!
+            </Text>
+          </View>
         </View>
       </View>
     )

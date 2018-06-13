@@ -57,9 +57,17 @@ const buttonStyles = {
 }
 
 const newsContainerStyles = {
-  height: '40%',
+  height: '35%',
   width: '90%',
-  borderWidth: 1,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-around',
+}
+
+const newsItemsContainerStyles = {
+  display: 'flex',
+  height: '50%',
+  justifyContent: 'space-between',
 }
 
 export default {
@@ -70,4 +78,5 @@ export default {
   buttonContainerStyle,
   buttonStyles,
   newsContainerStyles,
+  newsItemsContainerStyles,
 }
