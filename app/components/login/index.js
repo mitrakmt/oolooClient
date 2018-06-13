@@ -7,7 +7,7 @@ import { Actions } from 'react-native-router-flux'
 import styles from './styles'
 import { prepPayload, fetchUser } from './utils'
 import { userAuthenticated } from '../../services/redux/actions/auth'
-import tracker from '../../services/analytics-tracker'
+import tracker from '../../services/analytics-tracker/analyticsTracker'
 
 import LoginAvatar from './img/ooloo-login-avatar.png'
 

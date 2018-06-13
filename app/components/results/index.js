@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import React, { Component } from 'react'
 import { Text, View, Image, Button } from 'react-native'
 import { Actions } from 'react-native-router-flux'
-import tracker from '../../services/analytics-tracker'
+import tracker from '../../services/analytics-tracker/analyticsTracker'
 
 import styles from './styles'
 

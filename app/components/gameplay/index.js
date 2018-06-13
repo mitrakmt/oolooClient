@@ -7,7 +7,7 @@ import styles from './styles'
 import Timer from './timer'
 import generateRandomKey from './utils'
 import { gameResultsFromSockets } from '../../services/redux/actions/socket'
-import tracker from '../../services/analytics-tracker'
+import tracker from '../../services/analytics-tracker/analyticsTracker'
 import socketMiddleware from '../../services/socket-io-client'
 
 class GamePlay extends Component {
