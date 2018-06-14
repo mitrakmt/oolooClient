@@ -19,7 +19,22 @@ class Login extends Component {
       password: 'Password',
       togglePassword: false,
       username: 'Username',
+      onFocusUsername: false,
+      onFocusPassword: false,
     }
+  }
+
+  setInputStyling = (onFocusUsername, onFocusPassword) => {
+    // sets styling for input fields based on onFocus state
+    const userNameStyles = onFocusUsername
+      ? [styles.inputFocused, styles.usernameContainerStyle]
+      : [styles.inputUnfocused, styles.usernameContainerStyle]
+
+    const passwordStyles = onFocusPassword
+      ? [styles.inputFocused, styles.passwordContainerStyle]
+      : [styles.inputUnfocused, styles.passwordContainerStyle]
+
+    return { userNameStyles, passwordStyles }
   }
 
   handleUsernameInput = text => {
@@ -38,20 +53,34 @@ class Login extends Component {
     // removes placeholder text when user focuses on a field
     // add placeholder text back if length of field is zero after editing is finished
     if (field === 'username') {
-      const { username } = this.state
+      const { username, onFocusUsername } = this.state
       if (username.length === 0) {
         this.setState({ username: 'Username' })
       } else if (username.match(/Username/i)) {
         this.setState({ username: '' })
       }
+
+      // toggle onFocus styling for username
+      if (onFocusUsername === false) {
+        this.setState({ onFocusUsername: true })
+      } else {
+        this.setState({ onFocusUsername: false })
+      }
     }
 
     if (field === 'password') {
-      const { password } = this.state
+      const { password, onFocusPassword } = this.state
       if (password.length === 0) {
         this.setState({ password: 'Password', togglePassword: false })
       } else if (password.match(/Password/i)) {
         this.setState({ password: '', togglePassword: true })
+      }
+
+      // toggle onFocus styling for password
+      if (onFocusPassword === false) {
+        this.setState({ onFocusPassword: true })
+      } else {
+        this.setState({ onFocusPassword: false })
       }
     }
   }
@@ -111,7 +140,18 @@ class Login extends Component {
   }
 
   render() {
-    const { errorMessage, isError, togglePassword } = this.state
+    const {
+      errorMessage,
+      isError,
+      togglePassword,
+      onFocusUsername,
+      onFocusPassword,
+    } = this.state
+
+    const { userNameStyles, passwordStyles } = this.setInputStyling(
+      onFocusUsername,
+      onFocusPassword,
+    )
 
     return (
       <View style={styles.containerStyles}>
@@ -135,7 +175,7 @@ class Login extends Component {
 
         <View style={styles.formStyles}>
           <View style={styles.inputFieldsContainerStyle}>
-            <View style={styles.usernameContainerStyle}>
+            <View style={userNameStyles}>
               <TextInput
                 style={styles.textInputStyles}
                 placeholder={this.state.username}
@@ -145,21 +185,19 @@ class Login extends Component {
                 onFocus={() => this.toggleField('username')}
                 onChangeText={this.handleUsernameInput}
                 onEndEditing={() => this.toggleField('username')}
-                placeholderTextColor="#5c7a7b"
               />
             </View>
 
-            <View style={styles.passwordContainerStyle}>
+            <View style={passwordStyles}>
               <TextInput
                 style={styles.textInputStyles}
-                fontSize={16}
+                fontSize={17}
                 autoCapitalize="none"
                 secureTextEntry={togglePassword}
                 value={this.state.password}
                 onFocus={() => this.toggleField('password')}
                 onChangeText={this.handlePasswordInput}
                 onEndEditing={() => this.toggleField('password')}
-                placeholderTextColor="#5c7a7b"
               />
             </View>
           </View>

@@ -3,7 +3,6 @@ const colors = {
   darkCyan: '#2f5658',
   grayishBlue: '#aebcc5',
   white: '#ffffff',
-
   titleColor: '#01a38d',
   textInputColor: '#5c7a7b',
   buttonColor: '#01a38d',
@@ -14,7 +13,7 @@ const baseInputField = {
   borderRightWidth: 0,
   borderLeftWidth: 0,
   borderBottomWidth: 1.5,
-  height: 50,
+  // height: 50,
 }
 
 const containerStyles = {
@@ -72,18 +71,26 @@ const inputFieldsContainerStyle = {
 }
 
 const usernameContainerStyle = {
-  borderBottomColor: colors.darkCyan,
   ...baseInputField,
+}
+
+const inputUnfocused = {
+  borderBottomColor: colors.grayishBlue,
+  height: 50,
+  marginLeft: '15%',
+  marginRight: '15%',
+}
+
+const inputFocused = {
+  borderBottomColor: colors.darkCyan,
+  height: 60,
   marginLeft: '7%',
   marginRight: '7%',
 }
 
 const passwordContainerStyle = {
   ...baseInputField,
-  marginTop: '10%',
-  marginLeft: '15%',
-  marginRight: '15%',
-  borderBottomColor: colors.grayishBlue,
+  marginTop: '10%', // provides spacing between username & password input fields
 }
 
 const errorContainerStyle = {
@@ -102,6 +109,7 @@ const textInputStyles = {
   textAlign: 'center',
   fontWeight: 'bold',
   marginTop: '7%',
+  color: '#385557',
 }
 
 const buttonStyles = {
@@ -117,7 +125,7 @@ const signUpTextStyles = {
   color: '#294c4e',
   fontSize: 16,
   textDecorationLine: 'underline',
-  fontWeight: 'bold',
+  fontWeight: '800',
 }
 
 const styles = {
@@ -128,6 +136,8 @@ const styles = {
   formStyles,
   inputFieldsContainerStyle,
   usernameContainerStyle,
+  inputUnfocused,
+  inputFocused,
   passwordContainerStyle,
   errorContainerStyle,
   buttonContainerStyle,
