@@ -74,20 +74,6 @@ const usernameContainerStyle = {
   ...baseInputField,
 }
 
-const inputUnfocused = {
-  borderBottomColor: colors.grayishBlue,
-  height: 50,
-  marginLeft: '15%',
-  marginRight: '15%',
-}
-
-const inputFocused = {
-  borderBottomColor: colors.darkCyan,
-  height: 60,
-  marginLeft: '7%',
-  marginRight: '7%',
-}
-
 const passwordContainerStyle = {
   ...baseInputField,
   marginTop: '10%', // provides spacing between username & password input fields
@@ -136,8 +122,6 @@ const styles = {
   formStyles,
   inputFieldsContainerStyle,
   usernameContainerStyle,
-  inputUnfocused,
-  inputFocused,
   passwordContainerStyle,
   errorContainerStyle,
   buttonContainerStyle,

@@ -5,7 +5,7 @@ import * as Keychain from 'react-native-keychain'
 import { connect } from 'react-redux'
 import { Actions } from 'react-native-router-flux'
 import styles from './styles'
-import { prepPayload, fetchUser } from './utils'
+import { prepPayload, fetchUser, createAnimatedStyles } from './utils'
 import { userAuthenticated } from '../../services/redux/actions/auth'
 
 import LoginAvatar from './img/ooloo-login-avatar.png'
@@ -21,45 +21,26 @@ class Login extends Component {
       username: 'Username',
       onFocusUsername: false,
       onFocusPassword: false,
-      animateBordercolor: new Animated.Value(0),
-      animateMargin: new Animated.Value(0),
-      animateHeight: new Animated.Value(0),
+      usernameInput: {
+        BorderColor: new Animated.Value(0),
+        Height: new Animated.Value(0),
+        Margin: new Animated.Value(0),
+      },
+      passwordInput: {
+        BorderColor: new Animated.Value(0),
+        Height: new Animated.Value(0),
+        Margin: new Animated.Value(0),
+      },
     }
   }
 
-  createAnimatedStyles = () => {
-    const { animateBordercolor, animateHeight, animateMargin } = this.state
-
-    const borderBottomColor = animateBordercolor.interpolate({
-      inputRange: [0, 1],
-      outputRange: ['#aebcc5', '#2f5658'],
-    })
-
-    const height = animateHeight.interpolate({
-      inputRange: [0, 1],
-      outputRange: [50, 60],
-    })
-
-    const margin = animateMargin.interpolate({
-      inputRange: [0, 1],
-      outputRange: ['15%', '7%'],
-    })
-
-    return {
-      borderBottomColor,
-      height,
-      marginRight: margin,
-      marginLeft: margin,
-    }
-  }
-
-  startAnimation = toValue => {
-    const { animateBordercolor, animateHeight, animateMargin } = this.state
-    let animationsArray = [animateBordercolor, animateHeight, animateMargin]
+  startAnimation = (toValue, { BorderColor, Height, Margin }) => {
+    let animationsArray = [BorderColor, Height, Margin]
 
     animationsArray = animationsArray.map(animation =>
-      Animated.timing(animation, { toValue }),
+      Animated.timing(animation, { toValue, duration: 200 }),
     )
+
     Animated.sequence(animationsArray).start()
   }
 
@@ -79,7 +60,8 @@ class Login extends Component {
     // removes placeholder text when user focuses on a field
     // add placeholder text back if length of field is zero after editing is finished
     if (field === 'username') {
-      const { username, onFocusUsername } = this.state
+      const { username, onFocusUsername, usernameInput } = this.state
+
       if (username.length === 0) {
         this.setState({ username: 'Username' })
       } else if (username.match(/Username/i)) {
@@ -89,17 +71,18 @@ class Login extends Component {
       // toggle onFocus styling for username
       if (onFocusUsername === false) {
         this.setState({ onFocusUsername: true }, () => {
-          this.startAnimation(1)
+          this.startAnimation(1, usernameInput)
         })
       } else {
         this.setState({ onFocusUsername: false }, () => {
-          this.startAnimation(0)
+          this.startAnimation(0, usernameInput)
         })
       }
     }
 
     if (field === 'password') {
-      const { password, onFocusPassword } = this.state
+      const { password, onFocusPassword, passwordInput } = this.state
+
       if (password.length === 0) {
         this.setState({ password: 'Password', togglePassword: false })
       } else if (password.match(/Password/i)) {
@@ -108,9 +91,23 @@ class Login extends Component {
 
       // toggle onFocus styling for password
       if (onFocusPassword === false) {
-        this.setState({ onFocusPassword: true })
+        this.setState(
+          {
+            onFocusPassword: true,
+          },
+          () => {
+            this.startAnimation(1, passwordInput)
+          },
+        )
       } else {
-        this.setState({ onFocusPassword: false })
+        this.setState(
+          {
+            onFocusPassword: false,
+          },
+          () => {
+            this.startAnimation(0, passwordInput)
+          },
+        )
       }
     }
   }
@@ -172,7 +169,10 @@ class Login extends Component {
   render() {
     const { errorMessage, isError, togglePassword } = this.state
 
-    const animatedStyling = this.createAnimatedStyles()
+    const animatedUserStyles = createAnimatedStyles(this.state.usernameInput)
+    const animatedPasswordStyles = createAnimatedStyles(
+      this.state.passwordInput,
+    )
 
     return (
       <View style={styles.containerStyles}>
@@ -197,7 +197,7 @@ class Login extends Component {
         <View style={styles.formStyles}>
           <View style={styles.inputFieldsContainerStyle}>
             <Animated.View
-              style={[styles.usernameContainerStyle, animatedStyling]}
+              style={[styles.usernameContainerStyle, animatedUserStyles]}
             >
               <TextInput
                 style={styles.textInputStyles}
@@ -212,7 +212,7 @@ class Login extends Component {
             </Animated.View>
 
             <Animated.View
-              style={[styles.passwordContainerStyle, animatedStyling]}
+              style={[styles.passwordContainerStyle, animatedPasswordStyles]}
             >
               <TextInput
                 style={styles.textInputStyles}
