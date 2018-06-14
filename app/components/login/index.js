@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { TextInput, Text, View, Button, Image } from 'react-native'
+import { TextInput, Text, View, Button, Image, Animated } from 'react-native'
 import * as EmailValidator from 'email-validator'
 import * as Keychain from 'react-native-keychain'
 import { connect } from 'react-redux'
@@ -21,20 +21,46 @@ class Login extends Component {
       username: 'Username',
       onFocusUsername: false,
       onFocusPassword: false,
+      animateBordercolor: new Animated.Value(0),
+      animateMargin: new Animated.Value(0),
+      animateHeight: new Animated.Value(0),
     }
   }
 
-  setInputStyling = (onFocusUsername, onFocusPassword) => {
-    // sets styling for input fields based on onFocus state
-    const userNameStyles = onFocusUsername
-      ? [styles.inputFocused, styles.usernameContainerStyle]
-      : [styles.inputUnfocused, styles.usernameContainerStyle]
+  createAnimatedStyles = () => {
+    const { animateBordercolor, animateHeight, animateMargin } = this.state
 
-    const passwordStyles = onFocusPassword
-      ? [styles.inputFocused, styles.passwordContainerStyle]
-      : [styles.inputUnfocused, styles.passwordContainerStyle]
+    const borderBottomColor = animateBordercolor.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['#aebcc5', '#2f5658'],
+    })
 
-    return { userNameStyles, passwordStyles }
+    const height = animateHeight.interpolate({
+      inputRange: [0, 1],
+      outputRange: [50, 60],
+    })
+
+    const margin = animateMargin.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['15%', '7%'],
+    })
+
+    return {
+      borderBottomColor,
+      height,
+      marginRight: margin,
+      marginLeft: margin,
+    }
+  }
+
+  startAnimation = toValue => {
+    const { animateBordercolor, animateHeight, animateMargin } = this.state
+    let animationsArray = [animateBordercolor, animateHeight, animateMargin]
+
+    animationsArray = animationsArray.map(animation =>
+      Animated.timing(animation, { toValue }),
+    )
+    Animated.sequence(animationsArray).start()
   }
 
   handleUsernameInput = text => {
@@ -62,9 +88,13 @@ class Login extends Component {
 
       // toggle onFocus styling for username
       if (onFocusUsername === false) {
-        this.setState({ onFocusUsername: true })
+        this.setState({ onFocusUsername: true }, () => {
+          this.startAnimation(1)
+        })
       } else {
-        this.setState({ onFocusUsername: false })
+        this.setState({ onFocusUsername: false }, () => {
+          this.startAnimation(0)
+        })
       }
     }
 
@@ -140,18 +170,9 @@ class Login extends Component {
   }
 
   render() {
-    const {
-      errorMessage,
-      isError,
-      togglePassword,
-      onFocusUsername,
-      onFocusPassword,
-    } = this.state
+    const { errorMessage, isError, togglePassword } = this.state
 
-    const { userNameStyles, passwordStyles } = this.setInputStyling(
-      onFocusUsername,
-      onFocusPassword,
-    )
+    const animatedStyling = this.createAnimatedStyles()
 
     return (
       <View style={styles.containerStyles}>
@@ -175,7 +196,9 @@ class Login extends Component {
 
         <View style={styles.formStyles}>
           <View style={styles.inputFieldsContainerStyle}>
-            <View style={userNameStyles}>
+            <Animated.View
+              style={[styles.usernameContainerStyle, animatedStyling]}
+            >
               <TextInput
                 style={styles.textInputStyles}
                 placeholder={this.state.username}
@@ -186,9 +209,11 @@ class Login extends Component {
                 onChangeText={this.handleUsernameInput}
                 onEndEditing={() => this.toggleField('username')}
               />
-            </View>
+            </Animated.View>
 
-            <View style={passwordStyles}>
+            <Animated.View
+              style={[styles.passwordContainerStyle, animatedStyling]}
+            >
               <TextInput
                 style={styles.textInputStyles}
                 fontSize={17}
@@ -199,7 +224,7 @@ class Login extends Component {
                 onChangeText={this.handlePasswordInput}
                 onEndEditing={() => this.toggleField('password')}
               />
-            </View>
+            </Animated.View>
           </View>
 
           <View style={styles.errorContainerStyle}>
