@@ -3,7 +3,7 @@ import {
   Text,
   View,
   ScrollView,
-  TouchableHighlight,
+  TouchableWithoutFeedback,
   Animated,
 } from 'react-native'
 import { connect } from 'react-redux'
@@ -94,16 +94,19 @@ class GamePlay extends Component {
     return possibleAnswers.map((choice, idx) => (
       <Animated.View
         key={generateRandomKey(choice, questionNumber)}
-        style={idx === chosenAnswer ? animatedStyle : ''}
+        style={
+          idx === chosenAnswer
+            ? [animatedStyle, styles.buttonStyles]
+            : styles.buttonStyles
+        }
       >
-        <TouchableHighlight
+        <TouchableWithoutFeedback
           onPress={() => this.onButtonPress(`${choice}`, idx)}
-          style={styles.buttonStyles}
         >
           <Text color={idx === chosenAnswer ? '#ffffff' : buttonColor}>
             {choice}
           </Text>
-        </TouchableHighlight>
+        </TouchableWithoutFeedback>
       </Animated.View>
     ))
   }
