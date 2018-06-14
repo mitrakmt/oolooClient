@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import { createLogger } from 'redux-logger'
 import { Router, Scene } from 'react-native-router-flux'
 import GamePlay from './components/gameplay'
+import Home from './components/home'
 import Login from './components/login'
 import Results from './components/results'
 import rootReducer from './services/redux/reducers'
@@ -33,12 +34,17 @@ const App = () => (
           hideNavBar="true"
         />
         <Scene
+          key="home"
+          component={Home}
+          title="Home/Let's Play"
+          hideNavBar="true"
+        />
+        <Scene
           key="gameplay"
           component={GamePlay}
           title="Game Play"
           hideNavBar="true"
         />
-
         <Scene
           key="results"
           component={Results}

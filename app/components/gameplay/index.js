@@ -24,7 +24,7 @@ class GamePlay extends Component {
     }
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     const { auth, socketGameResults } = this.props
     const context = this
 
@@ -34,7 +34,7 @@ class GamePlay extends Component {
     socketMiddleware(auth, context, callbacks)
   }
 
-  componentDidUpdate(_, prevState) {
+  componentDidUpdate = (_, prevState) => {
     // When a new question comes from sockets, reset button animation
     if (prevState.questionNumber !== this.state.questionNumber) {
       this.resetButtonAnimation()
@@ -67,7 +67,7 @@ class GamePlay extends Component {
     })
   }
 
-  renderAnswerChoices() {
+  renderAnswerChoices = () => {
     const {
       possibleAnswers,
       chosenAnswer,

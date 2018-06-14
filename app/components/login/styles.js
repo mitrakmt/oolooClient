@@ -94,7 +94,6 @@ const errorContainerStyle = {
 const buttonContainerStyle = {
   height: '35%',
   display: 'flex',
-
   alignItems: 'center',
   justifyContent: 'space-around',
 }
