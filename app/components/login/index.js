@@ -72,7 +72,7 @@ class Login extends Component {
     }
   }
 
-  handleError() {
+  handleError = () => {
     this.setState({
       errorMessage:
         'There was an error processing your request. Please try again.',
@@ -106,8 +106,8 @@ class Login extends Component {
     // Fires off Redux auth action
     authUser(Authorization)
 
-    // Navigate to GamePlay
-    Actions.gameplay()
+    // Navigate to Home/Let's Play
+    Actions.home()
   }
 
   render() {
