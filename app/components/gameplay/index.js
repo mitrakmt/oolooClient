@@ -103,7 +103,10 @@ class GamePlay extends Component {
         <TouchableWithoutFeedback
           onPress={() => this.onButtonPress(`${choice}`, idx)}
         >
-          <Text color={idx === chosenAnswer ? '#ffffff' : buttonColor}>
+          <Text
+            style={{ fontSize: 20, fontWeight: '600' }}
+            color={idx === chosenAnswer ? '#ffffff' : buttonColor}
+          >
             {choice}
           </Text>
         </TouchableWithoutFeedback>
