@@ -7,6 +7,7 @@ import { Actions } from 'react-native-router-flux'
 import styles from './styles'
 import { prepPayload, fetchUser } from './utils'
 import { userAuthenticated } from '../../services/redux/actions/auth'
+import tracker from '../../services/analytics-tracker/analyticsTracker'
 
 import LoginAvatar from './img/ooloo-login-avatar.png'
 
@@ -20,6 +21,10 @@ class Login extends Component {
       togglePassword: false,
       username: 'Username',
     }
+  }
+
+  componentWillMount() {
+    tracker.trackScreenView('Login')
   }
 
   handleUsernameInput = text => {
@@ -92,7 +97,6 @@ class Login extends Component {
         this.storeToken(username, serverResponse)
       }
     } catch (err) {
-      console.error('Error on loginUser attempt => ', err)
       this.handleError()
     }
   }
