@@ -14,6 +14,7 @@ const containerStyles = {
   alignItems: 'center',
   justifyContent: 'space-around',
   height: '100%',
+  marginTop: '3%',
 }
 
 const textContainerStyles = {
