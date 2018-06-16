@@ -14,7 +14,7 @@ export const prepPayload = () => {
 }
 
 export const fetchLeaderboard = async payload => {
-  const serverResponse = await fetch(`${API_URL}/leaderboard`)
+  const serverResponse = await fetch(`${API_URL}/leaderboard`, payload)
     .then(response => response.json())
     .then(leaderboards => leaderboards)
 
