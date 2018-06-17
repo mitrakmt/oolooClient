@@ -14,21 +14,50 @@ class Results extends Component {
     this.state = {
       numberOfQuestions: this.props.numberOfQuestions,
       playerIndex: this.props.playerIndex,
+      playerResults: null,
+      opponentResults: null,
     }
   }
 
   componentWillMount() {
     const { playerIndex, numberOfQuestions } = this.state
     const { gameResults } = this.props
+    const scoreCount = gameResults.score.length
+
+    console.log('scoreCount is ', scoreCount)
 
     // don't we have to use UNSAFE_componentWillMount()
     tracker.trackScreenView('Results')
 
-    prepResultsState(gameResults, playerIndex, numberOfQuestions)
+    // before CM, check to see if we have both player results
+    // if we only have one pair of scores, we only have the player's results
+    if (scoreCount === 1) {
+      this.setState({
+        playerResults: prepResultsState(gameResults, null, numberOfQuestions),
+      })
+    } else {
+      this.setState({
+        playerResults: prepResultsState(
+          gameResults,
+          playerIndex,
+          numberOfQuestions,
+        ),
+        opponentResults: prepResultsState(gameResults, null, numberOfQuestions),
+      })
+    }
   }
 
-  renderPlayerColumn = statsArray =>
-    statsArray.map(statObject => (
+  renderPlayerColumn = (statsArray = false) => {
+    const noData = [
+      { value: 'n/a', resultKey: 'waiting' },
+      { value: 'n/a', resultKey: 'waiting' },
+      { value: 'n/a', resultKey: 'waiting' },
+      { value: 'n/a', resultKey: 'waiting' },
+    ]
+
+    const arrayToIterate = statsArray === false ? noData : statsArray
+
+    arrayToIterate.map(statObject => (
       <AnimateNumber
         countBy={5}
         key={`${statObject.value}-player`}
@@ -38,6 +67,7 @@ class Results extends Component {
         formatter={() => handleFormatting(statObject)}
       />
     ))
+  }
 
   renderLabels = labelArray =>
     labelArray.map(label => (
@@ -50,6 +80,7 @@ class Results extends Component {
     ))
 
   render() {
+    const { playerResults, opponentResults } = this.state
     return (
       <View style={styles.containerStyles}>
         <View style={styles.textContainerStyles}>
@@ -87,7 +118,7 @@ class Results extends Component {
               />
 
               <Text style={{ color: '#293f4e', textAlign: 'center' }}>
-                Player 2
+                Your Opponent
               </Text>
             </View>
           </View>
@@ -95,7 +126,7 @@ class Results extends Component {
 
           <View style={styles.statContainer}>
             <View style={styles.statColContainer}>
-              {this.renderPlayerColumn([])}
+              {this.renderPlayerColumn(playerResults)}
             </View>
 
             <View style={styles.statColContainer}>
@@ -103,9 +134,12 @@ class Results extends Component {
             </View>
 
             <View style={styles.statColContainer}>
-              {this.renderPlayerColumn([])}
+              {opponentResults === null
+                ? this.renderPlayerColumn(false)
+                : this.renderPlayerColumn(opponentResults)}
             </View>
           </View>
+          {/* end statContainer  */}
 
           <View style={styles.buttonStyles}>
             <Button
@@ -122,13 +156,13 @@ class Results extends Component {
 }
 
 function mapStateToProps({
-  gameResults: { numberOfQuestions, playerIndex },
-  gameStart,
+  gameResults,
+  gameStart: { numberOfQuestions, playerIndex },
 }) {
   return {
+    gameResults,
     numberOfQuestions,
     playerIndex,
-    gameInfo: gameStart,
   }
 }
 
