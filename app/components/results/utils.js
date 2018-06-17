@@ -1,12 +1,11 @@
 const devEnvironment = true
 
-const dummyData = [
-  { value: [5], resultKey: 'score' },
-  { value: [10], resultKey: 'totalAnswered' },
-  { value: [4], resultKey: 'totalCorrect' },
-  { value: 39900, resultKey: 'remainingTime' },
-  { value: 28, resultKey: 'gameID' },
-]
+const dummyData = {
+  remainingTime: 268240,
+  score: [8, 6],
+  totalAnswered: [10, 7],
+  totalCorrect: [],
+}
 
 const convertMillisecToTime = millis => {
   const minutes = Math.floor(millis / 60000)
@@ -19,12 +18,16 @@ const convertMillisecToTime = millis => {
   return `${minutes}m ${seconds < 10 ? `0${seconds}s` : `${seconds}s`}`
 }
 
-export const prepResultsState = ({ gameResults }) => {
+export const prepResultsState = gameResults => {
+  // expect gameResults from props
+
   const resultsArray = []
 
   if (devEnvironment === true) {
-    dummyData.forEach(obj => {
-      resultsArray.push({ value: obj.value, resultKey: obj.resultKey })
+    // for development, delete when BE is complete
+
+    Object.keys(dummyData).forEach(key => {
+      resultsArray.push({ value: dummyData[key], resultKey: key })
     })
   } else {
     Object.keys(gameResults).forEach(key => {

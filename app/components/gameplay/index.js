@@ -21,10 +21,10 @@ class GamePlay extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      fetchedQuestion: true,
+      gameStart: false,
       progress: 300000,
       questionNumber: null,
-      question: '',
+      question: 'A new challenger is being selected. Get ready!',
       possibleAnswers: [],
       chosenAnswer: null,
       buttonAnimation: new Animated.Value(0),
@@ -123,9 +123,7 @@ class GamePlay extends Component {
   }
 
   render() {
-    const { fetchedQuestion, questionNumber, question } = this.state
-
-    console.log('gamplay state is ', this.state)
+    const { gameStart, questionNumber, question } = this.state
 
     return (
       <View style={styles.containerStyles}>
@@ -141,7 +139,7 @@ class GamePlay extends Component {
             OOLOO
           </Text>
           <Text style={{ fontSize: 20 }}>
-            {fetchedQuestion ? `Question ${questionNumber + 1}/10` : ''}
+            {!gameStart ? '' : `Question ${questionNumber + 1}/10`}
           </Text>
         </View>
 

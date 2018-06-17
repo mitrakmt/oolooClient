@@ -1,6 +1,13 @@
 import { GAME_START } from '../../actions/gameplay'
 
-const gameplayReducer = (state = 'No Player Index', action) => {
+const initialState = {
+  duration: null,
+  numberOfQuestions: null,
+  playerIndex: null,
+  startTime: null,
+}
+
+const gamePlayReducer = (state = initialState, action) => {
   switch (action.type) {
     case GAME_START:
       return action.payload
@@ -10,4 +17,4 @@ const gameplayReducer = (state = 'No Player Index', action) => {
   }
 }
 
-export default gameplayReducer
+export default gamePlayReducer

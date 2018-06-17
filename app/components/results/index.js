@@ -3,29 +3,28 @@ import { connect } from 'react-redux'
 import React, { Component } from 'react'
 import { Text, View, Image, Button } from 'react-native'
 import { Actions } from 'react-native-router-flux'
+import PropTypes from 'prop-types'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
 import { prepResultsState, handleFormatting } from './utils'
 import styles from './styles'
-
-const dummyData = [
-  { value: [10], resultKey: 'score' },
-  { value: [7], resultKey: 'totalAnswered' },
-  { value: [3], resultKey: 'totalCorrect' },
-  { value: 30400, resultKey: 'remainingTime' },
-  { value: 28, resultKey: 'gameID' },
-]
 
 class Results extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      playerResults: prepResultsState(this.props),
+      numberOfQuestions: this.props.numberOfQuestions,
+      playerIndex: this.props.playerIndex,
     }
   }
 
   componentWillMount() {
+    const { playerIndex, numberOfQuestions } = this.state
+    const { gameResults } = this.props
+
     // don't we have to use UNSAFE_componentWillMount()
     tracker.trackScreenView('Results')
+
+    prepResultsState(gameResults, playerIndex, numberOfQuestions)
   }
 
   renderPlayerColumn = statsArray =>
@@ -51,7 +50,6 @@ class Results extends Component {
     ))
 
   render() {
-    const { playerResults } = this.state
     return (
       <View style={styles.containerStyles}>
         <View style={styles.textContainerStyles}>
@@ -97,7 +95,7 @@ class Results extends Component {
 
           <View style={styles.statContainer}>
             <View style={styles.statColContainer}>
-              {this.renderPlayerColumn(playerResults)}
+              {this.renderPlayerColumn([])}
             </View>
 
             <View style={styles.statColContainer}>
@@ -105,7 +103,7 @@ class Results extends Component {
             </View>
 
             <View style={styles.statColContainer}>
-              {this.renderPlayerColumn(dummyData)}
+              {this.renderPlayerColumn([])}
             </View>
           </View>
 
@@ -123,10 +121,28 @@ class Results extends Component {
   }
 }
 
-function mapStateToProps({ gameResults }) {
+function mapStateToProps({
+  gameResults: { numberOfQuestions, playerIndex },
+  gameStart,
+}) {
   return {
-    gameResults,
+    numberOfQuestions,
+    playerIndex,
+    gameInfo: gameStart,
   }
+}
+
+Results.propTypes = {
+  numberOfQuestions: PropTypes.number.isRequired,
+  playerIndex: PropTypes.number.isRequired,
+
+  gameResults: PropTypes.shape({
+    gameID: PropTypes.number,
+    remainingTime: PropTypes.number,
+    score: PropTypes.array,
+    totalAnswered: PropTypes.array,
+    totalCorrect: PropTypes.array,
+  }).isRequired,
 }
 
 export default connect(
