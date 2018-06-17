@@ -74,38 +74,11 @@ const selectedButtonStyles = {
   backgroundColor: colors.buttonColor,
 }
 
-const buttonTextStyles = {
-  fontSize: 20,
-  fontWeight: '600',
-  color: colors.darkCyan,
-  marginTop: -13,
-}
-
-const selectedButtonTextStyles = {
-  fontSize: 20,
-  fontWeight: '600',
-  backgroundColor: colors.mediumCyan,
-  padding: 12,
-  borderRadius: 10,
-  marginTop: '5%',
-  color: colors.white,
-}
-
 const buttonContainer = {
   display: 'flex',
   flexDirection: 'row',
   justifyContent: 'center',
   alignItems: 'center',
-}
-
-const navButton = {
-  backgroundColor: colors.blue,
-  color: colors.white,
-}
-
-const questionContainer = {
-  padding: '5%',
-  fontWeight: '700',
 }
 
 const leaderboardContainerStyle = {
@@ -152,18 +125,14 @@ export default {
   containerStyles,
   textContainerStyles,
   buttonContainer,
-  questionContainer,
   leaderboardContainerStyle,
   buttonStyles,
-  navButton,
   leaderboardContainer,
-  buttonTextStyles,
   playerLeaderboardStyles,
   schoolLeaderboardStyles,
   playersLeaderboardTextStyles,
   schoolLeaderboardTextStyles,
   headerTextStyles,
-  selectedButtonTextStyles,
   selectedButtonStyles,
   myPlayersLeaderboardEntry,
   mySchoolsLeaderboardEntry,
