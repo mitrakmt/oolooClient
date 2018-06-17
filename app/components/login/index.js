@@ -111,7 +111,7 @@ class Login extends Component {
     authUser(Authorization)
 
     // Navigate to Home/Let's Play
-    Actions.leaderboard()
+    Actions.home()
   }
 
   render() {
