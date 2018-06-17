@@ -3,6 +3,8 @@ import io from 'socket.io-client'
 
 const DEV_API_URL = `https://ooloo-api-dev.herokuapp.com`
 
+// have access to 'question answered' sockets event
+
 const socketMiddleware = (auth, context, callbacks) => {
   // Connect to socket
   const socket = io(`${DEV_API_URL}/?token=${auth}`)
@@ -12,28 +14,33 @@ const socketMiddleware = (auth, context, callbacks) => {
     context.setState(state => ({ progress: state.progress - 1000 }))
   }, 1000)
 
-  socket.emit('gameStart', gameData => {
-    console.log('gameStarted: ', gameData)
+  socket.on('gameStart', response => {
+    // playerIndex, duration, numberOfQuestions, startTime available from server
+    console.log('gameStart: ', response)
   })
 
-  socket.on('answerResults', ({ remainingTime }) => {
+  socket.on('answerResults', response => {
     // 'correct', 'questionNumber', 'score', 'totalAnswered', 'totalCorrect' available from server
     // store 'remainingTime' in local state
 
+    console.log('response from answerResults ', response)
+
     context.setState({
-      progress: remainingTime,
+      progress: response.remainingTime,
     })
   })
+
   socket.on(
     'gameResults',
-    ({ remainingTime, score, totalAnswered, totalCorrect }) => {
-      // 'answers', 'gameID' available from server
+    ({ remainingTime, score, totalAnswered, totalCorrect, gameID }) => {
+      // 'answers' available from server
 
       callbacks.socketGameResults(
         score,
         totalAnswered,
         totalCorrect,
         remainingTime,
+        gameID,
       )
 
       // clear setInterval

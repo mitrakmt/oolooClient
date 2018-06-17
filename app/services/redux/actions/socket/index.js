@@ -5,12 +5,14 @@ export const gameResultsFromSockets = (
   totalAnswered,
   totalCorrect,
   remainingTime,
+  gameID,
 ) => {
   const payload = {
     score,
     totalAnswered,
     totalCorrect,
     remainingTime,
+    gameID,
   }
 
   return {

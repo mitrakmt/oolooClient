@@ -4,49 +4,39 @@ import React, { Component } from 'react'
 import { Text, View, Image, Button } from 'react-native'
 import { Actions } from 'react-native-router-flux'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
-
+import { prepResultsState, handleFormatting } from './utils'
 import styles from './styles'
+
+const dummyData = [
+  { value: [10], resultKey: 'score' },
+  { value: [7], resultKey: 'totalAnswered' },
+  { value: [3], resultKey: 'totalCorrect' },
+  { value: 30400, resultKey: 'remainingTime' },
+  { value: 28, resultKey: 'gameID' },
+]
 
 class Results extends Component {
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      playerResults: prepResultsState(this.props),
+    }
   }
 
   componentWillMount() {
+    // don't we have to use UNSAFE_componentWillMount()
     tracker.trackScreenView('Results')
-  }
-
-  handleFormatting = (val, statObject) => {
-    // quick and dirty handleFormatting, fix for production
-
-    const { format } = statObject
-    if (format) {
-      if (format === 'time') {
-        const timeString = val.toString()
-        return `${timeString[0]}m ${timeString[1]}${timeString[2]}s`
-      }
-
-      if (format === '%') {
-        return `${val}%`
-      }
-    }
-
-    return val
   }
 
   renderPlayerColumn = statsArray =>
     statsArray.map(statObject => (
-      // <Text key={`${stat}-player`} style={{ color: '#293f4e', fontSize: 15 }}>
-      //   {stat}
-      // </Text>
       <AnimateNumber
         countBy={5}
         key={`${statObject.value}-player`}
         style={{ color: '#293f4e', fontSize: 15 }}
         timing="linear"
         value={statObject.value}
-        formatter={val => this.handleFormatting(val, statObject)}
+        formatter={() => handleFormatting(statObject)}
       />
     ))
 
@@ -61,6 +51,7 @@ class Results extends Component {
     ))
 
   render() {
+    const { playerResults } = this.state
     return (
       <View style={styles.containerStyles}>
         <View style={styles.textContainerStyles}>
@@ -106,12 +97,7 @@ class Results extends Component {
 
           <View style={styles.statContainer}>
             <View style={styles.statColContainer}>
-              {this.renderPlayerColumn([
-                { format: '%', value: '85' },
-                { format: 'time', value: '452' },
-                { value: '210' },
-                { value: '5' },
-              ])}
+              {this.renderPlayerColumn(playerResults)}
             </View>
 
             <View style={styles.statColContainer}>
@@ -119,12 +105,7 @@ class Results extends Component {
             </View>
 
             <View style={styles.statColContainer}>
-              {this.renderPlayerColumn([
-                { format: '%', value: '90' },
-                { format: 'time', value: '439' },
-                { value: '236' },
-                { value: '6' },
-              ])}
+              {this.renderPlayerColumn(dummyData)}
             </View>
           </View>
 
