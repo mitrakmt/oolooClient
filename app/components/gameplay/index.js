@@ -13,6 +13,7 @@ import styles from './styles'
 import Timer from './timer'
 import generateRandomKey from './utils'
 import { gameResultsFromSockets } from '../../services/redux/actions/socket'
+import { startTheGame } from '../../services/redux/actions/gameplay'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
 import socketMiddleware from '../../services/socket-io-client'
 
@@ -36,10 +37,10 @@ class GamePlay extends Component {
   }
 
   componentDidMount = () => {
-    const { auth, socketGameResults } = this.props
+    const { auth, socketGameResults, gameStart } = this.props
     const context = this
 
-    const callbacks = { socketGameResults }
+    const callbacks = { socketGameResults, gameStart }
 
     // Create socket and store in local state
     socketMiddleware(auth, context, callbacks)
@@ -124,6 +125,8 @@ class GamePlay extends Component {
   render() {
     const { fetchedQuestion, questionNumber, question } = this.state
 
+    console.log('gamplay state is ', this.state)
+
     return (
       <View style={styles.containerStyles}>
         <View style={styles.textContainerStyles}>
@@ -175,9 +178,13 @@ function mapStateToProps({ auth }) {
 GamePlay.propTypes = {
   auth: PropTypes.string.isRequired,
   socketGameResults: PropTypes.func.isRequired,
+  gameStart: PropTypes.func.isRequired,
 }
 
 export default connect(
   mapStateToProps,
-  { socketGameResults: gameResultsFromSockets },
+  {
+    socketGameResults: gameResultsFromSockets,
+    gameStart: startTheGame,
+  },
 )(GamePlay)

@@ -14,9 +14,9 @@ const socketMiddleware = (auth, context, callbacks) => {
     context.setState(state => ({ progress: state.progress - 1000 }))
   }, 1000)
 
-  socket.on('gameStart', response => {
+  socket.on('gameStart', ({ playerIndex }) => {
     // playerIndex, duration, numberOfQuestions, startTime available from server
-    console.log('gameStart: ', response)
+    callbacks.gameStart(playerIndex)
   })
 
   socket.on('answerResults', response => {
