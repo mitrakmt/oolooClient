@@ -1,11 +1,5 @@
-const devEnvironment = true
-
-const dummyData = {
-  remainingTime: 268240,
-  score: [8, 6],
-  totalAnswered: [10, 7],
-  totalCorrect: [],
-}
+const calculateOverall = (totalCorrect, totalPossible) =>
+  (totalCorrect / totalPossible) * 100
 
 const convertMillisecToTime = millis => {
   const minutes = Math.floor(millis / 60000)
@@ -18,39 +12,56 @@ const convertMillisecToTime = millis => {
   return `${minutes}m ${seconds < 10 ? `0${seconds}s` : `${seconds}s`}`
 }
 
-export const prepResultsState = gameResults => {
-  // expect gameResults from props
-
+export const prepResultsState = (
+  gameResults,
+  playerIndex = null,
+  numberOfQuestions,
+) => {
   const resultsArray = []
 
-  if (devEnvironment === true) {
-    // for development, delete when BE is complete
+  Object.keys(gameResults).forEach(key => {
+    if (key === 'totalCorrect') {
+      const totalCorrect =
+        playerIndex === null
+          ? gameResults[key][0]
+          : gameResults[key][playerIndex]
 
-    Object.keys(dummyData).forEach(key => {
-      resultsArray.push({ value: dummyData[key], resultKey: key })
-    })
-  } else {
-    Object.keys(gameResults).forEach(key => {
-      resultsArray.push({ value: gameResults[key], resultKey: key })
-    })
-  }
+      resultsArray[0] = {
+        value: calculateOverall(totalCorrect, numberOfQuestions),
+        resultKey: 'Overall',
+      }
+    }
+
+    if (key === 'remainingTime') {
+      resultsArray[1] = { value: gameResults[key], resultKey: 'Time' }
+    }
+
+    if (key === 'score') {
+      const scoreValue =
+        playerIndex === null
+          ? gameResults[key][0]
+          : gameResults[key][playerIndex]
+
+      resultsArray[2] = { value: scoreValue, resultKey: 'Total Score' }
+    }
+  })
 
   return resultsArray
 }
 
 export const handleFormatting = ({ value, resultKey }) => {
   switch (resultKey) {
-    case 'score':
-      return value.length === 0 ? '0' : `${value.pop()}`
+    case 'Overall':
+      return `${value}%`
 
-    case 'totalAnswered':
-      return value.length === 0 ? '0' : `${value.pop()}`
-
-    case 'totalCorrect':
-      return value.length === 0 ? '0' : `${value.pop()}`
-
-    case 'remainingTime':
+    case 'Time':
       return convertMillisecToTime(value)
+
+    case 'Total Score':
+      return `${value}`
+
+    case 'Waiting':
+      return `Awaiting...`
 
     default:
       return 'No result'

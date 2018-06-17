@@ -24,8 +24,6 @@ class Results extends Component {
     const { gameResults } = this.props
     const scoreCount = gameResults.score.length
 
-    console.log('scoreCount is ', scoreCount)
-
     // don't we have to use UNSAFE_componentWillMount()
     tracker.trackScreenView('Results')
 
@@ -49,15 +47,15 @@ class Results extends Component {
 
   renderPlayerColumn = (statsArray = false) => {
     const noData = [
-      { value: 'n/a', resultKey: 'waiting' },
-      { value: 'n/a', resultKey: 'waiting' },
-      { value: 'n/a', resultKey: 'waiting' },
-      { value: 'n/a', resultKey: 'waiting' },
+      { value: 'n/a', resultKey: 'Waiting' },
+      { value: 'n/a', resultKey: 'Waiting' },
+      { value: 'n/a', resultKey: 'Waiting' },
+      { value: 'n/a', resultKey: 'Waiting' },
     ]
 
     const arrayToIterate = statsArray === false ? noData : statsArray
 
-    arrayToIterate.map(statObject => (
+    return arrayToIterate.map(statObject => (
       <AnimateNumber
         countBy={5}
         key={`${statObject.value}-player`}
@@ -81,6 +79,7 @@ class Results extends Component {
 
   render() {
     const { playerResults, opponentResults } = this.state
+
     return (
       <View style={styles.containerStyles}>
         <View style={styles.textContainerStyles}>
