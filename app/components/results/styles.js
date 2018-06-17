@@ -54,7 +54,13 @@ const ResultsContainer = {
 const versusContainer = {
   ...baseStatsPositioning,
 
-  height: '20%',
+  height: '30%',
+}
+
+const avatarContainer = {
+  width: '35%',
+  display: 'flex',
+  alignItems: 'center',
 }
 
 const playerAvatar = {
@@ -91,6 +97,7 @@ export default {
   textContainerStyles,
   ResultsContainer,
   versusContainer,
+  avatarContainer,
   playerAvatar,
   statContainer,
   statColContainer,

@@ -8,6 +8,8 @@ import tracker from '../../services/analytics-tracker/analyticsTracker'
 import { prepResultsState, handleFormatting } from './utils'
 import styles from './styles'
 
+const devEnvironment = true
+
 class Results extends Component {
   constructor(props) {
     super(props)
@@ -22,14 +24,14 @@ class Results extends Component {
   componentWillMount() {
     const { playerIndex, numberOfQuestions } = this.state
     const { gameResults } = this.props
-    const scoreCount = gameResults.score.length
+    const scoreLength = gameResults.score.length
 
     // don't we have to use UNSAFE_componentWillMount()
     tracker.trackScreenView('Results')
 
     // before CM, check to see if we have both player results
     // if we only have one pair of scores, we only have the player's results
-    if (scoreCount === 1) {
+    if (scoreLength === 1) {
       this.setState({
         playerResults: prepResultsState(gameResults, null, numberOfQuestions),
       })
@@ -46,12 +48,14 @@ class Results extends Component {
   }
 
   renderPlayerColumn = (statsArray = false) => {
-    const noData = [
+    let noData = [
       { value: 'n/a', resultKey: 'Waiting' },
       { value: 'n/a', resultKey: 'Waiting' },
       { value: 'n/a', resultKey: 'Waiting' },
       { value: 'n/a', resultKey: 'Waiting' },
     ]
+
+    noData = devEnvironment === true ? noData.slice(0, 3) : noData
 
     const arrayToIterate = statsArray === false ? noData : statsArray
 
@@ -92,7 +96,7 @@ class Results extends Component {
 
         <View style={styles.ResultsContainer}>
           <View style={styles.versusContainer}>
-            <View>
+            <View style={styles.avatarContainer}>
               <Image
                 style={styles.playerAvatar}
                 source={{ url: 'https://placeimg.com/300/300/any' }}
@@ -110,7 +114,7 @@ class Results extends Component {
               </Text>
             </View>
 
-            <View>
+            <View style={styles.avatarContainer}>
               <Image
                 style={styles.playerAvatar}
                 source={{ url: 'https://placeimg.com/300/300/any' }}
@@ -129,7 +133,11 @@ class Results extends Component {
             </View>
 
             <View style={styles.statColContainer}>
-              {this.renderLabels(['Overall', 'Time', 'Total Score', 'Rank'])}
+              {this.renderLabels(
+                devEnvironment
+                  ? ['Overall', 'Time', 'Total Score']
+                  : ['Overall', 'Time', 'Total Score', 'Rank'],
+              )}
             </View>
 
             <View style={styles.statColContainer}>
