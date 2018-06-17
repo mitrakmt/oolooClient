@@ -12,7 +12,7 @@ import PropTypes from 'prop-types'
 import styles from './styles'
 import Timer from './timer'
 import generateRandomKey from './utils'
-import { gameResultsFromSockets } from '../../services/redux/actions/socket'
+import { gameResults } from '../../services/redux/actions/gameresults'
 import { startTheGame } from '../../services/redux/actions/gameplay'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
 import socketMiddleware from '../../services/socket-io-client'
@@ -184,7 +184,7 @@ GamePlay.propTypes = {
 export default connect(
   mapStateToProps,
   {
-    socketGameResults: gameResultsFromSockets,
+    socketGameResults: gameResults,
     gameStart: startTheGame,
   },
 )(GamePlay)
