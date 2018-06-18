@@ -47,6 +47,26 @@ class Results extends Component {
     }
   }
 
+  componentWillReceiveProps(prevProps) {
+    const oldScoreLength = prevProps.gameResults.score.length
+    const { gameResults } = this.props
+
+    const newScoreLength = gameResults.score.length
+
+    const { playerIndex, numberOfQuestions } = this.state
+
+    if (newScoreLength > oldScoreLength) {
+      this.setState({
+        playerResults: prepResultsState(
+          gameResults,
+          playerIndex,
+          numberOfQuestions,
+        ),
+        opponentResults: prepResultsState(gameResults, null, numberOfQuestions),
+      })
+    }
+  }
+
   renderPlayerColumn = (statsArray = false) => {
     let noData = [
       { value: 'n/a', resultKey: 'Waiting' },
