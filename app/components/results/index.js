@@ -135,6 +135,12 @@ class Results extends Component {
               color="white"
               accessibilityLabel="Play again button for OOLOO Quiz App"
             />
+            <Button
+              onPress={() => Actions.leaderboard()}
+              title="Leaderboard"
+              color="white"
+              accessibilityLabel="Leaderboard"
+            />
           </View>
         </View>
       </View>

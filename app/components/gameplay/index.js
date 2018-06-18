@@ -58,7 +58,7 @@ class GamePlay extends Component {
     // Button backgroundColor animates
     this.setState({ chosenAnswer: idx }, () => {
       Animated.timing(buttonAnimation, {
-        toValue: 1,
+        toValue: 0.3,
       }).start()
     })
 
