@@ -80,7 +80,7 @@ const socketMiddleware = (auth, context, callbacks) => {
       () => {
         Animated.timing(questionAnimation, {
           toValue: 1,
-          duration: 800,
+          duration: 400,
         }).start()
       },
     )
