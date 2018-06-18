@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Text, View, Animated } from 'react-native'
+import { Button, Text, View } from 'react-native'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import styles from './styles'
@@ -18,33 +18,18 @@ class Leaderboard extends Component {
   }
 
   yourSchoolTab = () => {
-    // Animated.timing(this.state.buttonAnimation, {
-    //   toValue: 0.5,
-    // }).start()
-
     this.setState({
       activeTab: 'your school',
     })
   }
 
   topPlayersTab = () => {
-    // Animated.timing(this.state.buttonAnimation, {
-    //   toValue: 0.5,
-    // }).start()
-
     this.setState({
       activeTab: 'top players',
     })
   }
 
   render() {
-    // const interpolateBGColor = this.state.buttonAnimation.interpolate({
-    //   inputRange: [0, 1],
-    //   outputRange: ['#ffffff', 'teal'],
-    // })
-    // const animatedStyle = {
-    //   backgroundColor: interpolateBGColor,
-    // }
     const players = [
       {
         place: 1,
@@ -230,14 +215,12 @@ class Leaderboard extends Component {
 
 function mapStateToProps({ auth }) {
   return {
-    // auth,
-    // leaderboard,
+    auth,
   }
 }
 
 Leaderboard.propTypes = {
-  // auth: PropTypes.string.isRequired,
-  // leaderboard: PropTypes.shape({}).isRequired
+  auth: PropTypes.string.isRequired,
 }
 
 export default connect(mapStateToProps)(Leaderboard)
