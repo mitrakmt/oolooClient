@@ -54,7 +54,7 @@ class GamePlay extends Component {
   }
 
   onButtonPress = (answer, idx) => {
-    const { socket, buttonAnimation, questionNumber } = this.state
+    const { socket, buttonAnimation, questionNumber, playerIndex } = this.state
 
     // Button backgroundColor animates
     this.setState({ chosenAnswer: idx }, () => {
@@ -63,9 +63,12 @@ class GamePlay extends Component {
       }).start()
     })
 
+    // continue sending payload with playerIndex until
+    // backend team approves removal
     const payload = {
       answer,
       questionNumber,
+      playerIndex,
     }
 
     // Wait 800ms to allow Animation to finish, then send answer to server
@@ -124,6 +127,8 @@ class GamePlay extends Component {
 
   render() {
     const { gameStart, questionNumber, question } = this.state
+
+    console.log('this.state inside gameplay ', this.state)
 
     return (
       <View style={styles.containerStyles}>

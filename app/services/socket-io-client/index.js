@@ -2,6 +2,8 @@ import { Actions } from 'react-native-router-flux'
 import io from 'socket.io-client'
 
 const DEV_API_URL = `https://ooloo-api-dev.herokuapp.com`
+const TEMP_AUTH =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaXNBZG1pbiI6ZmFsc2UsImlhdCI6MTUyOTI5ODAzNX0.me_DL5FV7q8ueyp_7vpUZ19x5G7TQtYn2ZLrlFnZHhc'
 
 // have access to 'question answered' sockets event
 
@@ -9,13 +11,15 @@ const socketMiddleware = (auth, context, callbacks) => {
   let intervalID
 
   // Connect to socket
-  const socket = io(`${DEV_API_URL}/?token=${auth}`)
+  // Continue using TEMP_AUTH until backend teams finds permanent fix
+  const socket = io(`${DEV_API_URL}/?token=${TEMP_AUTH}`)
 
   socket.on('gameStart', response => {
     callbacks.gameStart(response)
 
     intervalID = setInterval(() => {
       context.setState(state => ({
+        playerIndex: response.playerIndex,
         gameStart: true,
         progress: state.progress - 1000,
       }))
