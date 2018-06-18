@@ -28,6 +28,7 @@ class GamePlay extends Component {
       possibleAnswers: [],
       chosenAnswer: null,
       buttonAnimation: new Animated.Value(0),
+      questionAnimation: new Animated.Value(0),
       buttonColor: '#344856',
     }
   }
@@ -69,7 +70,14 @@ class GamePlay extends Component {
     }
 
     // Wait 800ms to allow Animation to finish, then send answer to server
-    setTimeout(() => socket.emit('answer', payload), 800)
+    // Also, reset the question animation here
+
+    setTimeout(() => {
+      socket.emit('answer', payload)
+      this.setState({
+        questionAnimation: new Animated.Value(0),
+      })
+    }, 800)
   }
 
   resetButtonAnimation = () => {
@@ -77,6 +85,21 @@ class GamePlay extends Component {
       buttonAnimation: new Animated.Value(0),
       chosenAnswer: null,
     })
+  }
+
+  renderAnimatedQuestion = () => {
+    const { questionAnimation, question } = this.state
+
+    const translateX = questionAnimation.interpolate({
+      inputRange: [0, 1],
+      outputRange: [-500, 1],
+    })
+
+    return (
+      <Animated.Text style={[{ translateX }, styles.questionContainer]}>
+        {question ? `${question}` : ''}
+      </Animated.Text>
+    )
   }
 
   renderAnswerChoices = () => {
@@ -123,7 +146,20 @@ class GamePlay extends Component {
   }
 
   render() {
-    const { gameStart, questionNumber, question } = this.state
+    const {
+      gameStart,
+      questionNumber,
+      questionAnimation,
+      question,
+    } = this.state
+
+    const translateX = questionAnimation.interpolate({
+      inputRange: [0, 1],
+      outputRange: [-500, 1],
+      extrapolate: 'clamp',
+    })
+
+    const transform = [{ translateX }]
 
     return (
       <View style={styles.containerStyles}>
@@ -145,9 +181,9 @@ class GamePlay extends Component {
 
         <View style={styles.QAnswContainer}>
           <ScrollView>
-            <Text style={styles.questionContainer}>
+            <Animated.Text style={[styles.questionContainer, { transform }]}>
               {question ? `${question}` : ''}
-            </Text>
+            </Animated.Text>
           </ScrollView>
 
           <View style={styles.answersContainerStyle}>
