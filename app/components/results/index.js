@@ -178,19 +178,23 @@ class Results extends Component {
           </View>
           {/* end statContainer  */}
 
-          <View style={styles.buttonStyles}>
-            <Button
-              onPress={() => Actions.gameplay()}
-              title="Play Again!"
-              color="white"
-              accessibilityLabel="Play again button for OOLOO Quiz App"
-            />
-            <Button
-              onPress={() => Actions.leaderboard()}
-              title="Leaderboard"
-              color="white"
-              accessibilityLabel="Leaderboard"
-            />
+          <View style={styles.buttonContainer}>
+            <View style={styles.buttonStyles}>
+              <Button
+                onPress={() => Actions.gameplay()}
+                title="Play Again!"
+                color="white"
+                accessibilityLabel="Play again button for OOLOO Quiz App"
+              />
+            </View>
+            <View style={styles.buttonStyles}>
+              <Button
+                onPress={() => Actions.leaderboard()}
+                title="Leaderboard"
+                color="white"
+                accessibilityLabel="Leaderboard"
+              />
+            </View>
           </View>
         </View>
       </View>
