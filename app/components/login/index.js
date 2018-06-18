@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-import { TextInput, Text, View, Button, Image } from 'react-native'
+import { TextInput, Text, View, Button, Image, Animated } from 'react-native'
 import * as EmailValidator from 'email-validator'
 import * as Keychain from 'react-native-keychain'
 import { connect } from 'react-redux'
 import { Actions } from 'react-native-router-flux'
 import styles from './styles'
-import { prepPayload, fetchUser } from './utils'
+import { prepPayload, fetchUser, createAnimatedStyles } from './utils'
 import { userAuthenticated } from '../../services/redux/actions/auth'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
 
@@ -20,9 +20,32 @@ class Login extends Component {
       password: 'Password',
       togglePassword: false,
       username: 'Username',
+      onFocusUsername: false,
+      onFocusPassword: false,
+      usernameInput: {
+        BorderColor: new Animated.Value(0),
+        Height: new Animated.Value(0),
+        Margin: new Animated.Value(0),
+      },
+      passwordInput: {
+        BorderColor: new Animated.Value(0),
+        Height: new Animated.Value(0),
+        Margin: new Animated.Value(0),
+      },
     }
   }
 
+  startAnimation = (toValue, { BorderColor, Height, Margin }) => {
+    let animationsArray = [BorderColor, Height, Margin]
+
+    animationsArray = animationsArray.map(animation =>
+      Animated.timing(animation, { toValue, duration: 200 }),
+    )
+
+    Animated.sequence(animationsArray).start()
+
+  }
+    
   componentWillMount() {
     tracker.trackScreenView('Login')
   }
@@ -43,20 +66,54 @@ class Login extends Component {
     // removes placeholder text when user focuses on a field
     // add placeholder text back if length of field is zero after editing is finished
     if (field === 'username') {
-      const { username } = this.state
+      const { username, onFocusUsername, usernameInput } = this.state
+
       if (username.length === 0) {
         this.setState({ username: 'Username' })
       } else if (username.match(/Username/i)) {
         this.setState({ username: '' })
       }
+
+      // toggle onFocus styling for username
+      if (onFocusUsername === false) {
+        this.setState({ onFocusUsername: true }, () => {
+          this.startAnimation(1, usernameInput)
+        })
+      } else {
+        this.setState({ onFocusUsername: false }, () => {
+          this.startAnimation(0, usernameInput)
+        })
+      }
     }
 
     if (field === 'password') {
-      const { password } = this.state
+      const { password, onFocusPassword, passwordInput } = this.state
+
       if (password.length === 0) {
         this.setState({ password: 'Password', togglePassword: false })
       } else if (password.match(/Password/i)) {
         this.setState({ password: '', togglePassword: true })
+      }
+
+      // toggle onFocus styling for password
+      if (onFocusPassword === false) {
+        this.setState(
+          {
+            onFocusPassword: true,
+          },
+          () => {
+            this.startAnimation(1, passwordInput)
+          },
+        )
+      } else {
+        this.setState(
+          {
+            onFocusPassword: false,
+          },
+          () => {
+            this.startAnimation(0, passwordInput)
+          },
+        )
       }
     }
   }
@@ -117,6 +174,11 @@ class Login extends Component {
   render() {
     const { errorMessage, isError, togglePassword } = this.state
 
+    const animatedUserStyles = createAnimatedStyles(this.state.usernameInput)
+    const animatedPasswordStyles = createAnimatedStyles(
+      this.state.passwordInput,
+    )
+
     return (
       <View style={styles.containerStyles}>
         <View style={styles.headerStyles}>
@@ -139,7 +201,9 @@ class Login extends Component {
 
         <View style={styles.formStyles}>
           <View style={styles.inputFieldsContainerStyle}>
-            <View style={styles.usernameContainerStyle}>
+            <Animated.View
+              style={[styles.usernameContainerStyle, animatedUserStyles]}
+            >
               <TextInput
                 style={styles.textInputStyles}
                 placeholder={this.state.username}
@@ -149,23 +213,23 @@ class Login extends Component {
                 onFocus={() => this.toggleField('username')}
                 onChangeText={this.handleUsernameInput}
                 onEndEditing={() => this.toggleField('username')}
-                placeholderTextColor="#5c7a7b"
               />
-            </View>
+            </Animated.View>
 
-            <View style={styles.passwordContainerStyle}>
+            <Animated.View
+              style={[styles.passwordContainerStyle, animatedPasswordStyles]}
+            >
               <TextInput
                 style={styles.textInputStyles}
-                fontSize={16}
+                fontSize={17}
                 autoCapitalize="none"
                 secureTextEntry={togglePassword}
                 value={this.state.password}
                 onFocus={() => this.toggleField('password')}
                 onChangeText={this.handlePasswordInput}
                 onEndEditing={() => this.toggleField('password')}
-                placeholderTextColor="#5c7a7b"
               />
-            </View>
+            </Animated.View>
           </View>
 
           <View style={styles.errorContainerStyle}>

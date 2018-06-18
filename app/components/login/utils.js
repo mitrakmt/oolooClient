@@ -30,3 +30,27 @@ export const fetchUser = async payload => {
 
   return serverResponse
 }
+
+export const createAnimatedStyles = ({ BorderColor, Height, Margin }) => {
+  const borderBottomColor = BorderColor.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['#aebcc5', '#2f5658'],
+  })
+
+  const height = Height.interpolate({
+    inputRange: [0, 1],
+    outputRange: [50, 60],
+  })
+
+  const margin = Margin.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['15%', '7%'],
+  })
+
+  return {
+    borderBottomColor,
+    height,
+    marginRight: margin,
+    marginLeft: margin,
+  }
+}
