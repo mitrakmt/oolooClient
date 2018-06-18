@@ -128,8 +128,6 @@ class GamePlay extends Component {
   render() {
     const { gameStart, questionNumber, question } = this.state
 
-    console.log('this.state inside gameplay ', this.state)
-
     return (
       <View style={styles.containerStyles}>
         <View style={styles.textContainerStyles}>

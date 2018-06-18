@@ -5,7 +5,7 @@ import { Text, View, Image, Button } from 'react-native'
 import { Actions } from 'react-native-router-flux'
 import PropTypes from 'prop-types'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
-import { prepResultsState, handleFormatting } from './utils'
+import { prepResultsState, handleFormatting, generateRandomKey } from './utils'
 import styles from './styles'
 
 const devEnvironment = true
@@ -69,7 +69,7 @@ class Results extends Component {
     }
   }
 
-  renderPlayerColumn = (statsArray = false) => {
+  renderPlayerColumn = (statsArray = false, baseString = 'Player') => {
     // if we're still waiting for opponent's results, use noData array
     // to fill opponent results column
     let noData = [
@@ -85,16 +85,20 @@ class Results extends Component {
 
     const arrayToIterate = statsArray === false ? noData : statsArray
 
-    return arrayToIterate.map(statObject => (
-      <AnimateNumber
-        countBy={5}
-        key={`${statObject.value}-player`}
-        style={{ color: '#293f4e', fontSize: 15 }}
-        timing="linear"
-        value={statObject.value}
-        formatter={() => handleFormatting(statObject)}
-      />
-    ))
+    return arrayToIterate.map(statObject => {
+      const randomKey = generateRandomKey(statObject.value, baseString)
+
+      return (
+        <AnimateNumber
+          countBy={5}
+          key={randomKey}
+          style={{ color: '#293f4e', fontSize: 15 }}
+          timing="linear"
+          value={statObject.value}
+          formatter={() => handleFormatting(statObject)}
+        />
+      )
+    })
   }
 
   renderLabels = labelArray =>
@@ -155,7 +159,7 @@ class Results extends Component {
 
           <View style={styles.statContainer}>
             <View style={styles.statColContainer}>
-              {this.renderPlayerColumn(playerResults)}
+              {this.renderPlayerColumn(playerResults, 'Player')}
             </View>
 
             <View style={styles.statColContainer}>
@@ -169,7 +173,7 @@ class Results extends Component {
             <View style={styles.statColContainer}>
               {opponentResults === null
                 ? this.renderPlayerColumn(false)
-                : this.renderPlayerColumn(opponentResults)}
+                : this.renderPlayerColumn(opponentResults, 'Opponent')}
             </View>
           </View>
           {/* end statContainer  */}
