@@ -1,5 +1,11 @@
 import React, { Component } from 'react'
-import { Text, View, ScrollView, Button, Animated } from 'react-native'
+import {
+  Text,
+  View,
+  ScrollView,
+  TouchableWithoutFeedback,
+  Animated,
+} from 'react-native'
 import { connect } from 'react-redux'
 import Icon from 'react-native-vector-icons/Entypo'
 import PropTypes from 'prop-types'
@@ -7,6 +13,7 @@ import styles from './styles'
 import Timer from './timer'
 import generateRandomKey from './utils'
 import { gameResultsFromSockets } from '../../services/redux/actions/socket'
+import tracker from '../../services/analytics-tracker/analyticsTracker'
 import socketMiddleware from '../../services/socket-io-client'
 
 class GamePlay extends Component {
@@ -22,6 +29,10 @@ class GamePlay extends Component {
       buttonAnimation: new Animated.Value(0),
       buttonColor: '#344856',
     }
+  }
+
+  componentWillMount() {
+    tracker.trackScreenView('Gameplay')
   }
 
   componentDidMount = () => {
@@ -90,16 +101,20 @@ class GamePlay extends Component {
         key={generateRandomKey(choice, questionNumber)}
         style={
           idx === chosenAnswer
-            ? [styles.buttonStyles, animatedStyle]
+            ? [animatedStyle, styles.buttonStyles]
             : styles.buttonStyles
         }
       >
-        <Button
+        <TouchableWithoutFeedback
           onPress={() => this.onButtonPress(`${choice}`, idx)}
-          title={`${choice}`}
-          color={idx === chosenAnswer ? '#ffffff' : buttonColor}
-          accessibilityLabel={`${choice}`}
-        />
+        >
+          <Text
+            style={{ fontSize: 20, fontWeight: '600' }}
+            color={idx === chosenAnswer ? '#ffffff' : buttonColor}
+          >
+            {choice}
+          </Text>
+        </TouchableWithoutFeedback>
       </Animated.View>
     ))
   }

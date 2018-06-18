@@ -56,7 +56,10 @@ const buttonStyles = {
   marginTop: '3%',
   marginLeft: 'auto',
   marginRight: 'auto',
-  height: 35, // fixed for dev, should be 'auto' for prod
+  height: 43,
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
 }
 
 export default {
