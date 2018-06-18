@@ -89,7 +89,7 @@ class GamePlay extends Component {
   }
 
   renderAnimatedQuestion = () => {
-    const { questionAnimation, question } = this.state
+    const { questionAnimation, question, gameStart, loadText } = this.state
 
     const translateX = questionAnimation.interpolate({
       inputRange: [0, 1],
@@ -99,11 +99,15 @@ class GamePlay extends Component {
 
     const transform = [{ translateX }]
 
-    return (
-      <Animated.Text style={[styles.questionContainer, { transform }]}>
-        {question ? `${question}` : ''}
-      </Animated.Text>
-    )
+    if (gameStart === true) {
+      return (
+        <Animated.Text style={[styles.questionContainer, { transform }]}>
+          {question ? `${question}` : ''}
+        </Animated.Text>
+      )
+    }
+
+    return <Text style={styles.questionContainer}>{loadText}</Text>
   }
 
   renderAnswerChoices = () => {
@@ -150,7 +154,7 @@ class GamePlay extends Component {
   }
 
   render() {
-    const { gameStart, questionNumber, loadText } = this.state
+    const { gameStart, questionNumber } = this.state
 
     return (
       <View style={styles.containerStyles}>
@@ -171,13 +175,7 @@ class GamePlay extends Component {
         </View>
 
         <View style={styles.QAnswContainer}>
-          <ScrollView>
-            {gameStart ? (
-              this.renderAnimatedQuestion()
-            ) : (
-              <Text style={styles.questionContainer}>{loadText}</Text>
-            )}
-          </ScrollView>
+          <ScrollView>{this.renderAnimatedQuestion()}</ScrollView>
 
           <View style={styles.answersContainerStyle}>
             {this.renderAnswerChoices()}
