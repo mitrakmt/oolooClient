@@ -26,7 +26,6 @@ class Results extends Component {
     const { gameResults } = this.props
     const scoreLength = gameResults.score.length
 
-    // don't we have to use UNSAFE_componentWillMount()
     tracker.trackScreenView('Results')
 
     // before CM, check to see if we have both player results
@@ -48,6 +47,9 @@ class Results extends Component {
   }
 
   componentWillReceiveProps(prevProps) {
+    // when we initially only received one set of results,
+    // use CWRP to compare length of old score array with
+    // length of new score array received from server via Redux store
     const oldScoreLength = prevProps.gameResults.score.length
     const { gameResults } = this.props
 
@@ -68,6 +70,8 @@ class Results extends Component {
   }
 
   renderPlayerColumn = (statsArray = false) => {
+    // if we're still waiting for opponent's results, use noData array
+    // to fill opponent results column
     let noData = [
       { value: 'n/a', resultKey: 'Waiting' },
       { value: 'n/a', resultKey: 'Waiting' },
@@ -75,6 +79,8 @@ class Results extends Component {
       { value: 'n/a', resultKey: 'Waiting' },
     ]
 
+    // remove devEnironment references as soon as we start receiving Ranking
+    // info from server
     noData = devEnvironment === true ? noData.slice(0, 3) : noData
 
     const arrayToIterate = statsArray === false ? noData : statsArray
