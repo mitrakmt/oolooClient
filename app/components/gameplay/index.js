@@ -24,8 +24,7 @@ class GamePlay extends Component {
       gameStart: false,
       progress: 300000,
       questionNumber: null,
-      question: '',
-      loadText: 'A new challenger is being selected. Get ready!',
+      question: 'A new challenger is being selected. Get ready!',
       possibleAnswers: [],
       chosenAnswer: null,
       buttonAnimation: new Animated.Value(0),
@@ -89,7 +88,7 @@ class GamePlay extends Component {
   }
 
   renderAnimatedQuestion = () => {
-    const { questionAnimation, question, gameStart, loadText } = this.state
+    const { questionAnimation, question } = this.state
 
     const translateX = questionAnimation.interpolate({
       inputRange: [0, 1],
@@ -99,15 +98,11 @@ class GamePlay extends Component {
 
     const transform = [{ translateX }]
 
-    if (gameStart === true) {
-      return (
-        <Animated.Text style={[styles.questionContainer, { transform }]}>
-          {question ? `${question}` : ''}
-        </Animated.Text>
-      )
-    }
-
-    return <Text style={styles.questionContainer}>{loadText}</Text>
+    return (
+      <Animated.Text style={[styles.questionContainer, { transform }]}>
+        {question}
+      </Animated.Text>
+    )
   }
 
   renderAnswerChoices = () => {
@@ -154,7 +149,15 @@ class GamePlay extends Component {
   }
 
   render() {
-    const { gameStart, questionNumber } = this.state
+    const { gameStart, questionNumber, questionAnimation } = this.state
+
+    // Run the animation one time before connecting to the socket server
+    if (gameStart === false) {
+      Animated.timing(questionAnimation, {
+        toValue: 1,
+        duration: 400,
+      }).start()
+    }
 
     return (
       <View style={styles.containerStyles}>

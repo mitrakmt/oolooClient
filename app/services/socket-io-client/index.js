@@ -87,7 +87,7 @@ const socketMiddleware = (auth, context, callbacks) => {
   })
 
   // Store Socket in state
-  context.setState({ socket })
+  context.setState({ socket, questionAnimation: new Animated.Value(0) })
 }
 
 export default socketMiddleware
