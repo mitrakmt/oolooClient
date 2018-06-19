@@ -111,28 +111,24 @@ class Results extends Component {
       </Text>
     ))
 
-  renderQuizResults = answerResults => {
-    const results = []
-
-    for (let i = 0; i <= 9; i += 1) {
+  renderQuizResults = answerResults =>
+    answerResults.map((result, idx) => {
       const key = generateRandomKey(
-        answerResults[i],
-        `Player Question ${i + 1} Answer`,
+        result.answer,
+        `Player Question ${idx + 1} Answer`,
       )
-      results.push(
-        <Text style={{ fontWeight: '700' }} key={key}>
-          Question {i + 1}:{' '}
-          {answerResults[i] === 'false' ? 'Incorrect' : 'Correct'}
-        </Text>,
-      )
-    }
 
-    return results
-  }
+      return (
+        <Text style={{ fontWeight: '700' }} key={key}>
+          Question {idx + 1}:{' '}
+          {result.correct === 'false' ? 'Incorrect' : 'Correct'}
+        </Text>
+      )
+    })
 
   render() {
     const { playerResults, opponentResults } = this.state
-    const { answerResults } = this.props
+    const { gameResults } = this.props
 
     return (
       <View style={styles.containerStyles}>
@@ -206,7 +202,7 @@ class Results extends Component {
                 width: '60%',
               }}
             >
-              {this.renderQuizResults(answerResults)}
+              {this.renderQuizResults(gameResults.answers)}
             </ScrollView>
 
             <View style={styles.buttonContainer}>
@@ -238,13 +234,11 @@ class Results extends Component {
 function mapStateToProps({
   gameResults,
   gameStart: { numberOfQuestions, playerIndex },
-  answerResults,
 }) {
   return {
     gameResults,
     numberOfQuestions,
     playerIndex,
-    answerResults,
   }
 }
 
@@ -253,20 +247,19 @@ Results.propTypes = {
   playerIndex: PropTypes.number.isRequired,
 
   gameResults: PropTypes.shape({
-    gameID: PropTypes.number,
     remainingTime: PropTypes.number,
     score: PropTypes.array,
     totalAnswered: PropTypes.array,
     totalCorrect: PropTypes.array,
+    gameID: PropTypes.number,
+    answers: PropTypes.arrayOf(
+      PropTypes.shape({
+        correct: PropTypes.bool.isRequired,
+        answer: PropTypes.string.isRequired,
+        answerTime: PropTypes.number.isRequired,
+      }),
+    ).isRequired,
   }).isRequired,
-
-  answerResults: PropTypes.arrayOf(
-    PropTypes.shape({
-      correct: PropTypes.bool.isRequired,
-      answer: PropTypes.string.isRequired,
-      answerTime: PropTypes.number.isRequired,
-    }),
-  ).isRequired,
 }
 
 export default connect(
