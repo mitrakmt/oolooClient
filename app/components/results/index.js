@@ -112,8 +112,6 @@ class Results extends Component {
     ))
 
   renderQuizResults = answerResults => {
-    console.log('do something with answerResults ', answerResults)
-
     const results = []
 
     for (let i = 0; i <= 9; i += 1) {
@@ -123,6 +121,8 @@ class Results extends Component {
       )
       results.push(<Text key={key}>{answerResults[i]}</Text>)
     }
+
+    console.log('results inside renderQuiz ', results)
 
     return results
   }
