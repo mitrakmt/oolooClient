@@ -252,13 +252,7 @@ Results.propTypes = {
     totalAnswered: PropTypes.array,
     totalCorrect: PropTypes.array,
     gameID: PropTypes.number,
-    answers: PropTypes.arrayOf(
-      PropTypes.shape({
-        correct: PropTypes.bool.isRequired,
-        answer: PropTypes.string.isRequired,
-        answerTime: PropTypes.number.isRequired,
-      }),
-    ).isRequired,
+    answers: PropTypes.array,
   }).isRequired,
 }
 
