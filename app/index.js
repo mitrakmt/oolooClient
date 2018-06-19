@@ -63,4 +63,10 @@ const App = () => (
   </Provider>
 )
 
+// const App = () => (
+//   <Provider store={store}>
+//     <Results />
+//   </Provider>
+// )
+
 export default App

@@ -192,39 +192,41 @@ class Results extends Component {
           </View>
           {/* end statContainer  */}
 
-          <View style={styles.scrollButtonContainer}>
-            <ScrollView
+          <ScrollView
+            style={{
+              padding: '5%',
+              marginBottom: '5%',
+              height: '25%',
+            }}
+          >
+            <View
               style={{
-                padding: '5%',
                 marginLeft: 'auto',
                 marginRight: 'auto',
-                marginBottom: '5%',
-                width: '60%',
               }}
             >
               {this.renderQuizResults(gameResults.answers)}
-            </ScrollView>
+            </View>
+          </ScrollView>
 
-            <View style={styles.buttonContainer}>
-              <View style={styles.buttonStyles}>
-                <Button
-                  onPress={() => Actions.gameplay()}
-                  title="Play Again!"
-                  color="white"
-                  accessibilityLabel="Play again button for OOLOO Quiz App"
-                />
-              </View>
-              <View style={styles.buttonStyles}>
-                <Button
-                  onPress={() => Actions.leaderboard()}
-                  title="Leaderboard"
-                  color="white"
-                  accessibilityLabel="Leaderboard"
-                />
-              </View>
+          <View style={styles.buttonContainer}>
+            <View style={styles.buttonStyles}>
+              <Button
+                onPress={() => Actions.gameplay()}
+                title="Play Again!"
+                color="white"
+                accessibilityLabel="Play again button for OOLOO Quiz App"
+              />
+            </View>
+            <View style={styles.buttonStyles}>
+              <Button
+                onPress={() => Actions.leaderboard()}
+                title="Leaderboard"
+                color="white"
+                accessibilityLabel="Leaderboard"
+              />
             </View>
           </View>
-          {/* end scrollview/buttons container */}
         </View>
       </View>
     )
