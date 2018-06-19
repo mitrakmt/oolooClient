@@ -26,15 +26,13 @@ const socketMiddleware = (auth, context, callbacks) => {
   socket.on('answerResults', ({ remainingTime, correct, questionNumber }) => {
     // 'score', 'totalAnswered', 'totalCorrect' available from server
 
-    console.log('correct in answerResults ', correct)
-    console.log('questionNumber in answerResults ', questionNumber)
-
     // store 'remainingTime' in local state
     context.setState(
       {
         progress: remainingTime,
       },
       () => {
+        // store answerResults for previous question in Redux store
         callbacks.isAnswerCorrect(questionNumber, correct)
       },
     )
