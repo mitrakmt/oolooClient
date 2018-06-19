@@ -14,6 +14,7 @@ import Timer from './timer'
 import generateRandomKey from './utils'
 import { gameResults } from '../../services/redux/actions/gameresults'
 import { startTheGame } from '../../services/redux/actions/gameplay'
+import { answeredCorrectly } from '../../services/redux/actions/answer-results'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
 import socketMiddleware from '../../services/socket-io-client'
 
@@ -28,6 +29,7 @@ class GamePlay extends Component {
       possibleAnswers: [],
       chosenAnswer: null,
       buttonAnimation: new Animated.Value(0),
+      questionAnimation: new Animated.Value(0),
       buttonColor: '#344856',
     }
   }
@@ -37,10 +39,10 @@ class GamePlay extends Component {
   }
 
   componentDidMount = () => {
-    const { auth, socketGameResults, gameStart } = this.props
+    const { auth, socketGameResults, gameStart, isAnswerCorrect } = this.props
     const context = this
 
-    const callbacks = { socketGameResults, gameStart }
+    const callbacks = { socketGameResults, gameStart, isAnswerCorrect }
 
     // Create socket and store in local state
     socketMiddleware(auth, context, callbacks)
@@ -72,7 +74,14 @@ class GamePlay extends Component {
     }
 
     // Wait 800ms to allow Animation to finish, then send answer to server
-    setTimeout(() => socket.emit('answer', payload), 800)
+    // Also, reset the question animation here
+
+    setTimeout(() => {
+      socket.emit('answer', payload)
+      this.setState({
+        questionAnimation: new Animated.Value(0),
+      })
+    }, 800)
   }
 
   resetButtonAnimation = () => {
@@ -80,6 +89,24 @@ class GamePlay extends Component {
       buttonAnimation: new Animated.Value(0),
       chosenAnswer: null,
     })
+  }
+
+  renderAnimatedQuestion = () => {
+    const { questionAnimation, question } = this.state
+
+    const translateX = questionAnimation.interpolate({
+      inputRange: [0, 1],
+      outputRange: [-500, 1],
+      extrapolate: 'clamp',
+    })
+
+    const transform = [{ translateX }]
+
+    return (
+      <Animated.Text style={[styles.questionContainer, { transform }]}>
+        {question}
+      </Animated.Text>
+    )
   }
 
   renderAnswerChoices = () => {
@@ -126,7 +153,15 @@ class GamePlay extends Component {
   }
 
   render() {
-    const { gameStart, questionNumber, question } = this.state
+    const { gameStart, questionNumber, questionAnimation } = this.state
+
+    // Run the animation one time before connecting to the socket server
+    if (gameStart === false) {
+      Animated.timing(questionAnimation, {
+        toValue: 1,
+        duration: 400,
+      }).start()
+    }
 
     return (
       <View style={styles.containerStyles}>
@@ -147,11 +182,7 @@ class GamePlay extends Component {
         </View>
 
         <View style={styles.QAnswContainer}>
-          <ScrollView>
-            <Text style={styles.questionContainer}>
-              {question ? `${question}` : ''}
-            </Text>
-          </ScrollView>
+          <ScrollView>{this.renderAnimatedQuestion()}</ScrollView>
 
           <View style={styles.answersContainerStyle}>
             {this.renderAnswerChoices()}
@@ -180,6 +211,7 @@ GamePlay.propTypes = {
   auth: PropTypes.string.isRequired,
   socketGameResults: PropTypes.func.isRequired,
   gameStart: PropTypes.func.isRequired,
+  isAnswerCorrect: PropTypes.func.isRequired,
 }
 
 export default connect(
@@ -187,5 +219,6 @@ export default connect(
   {
     socketGameResults: gameResults,
     gameStart: startTheGame,
+    isAnswerCorrect: answeredCorrectly,
   },
 )(GamePlay)

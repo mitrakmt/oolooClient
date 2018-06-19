@@ -1,4 +1,5 @@
 import { Actions } from 'react-native-router-flux'
+import { Animated } from 'react-native'
 import io from 'socket.io-client'
 
 const DEV_API_URL = `https://ooloo-api-dev.herokuapp.com`
@@ -26,13 +27,19 @@ const socketMiddleware = (auth, context, callbacks) => {
     }, 1000)
   })
 
-  socket.on('answerResults', response => {
-    // 'correct', 'questionNumber', 'score', 'totalAnswered', 'totalCorrect' available from server
-    // store 'remainingTime' in local state
+  socket.on('answerResults', ({ remainingTime, correct, questionNumber }) => {
+    // 'score', 'totalAnswered', 'totalCorrect' available from server
 
-    context.setState({
-      progress: response.remainingTime,
-    })
+    // store 'remainingTime' in local state
+    context.setState(
+      {
+        progress: remainingTime,
+      },
+      () => {
+        // store answerResults for previous question in Redux store
+        callbacks.isAnswerCorrect(questionNumber, correct)
+      },
+    )
   })
 
   socket.on(
@@ -71,15 +78,26 @@ const socketMiddleware = (auth, context, callbacks) => {
     // on gameInit, questionNumber starts at 0
     // incrementing questionNumber in state will cause server crash
 
-    context.setState({
-      question,
-      questionNumber,
-      possibleAnswers,
-    })
+    // when we get a new question from the server, start animating the question
+    const { questionAnimation } = context.state
+
+    context.setState(
+      {
+        question,
+        questionNumber,
+        possibleAnswers,
+      },
+      () => {
+        Animated.timing(questionAnimation, {
+          toValue: 1,
+          duration: 400,
+        }).start()
+      },
+    )
   })
 
   // Store Socket in state
-  context.setState({ socket })
+  context.setState({ socket, questionAnimation: new Animated.Value(0) })
 }
 
 export default socketMiddleware

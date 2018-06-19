@@ -1,7 +1,7 @@
 import AnimateNumber from 'react-native-animate-number'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
-import { Text, View, Image, Button } from 'react-native'
+import { Text, View, Image, Button, ScrollView } from 'react-native'
 import { Actions } from 'react-native-router-flux'
 import PropTypes from 'prop-types'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
@@ -111,8 +111,13 @@ class Results extends Component {
       </Text>
     ))
 
+  renderQuizResults = answerResults => {
+    console.log('do something with answerResults ', answerResults)
+  }
+
   render() {
     const { playerResults, opponentResults } = this.state
+    const { answerResults } = this.props
 
     return (
       <View style={styles.containerStyles}>
@@ -178,6 +183,8 @@ class Results extends Component {
           </View>
           {/* end statContainer  */}
 
+          <ScrollView>{this.renderQuizResults(answerResults)}</ScrollView>
+
           <View style={styles.buttonContainer}>
             <View style={styles.buttonStyles}>
               <Button
@@ -205,11 +212,13 @@ class Results extends Component {
 function mapStateToProps({
   gameResults,
   gameStart: { numberOfQuestions, playerIndex },
+  answerResults,
 }) {
   return {
     gameResults,
     numberOfQuestions,
     playerIndex,
+    answerResults,
   }
 }
 
@@ -223,6 +232,19 @@ Results.propTypes = {
     score: PropTypes.array,
     totalAnswered: PropTypes.array,
     totalCorrect: PropTypes.array,
+  }).isRequired,
+
+  answerResults: PropTypes.shape({
+    0: PropTypes.string,
+    1: PropTypes.string,
+    2: PropTypes.string,
+    3: PropTypes.string,
+    4: PropTypes.string,
+    5: PropTypes.string,
+    6: PropTypes.string,
+    7: PropTypes.string,
+    8: PropTypes.string,
+    9: PropTypes.string,
   }).isRequired,
 }
 
