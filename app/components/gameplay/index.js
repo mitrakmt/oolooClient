@@ -12,7 +12,8 @@ import PropTypes from 'prop-types'
 import styles from './styles'
 import Timer from './timer'
 import generateRandomKey from './utils'
-import { gameResultsFromSockets } from '../../services/redux/actions/socket'
+import { gameResults } from '../../services/redux/actions/gameresults'
+import { startTheGame } from '../../services/redux/actions/gameplay'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
 import socketMiddleware from '../../services/socket-io-client'
 
@@ -20,10 +21,10 @@ class GamePlay extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      fetchedQuestion: true,
+      gameStart: false,
       progress: 300000,
       questionNumber: null,
-      question: '',
+      question: 'A new challenger is being selected. Get ready!',
       possibleAnswers: [],
       chosenAnswer: null,
       buttonAnimation: new Animated.Value(0),
@@ -36,10 +37,10 @@ class GamePlay extends Component {
   }
 
   componentDidMount = () => {
-    const { auth, socketGameResults } = this.props
+    const { auth, socketGameResults, gameStart } = this.props
     const context = this
 
-    const callbacks = { socketGameResults }
+    const callbacks = { socketGameResults, gameStart }
 
     // Create socket and store in local state
     socketMiddleware(auth, context, callbacks)
@@ -53,7 +54,7 @@ class GamePlay extends Component {
   }
 
   onButtonPress = (answer, idx) => {
-    const { socket, buttonAnimation, questionNumber } = this.state
+    const { socket, buttonAnimation, questionNumber, playerIndex } = this.state
 
     // Button backgroundColor animates
     this.setState({ chosenAnswer: idx }, () => {
@@ -62,9 +63,12 @@ class GamePlay extends Component {
       }).start()
     })
 
+    // continue sending payload with playerIndex until
+    // backend team approves removal
     const payload = {
       answer,
       questionNumber,
+      playerIndex,
     }
 
     // Wait 800ms to allow Animation to finish, then send answer to server
@@ -108,19 +112,21 @@ class GamePlay extends Component {
         <TouchableWithoutFeedback
           onPress={() => this.onButtonPress(`${choice}`, idx)}
         >
-          <Text
-            style={{ fontSize: 20, fontWeight: '600' }}
-            color={idx === chosenAnswer ? '#ffffff' : buttonColor}
-          >
-            {choice}
-          </Text>
+          <View>
+            <Text
+              style={{ fontSize: 20, fontWeight: '600' }}
+              color={idx === chosenAnswer ? '#ffffff' : buttonColor}
+            >
+              {choice}
+            </Text>
+          </View>
         </TouchableWithoutFeedback>
       </Animated.View>
     ))
   }
 
   render() {
-    const { fetchedQuestion, questionNumber, question } = this.state
+    const { gameStart, questionNumber, question } = this.state
 
     return (
       <View style={styles.containerStyles}>
@@ -136,7 +142,7 @@ class GamePlay extends Component {
             OOLOO
           </Text>
           <Text style={{ fontSize: 20 }}>
-            {fetchedQuestion ? `Question ${questionNumber + 1}/10` : ''}
+            {!gameStart ? '' : `Question ${questionNumber + 1}/10`}
           </Text>
         </View>
 
@@ -173,9 +179,13 @@ function mapStateToProps({ auth }) {
 GamePlay.propTypes = {
   auth: PropTypes.string.isRequired,
   socketGameResults: PropTypes.func.isRequired,
+  gameStart: PropTypes.func.isRequired,
 }
 
 export default connect(
   mapStateToProps,
-  { socketGameResults: gameResultsFromSockets },
+  {
+    socketGameResults: gameResults,
+    gameStart: startTheGame,
+  },
 )(GamePlay)

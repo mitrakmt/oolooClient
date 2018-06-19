@@ -54,7 +54,13 @@ const ResultsContainer = {
 const versusContainer = {
   ...baseStatsPositioning,
 
-  height: '20%',
+  height: '30%',
+}
+
+const avatarContainer = {
+  width: '35%',
+  display: 'flex',
+  alignItems: 'center',
 }
 
 const playerAvatar = {
@@ -77,6 +83,12 @@ const statColContainer = {
   justifyContent: 'space-around',
 }
 
+const buttonContainer = {
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-around',
+}
+
 const buttonStyles = {
   borderRadius: 10,
   backgroundColor: colors.buttonColor,
@@ -91,8 +103,10 @@ export default {
   textContainerStyles,
   ResultsContainer,
   versusContainer,
+  avatarContainer,
   playerAvatar,
   statContainer,
   statColContainer,
+  buttonContainer,
   buttonStyles,
 }

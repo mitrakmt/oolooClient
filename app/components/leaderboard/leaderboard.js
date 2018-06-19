@@ -17,6 +17,12 @@ class Leaderboard extends Component {
     tracker.trackScreenView('Leaderboard')
   }
 
+  useAuth = () => {
+    // created to avoid eslint error, delete before merging to master
+    const { auth } = this.props
+    console.log('auth is ', auth)
+  }
+
   yourSchoolTab = () => {
     this.setState({
       activeTab: 'your school',

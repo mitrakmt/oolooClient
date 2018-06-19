@@ -1,20 +1,22 @@
-export const GAME_RESULTS_FROM_SOCKETS = 'GAME_RESULTS_FROM_SOCKETS'
+export const GAME_RESULTS = 'GAME_RESULTS'
 
-export const gameResultsFromSockets = (
+export const gameResults = (
   score,
   totalAnswered,
   totalCorrect,
   remainingTime,
+  gameID,
 ) => {
   const payload = {
     score,
     totalAnswered,
     totalCorrect,
     remainingTime,
+    gameID,
   }
 
   return {
-    type: GAME_RESULTS_FROM_SOCKETS,
+    type: GAME_RESULTS,
     payload,
   }
 }

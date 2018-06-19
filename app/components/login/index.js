@@ -35,6 +35,10 @@ class Login extends Component {
     }
   }
 
+  componentWillMount() {
+    tracker.trackScreenView('Login')
+  }
+
   startAnimation = (toValue, { BorderColor, Height, Margin }) => {
     let animationsArray = [BorderColor, Height, Margin]
 
@@ -43,11 +47,6 @@ class Login extends Component {
     )
 
     Animated.sequence(animationsArray).start()
-
-  }
-    
-  componentWillMount() {
-    tracker.trackScreenView('Login')
   }
 
   handleUsernameInput = text => {

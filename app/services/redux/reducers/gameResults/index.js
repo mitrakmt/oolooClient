@@ -1,9 +1,17 @@
-import { GAME_RESULTS_FROM_SOCKETS } from '../../actions/socket'
+import { GAME_RESULTS } from '../../actions/gameresults'
 
-const gameResultsReducer = (state = 'No Game Results', action) => {
+const initialState = {
+  gameID: null,
+  remainingTime: null,
+  score: [],
+  totalAnswered: [],
+  totalCorrect: [],
+}
+
+const gameResultsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GAME_RESULTS_FROM_SOCKETS:
-      return action.payload
+    case GAME_RESULTS:
+      return { ...state, ...action.payload }
     default:
       return state
   }
