@@ -79,8 +79,12 @@ const statContainer = {
 const statColContainer = {
   display: 'flex',
   alignItems: 'center',
-  height: '50%',
+  height: '40%',
   justifyContent: 'space-around',
+}
+
+const scrollButtonContainer = {
+  height: '25%',
 }
 
 const buttonContainer = {
@@ -107,6 +111,7 @@ export default {
   playerAvatar,
   statContainer,
   statColContainer,
+  scrollButtonContainer,
   buttonContainer,
   buttonStyles,
 }

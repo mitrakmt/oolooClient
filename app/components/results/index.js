@@ -119,10 +119,13 @@ class Results extends Component {
         answerResults[i],
         `Player Question ${i + 1} Answer`,
       )
-      results.push(<Text key={key}>{answerResults[i]}</Text>)
+      results.push(
+        <Text style={{ fontWeight: '700' }} key={key}>
+          Question {i + 1}:{' '}
+          {answerResults[i] === 'false' ? 'Incorrect' : 'Correct'}
+        </Text>,
+      )
     }
-
-    console.log('results inside renderQuiz ', results)
 
     return results
   }
@@ -148,9 +151,7 @@ class Results extends Component {
                 style={styles.playerAvatar}
                 source={{ url: 'https://placeimg.com/300/300/any' }}
               />
-              <Text style={{ color: '#293f4e', textAlign: 'center' }}>
-                Player 1
-              </Text>
+              <Text style={{ color: '#293f4e', textAlign: 'center' }}>You</Text>
             </View>
 
             <View>
@@ -195,26 +196,39 @@ class Results extends Component {
           </View>
           {/* end statContainer  */}
 
-          <ScrollView>{this.renderQuizResults(answerResults)}</ScrollView>
+          <View style={styles.scrollButtonContainer}>
+            <ScrollView
+              style={{
+                padding: '5%',
+                marginLeft: 'auto',
+                marginRight: 'auto',
+                marginBottom: '5%',
+                width: '60%',
+              }}
+            >
+              {this.renderQuizResults(answerResults)}
+            </ScrollView>
 
-          <View style={styles.buttonContainer}>
-            <View style={styles.buttonStyles}>
-              <Button
-                onPress={() => Actions.gameplay()}
-                title="Play Again!"
-                color="white"
-                accessibilityLabel="Play again button for OOLOO Quiz App"
-              />
-            </View>
-            <View style={styles.buttonStyles}>
-              <Button
-                onPress={() => Actions.leaderboard()}
-                title="Leaderboard"
-                color="white"
-                accessibilityLabel="Leaderboard"
-              />
+            <View style={styles.buttonContainer}>
+              <View style={styles.buttonStyles}>
+                <Button
+                  onPress={() => Actions.gameplay()}
+                  title="Play Again!"
+                  color="white"
+                  accessibilityLabel="Play again button for OOLOO Quiz App"
+                />
+              </View>
+              <View style={styles.buttonStyles}>
+                <Button
+                  onPress={() => Actions.leaderboard()}
+                  title="Leaderboard"
+                  color="white"
+                  accessibilityLabel="Leaderboard"
+                />
+              </View>
             </View>
           </View>
+          {/* end scrollview/buttons container */}
         </View>
       </View>
     )
