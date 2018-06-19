@@ -260,18 +260,13 @@ Results.propTypes = {
     totalCorrect: PropTypes.array,
   }).isRequired,
 
-  answerResults: PropTypes.shape({
-    0: PropTypes.string,
-    1: PropTypes.string,
-    2: PropTypes.string,
-    3: PropTypes.string,
-    4: PropTypes.string,
-    5: PropTypes.string,
-    6: PropTypes.string,
-    7: PropTypes.string,
-    8: PropTypes.string,
-    9: PropTypes.string,
-  }).isRequired,
+  answerResults: PropTypes.arrayOf(
+    PropTypes.shape({
+      correct: PropTypes.bool.isRequired,
+      answer: PropTypes.string.isRequired,
+      answerTime: PropTypes.number.isRequired,
+    }),
+  ).isRequired,
 }
 
 export default connect(
