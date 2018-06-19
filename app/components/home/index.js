@@ -1,12 +1,17 @@
 import React, { Component } from 'react'
 import { Text, View, Button, Image } from 'react-native'
 import { Actions } from 'react-native-router-flux'
+import tracker from '../../services/analytics-tracker/analyticsTracker'
 import styles from './styles'
 
 class Home extends Component {
   constructor(props) {
     super(props)
     this.state = {}
+  }
+
+  componentWillMount() {
+    tracker.trackScreenView('Home')
   }
 
   handlePlayPress = () => {

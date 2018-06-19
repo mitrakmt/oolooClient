@@ -83,6 +83,12 @@ const statColContainer = {
   justifyContent: 'space-around',
 }
 
+const buttonContainer = {
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-around',
+}
+
 const buttonStyles = {
   borderRadius: 10,
   backgroundColor: colors.buttonColor,
@@ -101,5 +107,6 @@ export default {
   playerAvatar,
   statContainer,
   statColContainer,
+  buttonContainer,
   buttonStyles,
 }
