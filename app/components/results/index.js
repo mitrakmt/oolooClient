@@ -111,13 +111,24 @@ class Results extends Component {
       </Text>
     ))
 
-  renderQuizResults = answerResults => {
-    console.log('do something with answerResults ', answerResults)
-  }
+  renderQuizResults = answerResults =>
+    answerResults.map((result, idx) => {
+      const key = generateRandomKey(
+        result.answer,
+        `Player Question ${idx + 1} Answer`,
+      )
+
+      return (
+        <Text style={{ fontWeight: '700' }} key={key}>
+          Question {idx + 1}:{' '}
+          {result.correct === 'false' ? 'Incorrect' : 'Correct'}
+        </Text>
+      )
+    })
 
   render() {
     const { playerResults, opponentResults } = this.state
-    const { answerResults } = this.props
+    const { gameResults } = this.props
 
     return (
       <View style={styles.containerStyles}>
@@ -136,9 +147,7 @@ class Results extends Component {
                 style={styles.playerAvatar}
                 source={{ url: 'https://placeimg.com/300/300/any' }}
               />
-              <Text style={{ color: '#293f4e', textAlign: 'center' }}>
-                Player 1
-              </Text>
+              <Text style={{ color: '#293f4e', textAlign: 'center' }}>You</Text>
             </View>
 
             <View>
@@ -183,7 +192,22 @@ class Results extends Component {
           </View>
           {/* end statContainer  */}
 
-          <ScrollView>{this.renderQuizResults(answerResults)}</ScrollView>
+          <ScrollView
+            style={{
+              padding: '5%',
+              marginBottom: '5%',
+              height: '25%',
+            }}
+          >
+            <View
+              style={{
+                marginLeft: 'auto',
+                marginRight: 'auto',
+              }}
+            >
+              {this.renderQuizResults(gameResults.answers)}
+            </View>
+          </ScrollView>
 
           <View style={styles.buttonContainer}>
             <View style={styles.buttonStyles}>
@@ -212,13 +236,11 @@ class Results extends Component {
 function mapStateToProps({
   gameResults,
   gameStart: { numberOfQuestions, playerIndex },
-  answerResults,
 }) {
   return {
     gameResults,
     numberOfQuestions,
     playerIndex,
-    answerResults,
   }
 }
 
@@ -227,24 +249,12 @@ Results.propTypes = {
   playerIndex: PropTypes.number.isRequired,
 
   gameResults: PropTypes.shape({
-    gameID: PropTypes.number,
     remainingTime: PropTypes.number,
     score: PropTypes.array,
     totalAnswered: PropTypes.array,
     totalCorrect: PropTypes.array,
-  }).isRequired,
-
-  answerResults: PropTypes.shape({
-    0: PropTypes.string,
-    1: PropTypes.string,
-    2: PropTypes.string,
-    3: PropTypes.string,
-    4: PropTypes.string,
-    5: PropTypes.string,
-    6: PropTypes.string,
-    7: PropTypes.string,
-    8: PropTypes.string,
-    9: PropTypes.string,
+    gameID: PropTypes.number,
+    answers: PropTypes.array,
   }).isRequired,
 }
 

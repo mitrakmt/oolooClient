@@ -27,17 +27,17 @@ const socketMiddleware = (auth, context, callbacks) => {
     }, 1000)
   })
 
-  socket.on('answerResults', ({ remainingTime, correct, questionNumber }) => {
+  socket.on('answerResults', response => {
     // 'score', 'totalAnswered', 'totalCorrect' available from server
 
     // store 'remainingTime' in local state
     context.setState(
       {
-        progress: remainingTime,
+        progress: response.remainingTime,
       },
       () => {
         // store answerResults for previous question in Redux store
-        callbacks.isAnswerCorrect(questionNumber, correct)
+        callbacks.isAnswerCorrect(response.questionNumber, response.correct)
       },
     )
   })
@@ -58,10 +58,10 @@ const socketMiddleware = (auth, context, callbacks) => {
         },
         () => {
           callbacks.socketGameResults(
+            remainingTime,
             score,
             totalAnswered,
             totalCorrect,
-            remainingTime,
             gameID,
             answers,
           )

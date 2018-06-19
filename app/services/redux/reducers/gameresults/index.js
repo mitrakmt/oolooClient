@@ -1,11 +1,12 @@
 import { GAME_RESULTS } from '../../actions/gameresults'
 
 const initialState = {
-  gameID: null,
   remainingTime: null,
   score: [],
   totalAnswered: [],
   totalCorrect: [],
+  gameID: null,
+  answers: [],
 }
 
 const gameResultsReducer = (state = initialState, action) => {

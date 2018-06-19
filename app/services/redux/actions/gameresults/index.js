@@ -1,18 +1,20 @@
 export const GAME_RESULTS = 'GAME_RESULTS'
 
 export const gameResults = (
+  remainingTime,
   score,
   totalAnswered,
   totalCorrect,
-  remainingTime,
   gameID,
+  answers,
 ) => {
   const payload = {
+    remainingTime,
     score,
     totalAnswered,
     totalCorrect,
-    remainingTime,
     gameID,
+    answers,
   }
 
   return {
