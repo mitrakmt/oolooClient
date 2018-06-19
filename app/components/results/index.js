@@ -13,11 +13,15 @@ const devEnvironment = true
 class Results extends Component {
   constructor(props) {
     super(props)
+
+    const { numberOfQuestions, playerIndex, usernames } = this.props
+
     this.state = {
-      numberOfQuestions: this.props.numberOfQuestions,
-      playerIndex: this.props.playerIndex,
+      numberOfQuestions,
+      playerIndex,
       playerResults: null,
       opponentResults: null,
+      username: usernames[playerIndex],
     }
   }
 
@@ -118,16 +122,16 @@ class Results extends Component {
         `Player Question ${idx + 1} Answer`,
       )
 
-      return (
+      return result.map(resultObj => (
         <Text style={{ fontWeight: '700' }} key={key}>
           Question {idx + 1}:{' '}
-          {result.correct === 'false' ? 'Incorrect' : 'Correct'}
+          {resultObj.correct === false ? 'Incorrect' : 'Correct'}
         </Text>
-      )
+      ))
     })
 
   render() {
-    const { playerResults, opponentResults } = this.state
+    const { playerResults, opponentResults, username } = this.state
     const { gameResults } = this.props
 
     return (
@@ -147,7 +151,9 @@ class Results extends Component {
                 style={styles.playerAvatar}
                 source={{ url: 'https://placeimg.com/300/300/any' }}
               />
-              <Text style={{ color: '#293f4e', textAlign: 'center' }}>You</Text>
+              <Text style={{ color: '#293f4e', textAlign: 'center' }}>
+                {!username ? `You` : `${username}`}
+              </Text>
             </View>
 
             <View>
@@ -235,11 +241,12 @@ class Results extends Component {
 
 function mapStateToProps({
   gameResults,
-  gameStart: { numberOfQuestions, playerIndex },
+  gameStart: { numberOfQuestions, playerIndex, usernames },
 }) {
   return {
     gameResults,
     numberOfQuestions,
+    usernames,
     playerIndex,
   }
 }
@@ -247,6 +254,10 @@ function mapStateToProps({
 Results.propTypes = {
   numberOfQuestions: PropTypes.number.isRequired,
   playerIndex: PropTypes.number.isRequired,
+  usernames: PropTypes.shape({
+    0: PropTypes.string,
+    1: PropTypes.string,
+  }).isRequired,
 
   gameResults: PropTypes.shape({
     remainingTime: PropTypes.number,
