@@ -125,7 +125,8 @@ class Results extends Component {
       return result.map(resultObj => (
         <Text style={{ fontWeight: '700' }} key={key}>
           Question {idx + 1}:{' '}
-          {resultObj.correct === false ? 'Incorrect' : 'Correct'}
+          {resultObj.correct === false ? 'Incorrect' : 'Correct'} -{' '}
+          {resultObj.answer}
         </Text>
       ))
     })
