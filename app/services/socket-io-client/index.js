@@ -15,17 +15,31 @@ const socketMiddleware = (auth, context, callbacks) => {
   // Continue using TEMP_AUTH until backend teams finds permanent fix
   const socket = io(`${DEV_API_URL}/?token=${TEMP_AUTH}`)
 
-  socket.on('gameStart', response => {
-    callbacks.gameStart(response)
+  socket.on(
+    'gameStart',
+    ({ duration, numberOfQuestions, playerIndex, startTime, usernames }) => {
+      const payload = { duration, numberOfQuestions, playerIndex, startTime }
 
-    intervalID = setInterval(() => {
-      context.setState(state => ({
-        playerIndex: response.playerIndex,
-        gameStart: true,
-        progress: state.progress - 1000,
-      }))
-    }, 1000)
-  })
+      // convert username array to object to avoid PropTypes error
+      const usernameObj = {}
+
+      usernames.forEach((name, idx) => {
+        if (!usernameObj[idx]) usernameObj[idx] = name
+      })
+
+      payload.usernames = usernameObj
+
+      callbacks.gameStart(payload)
+
+      intervalID = setInterval(() => {
+        context.setState(state => ({
+          playerIndex,
+          gameStart: true,
+          progress: state.progress - 1000,
+        }))
+      }, 1000)
+    },
+  )
 
   socket.on('answerResults', response => {
     // 'score', 'totalAnswered', 'totalCorrect' available from server
