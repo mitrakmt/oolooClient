@@ -147,7 +147,7 @@ class Results extends Component {
 
   render() {
     const { playerResults, opponentResults, username } = this.state
-    const { gameResults } = this.props
+    const { gameResults, opponentIndex, usernames } = this.props
 
     return (
       <View style={styles.containerStyles}>
@@ -186,7 +186,9 @@ class Results extends Component {
               />
 
               <Text style={{ color: '#293f4e', textAlign: 'center' }}>
-                Your Opponent
+                {opponentIndex !== 'No Opponent'
+                  ? usernames[opponentIndex]
+                  : `Your Opponent`}
               </Text>
             </View>
           </View>
@@ -256,13 +258,14 @@ class Results extends Component {
 
 function mapStateToProps({
   gameResults,
-  gameStart: { numberOfQuestions, playerIndex, usernames },
+  gameStart: { numberOfQuestions, playerIndex, usernames, opponentIndex },
 }) {
   return {
     gameResults,
     numberOfQuestions,
     usernames,
     playerIndex,
+    opponentIndex,
   }
 }
 
@@ -273,6 +276,7 @@ Results.propTypes = {
     0: PropTypes.string,
     1: PropTypes.string,
   }).isRequired,
+  opponentIndex: PropTypes.string.isRequired,
 
   gameResults: PropTypes.shape({
     remainingTime: PropTypes.number,

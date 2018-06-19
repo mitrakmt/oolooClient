@@ -29,6 +29,17 @@ const socketMiddleware = (auth, context, callbacks) => {
 
       payload.usernames = usernameObj
 
+      // Store the opponentIndex if usernames' length is greater than 1
+      if (usernames.length > 1) {
+        const opponentIndex = usernames
+          .filter((_, idx) => idx !== playerIndex)
+          .pop()
+
+        payload.opponentIndex = opponentIndex.toString()
+      }
+
+      payload.opponentIndex = 'No Opponent'
+
       callbacks.gameStart(payload)
 
       intervalID = setInterval(() => {
