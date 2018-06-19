@@ -1,11 +1,11 @@
 import AnimateNumber from 'react-native-animate-number'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
-import { Text, View, Image, Button } from 'react-native'
+import { Text, View, Image, Button, ScrollView } from 'react-native'
 import { Actions } from 'react-native-router-flux'
 import PropTypes from 'prop-types'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
-import { prepResultsState, handleFormatting } from './utils'
+import { prepResultsState, handleFormatting, generateRandomKey } from './utils'
 import styles from './styles'
 
 const devEnvironment = true
@@ -26,7 +26,6 @@ class Results extends Component {
     const { gameResults } = this.props
     const scoreLength = gameResults.score.length
 
-    // don't we have to use UNSAFE_componentWillMount()
     tracker.trackScreenView('Results')
 
     // before CM, check to see if we have both player results
@@ -48,6 +47,9 @@ class Results extends Component {
   }
 
   componentWillReceiveProps(prevProps) {
+    // when we initially only received one set of results,
+    // use CWRP to compare length of old score array with
+    // length of new score array received from server via Redux store
     const oldScoreLength = prevProps.gameResults.score.length
     const { gameResults } = this.props
 
@@ -67,7 +69,9 @@ class Results extends Component {
     }
   }
 
-  renderPlayerColumn = (statsArray = false) => {
+  renderPlayerColumn = (statsArray = false, baseString = 'Player') => {
+    // if we're still waiting for opponent's results, use noData array
+    // to fill opponent results column
     let noData = [
       { value: 'n/a', resultKey: 'Waiting' },
       { value: 'n/a', resultKey: 'Waiting' },
@@ -75,20 +79,26 @@ class Results extends Component {
       { value: 'n/a', resultKey: 'Waiting' },
     ]
 
+    // remove devEnironment references as soon as we start receiving Ranking
+    // info from server
     noData = devEnvironment === true ? noData.slice(0, 3) : noData
 
     const arrayToIterate = statsArray === false ? noData : statsArray
 
-    return arrayToIterate.map(statObject => (
-      <AnimateNumber
-        countBy={5}
-        key={`${statObject.value}-player`}
-        style={{ color: '#293f4e', fontSize: 15 }}
-        timing="linear"
-        value={statObject.value}
-        formatter={() => handleFormatting(statObject)}
-      />
-    ))
+    return arrayToIterate.map(statObject => {
+      const randomKey = generateRandomKey(statObject.value, baseString)
+
+      return (
+        <AnimateNumber
+          countBy={5}
+          key={randomKey}
+          style={{ color: '#293f4e', fontSize: 15 }}
+          timing="linear"
+          value={statObject.value}
+          formatter={() => handleFormatting(statObject)}
+        />
+      )
+    })
   }
 
   renderLabels = labelArray =>
@@ -101,8 +111,13 @@ class Results extends Component {
       </Text>
     ))
 
+  renderQuizResults = answerResults => {
+    console.log('do something with answerResults ', answerResults)
+  }
+
   render() {
     const { playerResults, opponentResults } = this.state
+    const { answerResults } = this.props
 
     return (
       <View style={styles.containerStyles}>
@@ -149,7 +164,7 @@ class Results extends Component {
 
           <View style={styles.statContainer}>
             <View style={styles.statColContainer}>
-              {this.renderPlayerColumn(playerResults)}
+              {this.renderPlayerColumn(playerResults, 'Player')}
             </View>
 
             <View style={styles.statColContainer}>
@@ -163,18 +178,30 @@ class Results extends Component {
             <View style={styles.statColContainer}>
               {opponentResults === null
                 ? this.renderPlayerColumn(false)
-                : this.renderPlayerColumn(opponentResults)}
+                : this.renderPlayerColumn(opponentResults, 'Opponent')}
             </View>
           </View>
           {/* end statContainer  */}
 
-          <View style={styles.buttonStyles}>
-            <Button
-              onPress={() => Actions.gameplay()}
-              title="Play Again!"
-              color="white"
-              accessibilityLabel="Play again button for OOLOO Quiz App"
-            />
+          <ScrollView>{this.renderQuizResults(answerResults)}</ScrollView>
+
+          <View style={styles.buttonContainer}>
+            <View style={styles.buttonStyles}>
+              <Button
+                onPress={() => Actions.gameplay()}
+                title="Play Again!"
+                color="white"
+                accessibilityLabel="Play again button for OOLOO Quiz App"
+              />
+            </View>
+            <View style={styles.buttonStyles}>
+              <Button
+                onPress={() => Actions.leaderboard()}
+                title="Leaderboard"
+                color="white"
+                accessibilityLabel="Leaderboard"
+              />
+            </View>
           </View>
         </View>
       </View>
@@ -185,11 +212,13 @@ class Results extends Component {
 function mapStateToProps({
   gameResults,
   gameStart: { numberOfQuestions, playerIndex },
+  answerResults,
 }) {
   return {
     gameResults,
     numberOfQuestions,
     playerIndex,
+    answerResults,
   }
 }
 
@@ -203,6 +232,19 @@ Results.propTypes = {
     score: PropTypes.array,
     totalAnswered: PropTypes.array,
     totalCorrect: PropTypes.array,
+  }).isRequired,
+
+  answerResults: PropTypes.shape({
+    0: PropTypes.string,
+    1: PropTypes.string,
+    2: PropTypes.string,
+    3: PropTypes.string,
+    4: PropTypes.string,
+    5: PropTypes.string,
+    6: PropTypes.string,
+    7: PropTypes.string,
+    8: PropTypes.string,
+    9: PropTypes.string,
   }).isRequired,
 }
 

@@ -23,13 +23,21 @@ const socketMiddleware = (auth, context, callbacks) => {
     }, 1000)
   })
 
-  socket.on('answerResults', response => {
-    // 'correct', 'questionNumber', 'score', 'totalAnswered', 'totalCorrect' available from server
-    // store 'remainingTime' in local state
+  socket.on('answerResults', ({ remainingTime, correct, questionNumber }) => {
+    // 'score', 'totalAnswered', 'totalCorrect' available from server
 
-    context.setState({
-      progress: response.remainingTime,
-    })
+    console.log('correct in answerResults ', correct)
+    console.log('questionNumber in answerResults ', questionNumber)
+
+    // store 'remainingTime' in local state
+    context.setState(
+      {
+        progress: remainingTime,
+      },
+      () => {
+        callbacks.isAnswerCorrect(questionNumber, correct)
+      },
+    )
   })
 
   socket.on(

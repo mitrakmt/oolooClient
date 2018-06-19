@@ -67,3 +67,23 @@ export const handleFormatting = ({ value, resultKey }) => {
       return 'No result'
   }
 }
+
+export const generateRandomKey = (value, baseString) => {
+  const charArray = 'abcdedfghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'.split(
+    '',
+  )
+
+  const len = charArray.length
+
+  let randomKey = ''
+
+  let count = 1
+
+  while (count <= 6) {
+    const randomIDX = Math.floor(Math.random() * len)
+    randomKey += charArray[randomIDX]
+    count += 1
+  }
+
+  return `${value}-${baseString}-${randomKey}`
+}
