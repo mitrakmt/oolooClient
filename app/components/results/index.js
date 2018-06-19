@@ -8,7 +8,7 @@ import tracker from '../../services/analytics-tracker/analyticsTracker'
 import { prepResultsState, handleFormatting, generateRandomKey } from './utils'
 import styles from './styles'
 
-const devEnvironment = true
+const devEnvironment = false
 
 class Results extends Component {
   constructor(props) {
@@ -36,16 +36,27 @@ class Results extends Component {
     // if we only have one pair of scores, we only have the player's results
     if (scoreLength === 1) {
       this.setState({
-        playerResults: prepResultsState(gameResults, null, numberOfQuestions),
+        playerResults: prepResultsState(
+          gameResults,
+          null,
+          'Player',
+          numberOfQuestions,
+        ),
       })
     } else {
       this.setState({
         playerResults: prepResultsState(
           gameResults,
           playerIndex,
+          'Player',
           numberOfQuestions,
         ),
-        opponentResults: prepResultsState(gameResults, null, numberOfQuestions),
+        opponentResults: prepResultsState(
+          gameResults,
+          playerIndex,
+          'Opponent',
+          numberOfQuestions,
+        ),
       })
     }
   }
@@ -66,9 +77,15 @@ class Results extends Component {
         playerResults: prepResultsState(
           gameResults,
           playerIndex,
+          'Player',
           numberOfQuestions,
         ),
-        opponentResults: prepResultsState(gameResults, null, numberOfQuestions),
+        opponentResults: prepResultsState(
+          gameResults,
+          playerIndex,
+          'Opponent',
+          numberOfQuestions,
+        ),
       })
     }
   }
@@ -76,18 +93,15 @@ class Results extends Component {
   renderPlayerColumn = (statsArray = false, baseString = 'Player') => {
     // if we're still waiting for opponent's results, use noData array
     // to fill opponent results column
-    let noData = [
+    const noData = [
       { value: 'n/a', resultKey: 'Waiting' },
       { value: 'n/a', resultKey: 'Waiting' },
       { value: 'n/a', resultKey: 'Waiting' },
       { value: 'n/a', resultKey: 'Waiting' },
     ]
 
-    // remove devEnironment references as soon as we start receiving Ranking
-    // info from server
-    noData = devEnvironment === true ? noData.slice(0, 3) : noData
-
-    const arrayToIterate = statsArray === false ? noData : statsArray
+    const arrayToIterate =
+      statsArray === false || statsArray === null ? noData : statsArray
 
     return arrayToIterate.map(statObject => {
       const randomKey = generateRandomKey(statObject.value, baseString)
@@ -267,6 +281,8 @@ Results.propTypes = {
     totalCorrect: PropTypes.array,
     gameID: PropTypes.number,
     answers: PropTypes.array,
+    finishedTime: PropTypes.array,
+    ranks: PropTypes.array,
   }).isRequired,
 }
 

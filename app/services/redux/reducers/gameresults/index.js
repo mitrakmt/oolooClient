@@ -7,6 +7,8 @@ const initialState = {
   totalCorrect: [],
   gameID: null,
   answers: [],
+  finishedTime: [],
+  ranks: [],
 }
 
 const gameResultsReducer = (state = initialState, action) => {
