@@ -1,3 +1,11 @@
+const filterForPlayer = (filteringIndex, gameResults, key) =>
+  filteringIndex === null
+    ? gameResults[key][0]
+    : gameResults[key][filteringIndex]
+
+const filterForOpponent = (filteringIndex, gameResults, key) =>
+  gameResults[key].filter((_, idx) => idx !== filteringIndex)
+
 const calculateOverall = (totalCorrect, totalPossible) =>
   (totalCorrect / totalPossible) * 100
 
@@ -24,29 +32,14 @@ export const prepResultsState = (
 
   Object.keys(gameResults).forEach(key => {
     if (key === 'totalCorrect') {
-      // const totalCorrect =
-      //   filteringIndex === null
-      //     ? gameResults[key][0]
-      //     : gameResults[key][filteringIndex]
-
-      // resultsArray[0] = {
-      //   value: calculateOverall(totalCorrect, numberOfQuestions),
-      //   resultKey: 'Overall',
-      // }
-
       let totalCorrect
 
       if (resultsFor === 'Player') {
-        totalCorrect =
-          filteringIndex === null
-            ? gameResults[key][0]
-            : gameResults[key][filteringIndex]
+        totalCorrect = filterForPlayer(filteringIndex, gameResults, key)
       }
 
       if (resultsFor === 'Opponent') {
-        totalCorrect = gameResults[key].filter(
-          (_, idx) => idx !== filteringIndex,
-        )
+        totalCorrect = filterForOpponent(filteringIndex, gameResults, key)
       }
 
       resultsArray[0] = {
@@ -55,22 +48,15 @@ export const prepResultsState = (
       }
     }
 
-    // if (key === 'remainingTime') {
-    //   resultsArray[1] = { value: gameResults[key], resultKey: 'Time' }
-    // }
-
     if (key === 'finishedTime') {
       let timeValue
 
       if (resultsFor === 'Player') {
-        timeValue =
-          filteringIndex === null
-            ? gameResults[key][0]
-            : gameResults[key][filteringIndex]
+        timeValue = filterForPlayer(filteringIndex, gameResults, key)
       }
 
       if (resultsFor === 'Opponent') {
-        timeValue = gameResults[key].filter((_, idx) => idx !== filteringIndex)
+        timeValue = filterForOpponent(filteringIndex, gameResults, key)
       }
 
       resultsArray[1] = { value: timeValue, resultKey: 'Time' }
@@ -80,17 +66,26 @@ export const prepResultsState = (
       let scoreValue
 
       if (resultsFor === 'Player') {
-        scoreValue =
-          filteringIndex === null
-            ? gameResults[key][0]
-            : gameResults[key][filteringIndex]
+        scoreValue = filterForPlayer(filteringIndex, gameResults, key)
       }
-
       if (resultsFor === 'Opponent') {
-        scoreValue = gameResults[key].filter((_, idx) => idx !== filteringIndex)
+        scoreValue = filterForOpponent(filteringIndex, gameResults, key)
       }
 
       resultsArray[2] = { value: scoreValue, resultKey: 'Total Score' }
+    }
+
+    if (key === 'ranks') {
+      let rankValue
+
+      if (resultsFor === 'Player') {
+        rankValue = filterForPlayer(filteringIndex, gameResults, key)
+      }
+      if (resultsFor === 'Opponent') {
+        rankValue = filterForOpponent(filteringIndex, gameResults, key)
+      }
+
+      resultsArray[3] = { value: rankValue, resultKey: 'Rank' }
     }
   })
 
@@ -106,6 +101,9 @@ export const handleFormatting = ({ value, resultKey }) => {
       return convertMillisecToTime(value)
 
     case 'Total Score':
+      return `${value}`
+
+    case 'Rank':
       return `${value}`
 
     case 'Waiting':
