@@ -113,6 +113,18 @@ class Results extends Component {
 
   renderQuizResults = answerResults => {
     console.log('do something with answerResults ', answerResults)
+
+    const results = []
+
+    for (let i = 0; i <= 9; i += 1) {
+      const key = generateRandomKey(
+        answerResults[i],
+        `Player Question ${i + 1} Answer`,
+      )
+      results.push(<Text key={key}>{answerResults[i]}</Text>)
+    }
+
+    return results
   }
 
   render() {
