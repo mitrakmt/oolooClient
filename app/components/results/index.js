@@ -36,16 +36,27 @@ class Results extends Component {
     // if we only have one pair of scores, we only have the player's results
     if (scoreLength === 1) {
       this.setState({
-        playerResults: prepResultsState(gameResults, null, numberOfQuestions),
+        playerResults: prepResultsState(
+          gameResults,
+          null,
+          'Player',
+          numberOfQuestions,
+        ),
       })
     } else {
       this.setState({
         playerResults: prepResultsState(
           gameResults,
           playerIndex,
+          'Player',
           numberOfQuestions,
         ),
-        opponentResults: prepResultsState(gameResults, null, numberOfQuestions),
+        opponentResults: prepResultsState(
+          gameResults,
+          playerIndex,
+          'Opponent',
+          numberOfQuestions,
+        ),
       })
     }
   }
@@ -66,9 +77,15 @@ class Results extends Component {
         playerResults: prepResultsState(
           gameResults,
           playerIndex,
+          'Player',
           numberOfQuestions,
         ),
-        opponentResults: prepResultsState(gameResults, null, numberOfQuestions),
+        opponentResults: prepResultsState(
+          gameResults,
+          playerIndex,
+          'Opponent',
+          numberOfQuestions,
+        ),
       })
     }
   }
@@ -267,6 +284,8 @@ Results.propTypes = {
     totalCorrect: PropTypes.array,
     gameID: PropTypes.number,
     answers: PropTypes.array,
+    finishedTime: PropTypes.array,
+    ranks: PropTypes.array,
   }).isRequired,
 }
 

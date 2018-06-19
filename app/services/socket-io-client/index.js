@@ -65,6 +65,8 @@ const socketMiddleware = (auth, context, callbacks) => {
       totalCorrect,
       gameID,
       answers,
+      finishedTime,
+      ranks,
     }) => {
       context.setState(
         {
@@ -78,6 +80,8 @@ const socketMiddleware = (auth, context, callbacks) => {
             totalCorrect,
             gameID,
             answers,
+            finishedTime,
+            ranks,
           )
           // clear setInterval
           clearInterval(intervalID)

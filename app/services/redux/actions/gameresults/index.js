@@ -7,6 +7,8 @@ export const gameResults = (
   totalCorrect,
   gameID,
   answers,
+  finishedTime,
+  ranks,
 ) => {
   const payload = {
     remainingTime,
@@ -15,6 +17,8 @@ export const gameResults = (
     totalCorrect,
     gameID,
     answers,
+    finishedTime,
+    ranks,
   }
 
   return {

@@ -12,19 +12,42 @@ const convertMillisecToTime = millis => {
   return `${minutes}m ${seconds < 10 ? `0${seconds}s` : `${seconds}s`}`
 }
 
+// If you're only getting the player's result, don't need a filterIdx
+// If you're getting a player and opponent's results, you need the filterIdx
 export const prepResultsState = (
   gameResults,
-  playerIndex = null,
+  filteringIndex = null,
+  resultsFor,
   numberOfQuestions,
 ) => {
   const resultsArray = []
 
   Object.keys(gameResults).forEach(key => {
     if (key === 'totalCorrect') {
-      const totalCorrect =
-        playerIndex === null
-          ? gameResults[key][0]
-          : gameResults[key][playerIndex]
+      // const totalCorrect =
+      //   filteringIndex === null
+      //     ? gameResults[key][0]
+      //     : gameResults[key][filteringIndex]
+
+      // resultsArray[0] = {
+      //   value: calculateOverall(totalCorrect, numberOfQuestions),
+      //   resultKey: 'Overall',
+      // }
+
+      let totalCorrect
+
+      if (resultsFor === 'Player') {
+        totalCorrect =
+          filteringIndex === null
+            ? gameResults[key][0]
+            : gameResults[key][filteringIndex]
+      }
+
+      if (resultsFor === 'Opponent') {
+        totalCorrect = gameResults[key].filter(
+          (_, idx) => idx !== filteringIndex,
+        )
+      }
 
       resultsArray[0] = {
         value: calculateOverall(totalCorrect, numberOfQuestions),
@@ -32,15 +55,40 @@ export const prepResultsState = (
       }
     }
 
-    if (key === 'remainingTime') {
-      resultsArray[1] = { value: gameResults[key], resultKey: 'Time' }
+    // if (key === 'remainingTime') {
+    //   resultsArray[1] = { value: gameResults[key], resultKey: 'Time' }
+    // }
+
+    if (key === 'finishedTime') {
+      let timeValue
+
+      if (resultsFor === 'Player') {
+        timeValue =
+          filteringIndex === null
+            ? gameResults[key][0]
+            : gameResults[key][filteringIndex]
+      }
+
+      if (resultsFor === 'Opponent') {
+        timeValue = gameResults[key].filter((_, idx) => idx !== filteringIndex)
+      }
+
+      resultsArray[1] = { value: timeValue, resultKey: 'Time' }
     }
 
     if (key === 'score') {
-      const scoreValue =
-        playerIndex === null
-          ? gameResults[key][0]
-          : gameResults[key][playerIndex]
+      let scoreValue
+
+      if (resultsFor === 'Player') {
+        scoreValue =
+          filteringIndex === null
+            ? gameResults[key][0]
+            : gameResults[key][filteringIndex]
+      }
+
+      if (resultsFor === 'Opponent') {
+        scoreValue = gameResults[key].filter((_, idx) => idx !== filteringIndex)
+      }
 
       resultsArray[2] = { value: scoreValue, resultKey: 'Total Score' }
     }
