@@ -353,7 +353,11 @@
 			remoteGlobalIDString = 5DBEB1501B18CEA900B34395;
 			remoteInfo = RNVectorIcons;
 		};
+<<<<<<< HEAD
 		B8FAEEA920D9D72D004F3271 /* PBXContainerItemProxy */ = {
+=======
+		B8FAEE6E20D9CB25004F3271 /* PBXContainerItemProxy */ = {
+>>>>>>> master
 			isa = PBXContainerItemProxy;
 			containerPortal = CE38F00C999D444B90A04010 /* RCTGoogleAnalyticsBridge.xcodeproj */;
 			proxyType = 2;
@@ -714,10 +718,17 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+<<<<<<< HEAD
 		B8FAEEA620D9D72C004F3271 /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				B8FAEEAA20D9D72D004F3271 /* libRCTGoogleAnalyticsBridge.a */,
+=======
+		B8FAEE6B20D9CB25004F3271 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B8FAEE6F20D9CB25004F3271 /* libRCTGoogleAnalyticsBridge.a */,
+>>>>>>> master
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -868,7 +879,11 @@
 					ProjectRef = 00C302B51ABCB90400DB3ED1 /* RCTGeolocation.xcodeproj */;
 				},
 				{
+<<<<<<< HEAD
 					ProductGroup = B8FAEEA620D9D72C004F3271 /* Products */;
+=======
+					ProductGroup = B8FAEE6B20D9CB25004F3271 /* Products */;
+>>>>>>> master
 					ProjectRef = CE38F00C999D444B90A04010 /* RCTGoogleAnalyticsBridge.xcodeproj */;
 				},
 				{
@@ -1203,11 +1218,19 @@
 			remoteRef = B83CFF6E20CF5A73009E64DE /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+<<<<<<< HEAD
 		B8FAEEAA20D9D72D004F3271 /* libRCTGoogleAnalyticsBridge.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libRCTGoogleAnalyticsBridge.a;
 			remoteRef = B8FAEEA920D9D72D004F3271 /* PBXContainerItemProxy */;
+=======
+		B8FAEE6F20D9CB25004F3271 /* libRCTGoogleAnalyticsBridge.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTGoogleAnalyticsBridge.a;
+			remoteRef = B8FAEE6E20D9CB25004F3271 /* PBXContainerItemProxy */;
+>>>>>>> master
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
