@@ -144,7 +144,7 @@ class Results extends Component {
       )
 
       // Get the resultObject for the player
-      const resultObj = result[playerIndex]
+      const resultObj = result[playerIndex] || {}
 
       return (
         <Text style={{ fontWeight: '700' }} key={key}>
