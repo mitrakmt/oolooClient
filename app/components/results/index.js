@@ -32,6 +32,8 @@ class Results extends Component {
 
     tracker.trackScreenView('Results')
 
+    console.log('inside componentWillMount ', gameResults)
+
     // before CM, check to see if we have both player results
     // if we only have one pair of scores, we only have the player's results
     if (scoreLength === 1) {
@@ -71,6 +73,8 @@ class Results extends Component {
     const newScoreLength = gameResults.score.length
 
     const { playerIndex, numberOfQuestions } = this.state
+
+    console.log('inside componentWillReceiveProps ', gameResults)
 
     if (newScoreLength > oldScoreLength) {
       this.setState({
