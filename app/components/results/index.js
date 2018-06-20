@@ -146,7 +146,7 @@ class Results extends Component {
         <Text style={{ fontWeight: '700' }} key={key}>
           Question {idx + 1}:{' '}
           {resultObj === null ||
-          typeof resultObj === 'object' ||
+          typeof resultObj !== 'object' ||
           !resultObj.correct
             ? 'Incorrect'
             : 'Correct'}{' '}
