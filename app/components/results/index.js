@@ -144,8 +144,13 @@ class Results extends Component {
 
       return (
         <Text style={{ fontWeight: '700' }} key={key}>
-          Question {idx + 1}: {!resultObj.correct ? 'Incorrect' : 'Correct'} -{' '}
-          {resultObj.answer}
+          Question {idx + 1}:{' '}
+          {resultObj === null ||
+          typeof resultObj === 'object' ||
+          !resultObj.correct
+            ? 'Incorrect'
+            : 'Correct'}{' '}
+          - {resultObj.answer}
         </Text>
       )
     })
@@ -194,9 +199,7 @@ class Results extends Component {
               />
 
               <Text style={{ color: '#293f4e', textAlign: 'center' }}>
-                {opponentIndex !== 'No Opponent'
-                  ? usernames[opponentIndex]
-                  : `Your Opponent`}
+                {usernames[opponentIndex] || 'Your Opponent'}
               </Text>
             </View>
           </View>
