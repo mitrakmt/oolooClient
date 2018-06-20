@@ -144,8 +144,7 @@ class Results extends Component {
 
       return (
         <Text style={{ fontWeight: '700' }} key={key}>
-          Question {idx + 1}:{' '}
-          {resultObj.correct === false ? 'Incorrect' : 'Correct'} -{' '}
+          Question {idx + 1}: {!resultObj.correct ? 'Incorrect' : 'Correct'} -{' '}
           {resultObj.answer}
         </Text>
       )
