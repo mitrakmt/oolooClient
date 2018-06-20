@@ -129,25 +129,38 @@ class Results extends Component {
       </Text>
     ))
 
-  renderQuizResults = answerResults =>
-    answerResults.map((result, idx) => {
+  renderQuizResults = answerResults => {
+    const { playerIndex } = this.state
+
+    // Iterate through parent answerResults array
+    return answerResults.map((result, idx) => {
       const key = generateRandomKey(
         result.answer,
         `Player Question ${idx + 1} Answer`,
       )
 
-      return result.map(resultObj => (
+      // Get the resultObject for the player
+      const resultObj = result[playerIndex]
+
+      return (
         <Text style={{ fontWeight: '700' }} key={key}>
           Question {idx + 1}:{' '}
-          {resultObj.correct === false ? 'Incorrect' : 'Correct'} -{' '}
-          {resultObj.answer}
+          {resultObj === null ||
+          typeof resultObj === 'object' ||
+          !resultObj.correct
+            ? 'Incorrect'
+            : 'Correct'}{' '}
+          - {resultObj.answer}
         </Text>
-      ))
+      )
     })
+  }
 
   render() {
     const { playerResults, opponentResults, username } = this.state
     const { gameResults, opponentIndex, usernames } = this.props
+
+    console.log('gameResults when render ', gameResults)
 
     return (
       <View style={styles.containerStyles}>
@@ -186,9 +199,7 @@ class Results extends Component {
               />
 
               <Text style={{ color: '#293f4e', textAlign: 'center' }}>
-                {opponentIndex !== 'No Opponent'
-                  ? usernames[opponentIndex]
-                  : `Your Opponent`}
+                {usernames[opponentIndex] || 'Your Opponent'}
               </Text>
             </View>
           </View>

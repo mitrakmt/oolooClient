@@ -3,8 +3,8 @@ import { Animated } from 'react-native'
 import io from 'socket.io-client'
 
 const DEV_API_URL = `https://ooloo-api-dev.herokuapp.com`
-const TEMP_AUTH =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaXNBZG1pbiI6ZmFsc2UsImlhdCI6MTUyOTI5ODAzNX0.me_DL5FV7q8ueyp_7vpUZ19x5G7TQtYn2ZLrlFnZHhc'
+// const TEMP_AUTH =
+//   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaXNBZG1pbiI6ZmFsc2UsImlhdCI6MTUyOTI5ODAzNX0.me_DL5FV7q8ueyp_7vpUZ19x5G7TQtYn2ZLrlFnZHhc'
 
 // have access to 'question answered' sockets event
 
@@ -13,7 +13,7 @@ const socketMiddleware = (auth, context, callbacks) => {
 
   // Connect to socket
   // Continue using TEMP_AUTH until backend teams finds permanent fix
-  const socket = io(`${DEV_API_URL}/?token=${TEMP_AUTH}`)
+  const socket = io(`${DEV_API_URL}/?token=${auth}`)
 
   socket.on(
     'gameStart',
