@@ -10,6 +10,7 @@ const DEV_API_URL = `https://ooloo-api-dev.herokuapp.com`
 
 const socketMiddleware = (auth, context, callbacks) => {
   let intervalID
+  let gamePlayerIndex
 
   // Connect to socket
   // Continue using TEMP_AUTH until backend teams finds permanent fix
@@ -19,6 +20,8 @@ const socketMiddleware = (auth, context, callbacks) => {
     'gameStart',
     ({ duration, numberOfQuestions, playerIndex, startTime, usernames }) => {
       const payload = { duration, numberOfQuestions, playerIndex, startTime }
+
+      gamePlayerIndex = playerIndex
 
       // convert username array to object to avoid PropTypes error
       const usernameObj = {}
@@ -96,6 +99,13 @@ const socketMiddleware = (auth, context, callbacks) => {
           )
           // clear setInterval
           clearInterval(intervalID)
+
+          console.log('inside socket middlware gameResults')
+          console.log(
+            'gamePlayerIndex inside socket middleware ',
+            gamePlayerIndex,
+          )
+          console.log('answers for socketmiddleware gameResults ', answers)
 
           // Navigate to Results
           Actions.results()

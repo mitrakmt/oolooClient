@@ -28,15 +28,18 @@ class Results extends Component {
   componentWillMount() {
     const { playerIndex, numberOfQuestions } = this.state
     const { gameResults } = this.props
-    const scoreLength = gameResults.score.length
+    const { score } = gameResults
+    const scoreLength = score.length
 
     tracker.trackScreenView('Results')
 
-    console.log('inside componentWillMount ', gameResults)
+    console.log('inside componentWillMount, gameResults are ', gameResults)
 
     // before CM, check to see if we have both player results
     // if we only have one pair of scores, we only have the player's results
     if (scoreLength === 1) {
+      console.log('inside CWM if statement')
+
       this.setState({
         playerResults: prepResultsState(
           gameResults,
@@ -46,6 +49,19 @@ class Results extends Component {
         ),
       })
     } else {
+      console.log('inside else statement CWM')
+
+      // If we get an array with length 2, check for null
+      // which means we're still waiting for the opponent's results
+      const opponentResults = score.includes(null)
+        ? null
+        : prepResultsState(
+            gameResults,
+            playerIndex,
+            'Opponent',
+            numberOfQuestions,
+          )
+
       this.setState({
         playerResults: prepResultsState(
           gameResults,
@@ -53,12 +69,7 @@ class Results extends Component {
           'Player',
           numberOfQuestions,
         ),
-        opponentResults: prepResultsState(
-          gameResults,
-          playerIndex,
-          'Opponent',
-          numberOfQuestions,
-        ),
+        opponentResults,
       })
     }
   }
@@ -74,24 +85,36 @@ class Results extends Component {
 
     const { playerIndex, numberOfQuestions } = this.state
 
-    console.log('inside componentWillReceiveProps ', gameResults)
+    console.log(
+      'inside componentWillReceiveProps, gameResults are ',
+      gameResults,
+    )
 
-    if (newScoreLength > oldScoreLength) {
-      this.setState({
-        playerResults: prepResultsState(
-          gameResults,
-          playerIndex,
-          'Player',
-          numberOfQuestions,
-        ),
-        opponentResults: prepResultsState(
-          gameResults,
-          playerIndex,
-          'Opponent',
-          numberOfQuestions,
-        ),
-      })
-    }
+    console.log('newScoreLength is ', newScoreLength)
+    console.log('oldScoreLength is ', oldScoreLength)
+    console.log('prevProps are ', prevProps)
+
+    // if (newScoreLength > oldScoreLength) {
+    const playerResults = prepResultsState(
+      prevProps.gameResults,
+      playerIndex,
+      'Player',
+      numberOfQuestions,
+    )
+
+    const opponentResults = prepResultsState(
+      prevProps.gameResults,
+      playerIndex,
+      'Opponent',
+      numberOfQuestions,
+    )
+
+    this.setState({
+      playerResults,
+      opponentResults,
+    })
+
+    // }
   }
 
   renderPlayerColumn = (statsArray = false, baseString = 'Player') => {
@@ -164,7 +187,8 @@ class Results extends Component {
     const { playerResults, opponentResults, username } = this.state
     const { gameResults, opponentIndex, usernames } = this.props
 
-    console.log('gameResults when render ', gameResults)
+    console.log('playerResults when render ', playerResults)
+    console.log('opponentResults when render ', opponentResults)
 
     return (
       <View style={styles.containerStyles}>
