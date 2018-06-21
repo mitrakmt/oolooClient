@@ -1,3 +1,16 @@
+const checkForValidValue = (value, resultKey) => {
+  let result
+  if (resultKey === 'totalCorrect') {
+    result = value === undefined || value.length === 0 ? 0 : value
+  }
+
+  if (resultKey === 'score') {
+    result = value === undefined || value.length === 0 ? 0 : value
+  }
+
+  return result
+}
+
 const filterForPlayer = (filteringIndex, gameResults, key) =>
   filteringIndex === null
     ? gameResults[key][0]
@@ -27,20 +40,31 @@ export const prepResultsState = (
   filteringIndex = null,
   resultsFor,
   numberOfQuestions,
+  waiting = false,
 ) => {
   const resultsArray = []
 
+  if (waiting === true) {
+    return [
+      { value: 'n/a', resultKey: 'Waiting' },
+      { value: 'n/a', resultKey: 'Waiting' },
+      { value: 'n/a', resultKey: 'Waiting' },
+      { value: 'n/a', resultKey: 'Waiting' },
+    ]
+  }
+
   Object.keys(gameResults).forEach(key => {
     if (key === 'totalCorrect') {
-      let totalCorrect
-
-      if (resultsFor === 'Player') {
-        totalCorrect = filterForPlayer(filteringIndex, gameResults, key)
-      }
-
-      if (resultsFor === 'Opponent') {
-        totalCorrect = filterForOpponent(filteringIndex, gameResults, key)
-      }
+      const totalCorrect =
+        resultsFor === 'Player'
+          ? checkForValidValue(
+              filterForPlayer(filteringIndex, gameResults, key),
+              'totalCorrect',
+            )
+          : checkForValidValue(
+              filterForOpponent(filteringIndex, gameResults, key),
+              'totalCorrect',
+            )
 
       resultsArray[0] = {
         value: calculateOverall(totalCorrect, numberOfQuestions),
@@ -49,41 +73,34 @@ export const prepResultsState = (
     }
 
     if (key === 'finishedTime') {
-      let timeValue
-
-      if (resultsFor === 'Player') {
-        timeValue = filterForPlayer(filteringIndex, gameResults, key)
-      }
-
-      if (resultsFor === 'Opponent') {
-        timeValue = filterForOpponent(filteringIndex, gameResults, key)
-      }
+      const timeValue =
+        resultsFor === 'Player'
+          ? filterForPlayer(filteringIndex, gameResults, key)
+          : filterForOpponent(filteringIndex, gameResults, key)
 
       resultsArray[1] = { value: timeValue, resultKey: 'Time' }
     }
 
     if (key === 'score') {
-      let scoreValue
-
-      if (resultsFor === 'Player') {
-        scoreValue = filterForPlayer(filteringIndex, gameResults, key)
-      }
-      if (resultsFor === 'Opponent') {
-        scoreValue = filterForOpponent(filteringIndex, gameResults, key)
-      }
+      const scoreValue =
+        resultsFor === 'Player'
+          ? checkForValidValue(
+              filterForPlayer(filteringIndex, gameResults, key),
+              'score',
+            )
+          : checkForValidValue(
+              filterForOpponent(filteringIndex, gameResults, key),
+              'score',
+            )
 
       resultsArray[2] = { value: scoreValue, resultKey: 'Total Score' }
     }
 
     if (key === 'ranks') {
-      let rankValue
-
-      if (resultsFor === 'Player') {
-        rankValue = filterForPlayer(filteringIndex, gameResults, key)
-      }
-      if (resultsFor === 'Opponent') {
-        rankValue = filterForOpponent(filteringIndex, gameResults, key)
-      }
+      const rankValue =
+        resultsFor === 'Player'
+          ? filterForPlayer(filteringIndex, gameResults, key)
+          : filterForOpponent(filteringIndex, gameResults, key)
 
       resultsArray[3] = { value: rankValue, resultKey: 'Rank' }
     }
@@ -112,6 +129,20 @@ export const handleFormatting = ({ value, resultKey }) => {
     default:
       return 'No result'
   }
+}
+
+export const formatQuizAnswer = (resultObj, idx) => {
+  if (resultObj === undefined) {
+    return `Question ${idx + 1}: Incorrect - No Response Submitted`
+  }
+
+  const correctResponse = `Question ${idx + 1}: Correct - ${resultObj.answer}`
+
+  const incorrectResponse = `Question ${idx + 1}: Incorrect - ${
+    resultObj.answer
+  }`
+
+  return resultObj.correct === true ? correctResponse : incorrectResponse
 }
 
 export const generateRandomKey = (value, baseString) => {

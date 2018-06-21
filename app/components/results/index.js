@@ -5,10 +5,13 @@ import { Text, View, Image, Button, ScrollView } from 'react-native'
 import { Actions } from 'react-native-router-flux'
 import PropTypes from 'prop-types'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
-import { prepResultsState, handleFormatting, generateRandomKey } from './utils'
+import {
+  prepResultsState,
+  handleFormatting,
+  generateRandomKey,
+  formatQuizAnswer,
+} from './utils'
 import styles from './styles'
-
-const devEnvironment = false
 
 class Results extends Component {
   constructor(props) {
@@ -33,104 +36,83 @@ class Results extends Component {
 
     tracker.trackScreenView('Results')
 
-    console.log('inside componentWillMount, gameResults are ', gameResults)
+    console.log('gameResults inside CWM ', gameResults)
 
     // before CM, check to see if we have both player results
     // if we only have one pair of scores, we only have the player's results
     if (scoreLength === 1) {
-      console.log('inside CWM if statement')
-
       this.setState({
         playerResults: prepResultsState(
           gameResults,
           null,
           'Player',
           numberOfQuestions,
+          false,
         ),
+        opponentResults: prepResultsState(null, null, null, null, true),
       })
     } else {
-      console.log('inside else statement CWM')
-
       // If we get an array with length 2, check for null
       // which means we're still waiting for the opponent's results
       const opponentResults = score.includes(null)
-        ? null
+        ? prepResultsState(null, null, null, null, true)
         : prepResultsState(
             gameResults,
             playerIndex,
             'Opponent',
             numberOfQuestions,
+            false,
           )
 
+      const playerResults = prepResultsState(
+        gameResults,
+        playerIndex,
+        'Player',
+        numberOfQuestions,
+        false,
+      )
+
       this.setState({
-        playerResults: prepResultsState(
-          gameResults,
-          playerIndex,
-          'Player',
-          numberOfQuestions,
-        ),
+        playerResults,
         opponentResults,
       })
     }
   }
 
-  componentWillReceiveProps(prevProps) {
-    // when we initially only received one set of results,
-    // use CWRP to compare length of old score array with
-    // length of new score array received from server via Redux store
-    const oldScoreLength = prevProps.gameResults.score.length
-    const { gameResults } = this.props
-
-    const newScoreLength = gameResults.score.length
+  componentWillReceiveProps(nextProps) {
+    // newly received results from opponent are available in nextProps
+    const newGameResults = nextProps.gameResults
 
     const { playerIndex, numberOfQuestions } = this.state
 
-    console.log(
-      'inside componentWillReceiveProps, gameResults are ',
-      gameResults,
-    )
+    console.log('gameResults inside CWRP ', newGameResults)
 
-    console.log('newScoreLength is ', newScoreLength)
-    console.log('oldScoreLength is ', oldScoreLength)
-    console.log('prevProps are ', prevProps)
-
-    // if (newScoreLength > oldScoreLength) {
     const playerResults = prepResultsState(
-      prevProps.gameResults,
+      newGameResults,
       playerIndex,
       'Player',
       numberOfQuestions,
+      false,
     )
 
     const opponentResults = prepResultsState(
-      prevProps.gameResults,
+      newGameResults,
       playerIndex,
       'Opponent',
       numberOfQuestions,
+      false,
     )
+
+    console.log('the newGameResults are ', newGameResults)
 
     this.setState({
       playerResults,
       opponentResults,
     })
-
-    // }
   }
 
-  renderPlayerColumn = (statsArray = false, baseString = 'Player') => {
-    // if we're still waiting for opponent's results, use noData array
-    // to fill opponent results column
-    const noData = [
-      { value: 'n/a', resultKey: 'Waiting' },
-      { value: 'n/a', resultKey: 'Waiting' },
-      { value: 'n/a', resultKey: 'Waiting' },
-      { value: 'n/a', resultKey: 'Waiting' },
-    ]
-
-    const arrayToIterate =
-      statsArray === false || statsArray === null ? noData : statsArray
-
-    return arrayToIterate.map(statObject => {
+  renderPlayerColumn = (statsArray, baseString = 'Player') =>
+    statsArray.map(statObject => {
       const randomKey = generateRandomKey(statObject.value, baseString)
 
       return (
@@ -144,7 +126,6 @@ class Results extends Component {
         />
       )
     })
-  }
 
   renderLabels = labelArray =>
     labelArray.map(label => (
@@ -167,17 +148,11 @@ class Results extends Component {
       )
 
       // Get the resultObject for the player
-      const resultObj = result[playerIndex] || {}
+      const resultObj = !result[playerIndex] ? undefined : result[playerIndex]
 
       return (
         <Text style={{ fontWeight: '700' }} key={key}>
-          Question {idx + 1}:{' '}
-          {resultObj === null ||
-          typeof resultObj !== 'object' ||
-          !resultObj.correct
-            ? 'Incorrect'
-            : 'Correct'}{' '}
-          - {resultObj.answer}
+          {formatQuizAnswer(resultObj, idx)}
         </Text>
       )
     })
@@ -185,10 +160,12 @@ class Results extends Component {
 
   render() {
     const { playerResults, opponentResults, username } = this.state
+
     const { gameResults, opponentIndex, usernames } = this.props
 
     console.log('playerResults when render ', playerResults)
     console.log('opponentResults when render ', opponentResults)
+    console.log('usernames inside render ', usernames)
 
     return (
       <View style={styles.containerStyles}>
@@ -239,11 +216,7 @@ class Results extends Component {
             </View>
 
             <View style={styles.statColContainer}>
-              {this.renderLabels(
-                devEnvironment
-                  ? ['Overall', 'Time', 'Total Score']
-                  : ['Overall', 'Time', 'Total Score', 'Rank'],
-              )}
+              {this.renderLabels(['Overall', 'Time', 'Total Score', 'Rank'])}
             </View>
 
             <View style={styles.statColContainer}>
