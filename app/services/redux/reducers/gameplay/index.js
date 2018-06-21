@@ -6,7 +6,6 @@ const initialState = {
   playerIndex: null,
   startTime: null,
   usernames: {},
-  opponentIndex: 'No Opponent',
 }
 
 const gamePlayReducer = (state = initialState, action) => {

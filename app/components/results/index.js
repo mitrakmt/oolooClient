@@ -22,7 +22,7 @@ class Results extends Component {
     this.state = {
       numberOfQuestions,
       playerIndex,
-      username: usernames[playerIndex],
+      usernames,
     }
   }
 
@@ -78,9 +78,9 @@ class Results extends Component {
   }
 
   render() {
-    const { gameResults, opponentIndex, usernames, playerIndex } = this.props
+    const { gameResults, playerIndex } = this.props
 
-    const { username, numberOfQuestions } = this.state
+    const { usernames, numberOfQuestions } = this.state
 
     const [playerResults, opponentResults] = createGameResultVariables(
       gameResults,
@@ -110,7 +110,7 @@ class Results extends Component {
                 source={{ url: 'https://placeimg.com/300/300/any' }}
               />
               <Text style={{ color: '#293f4e', textAlign: 'center' }}>
-                {!username ? `You` : `${username}`}
+                {usernames.player}
               </Text>
             </View>
 
@@ -129,7 +129,7 @@ class Results extends Component {
               />
 
               <Text style={{ color: '#293f4e', textAlign: 'center' }}>
-                {usernames[opponentIndex] || 'Your Opponent'}
+                {usernames.opponent}
               </Text>
             </View>
           </View>
@@ -195,14 +195,13 @@ class Results extends Component {
 
 function mapStateToProps({
   gameResults,
-  gameStart: { numberOfQuestions, playerIndex, usernames, opponentIndex },
+  gameStart: { numberOfQuestions, playerIndex, usernames },
 }) {
   return {
     gameResults,
     numberOfQuestions,
     usernames,
     playerIndex,
-    opponentIndex,
   }
 }
 
@@ -210,10 +209,9 @@ Results.propTypes = {
   numberOfQuestions: PropTypes.number.isRequired,
   playerIndex: PropTypes.number.isRequired,
   usernames: PropTypes.shape({
-    0: PropTypes.string,
-    1: PropTypes.string,
+    player: PropTypes.string,
+    opponent: PropTypes.string,
   }).isRequired,
-  opponentIndex: PropTypes.string.isRequired,
 
   gameResults: PropTypes.shape({
     remainingTime: PropTypes.number,

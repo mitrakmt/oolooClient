@@ -24,21 +24,14 @@ const socketMiddleware = (auth, context, callbacks) => {
       const usernameObj = {}
 
       usernames.forEach((name, idx) => {
-        if (!usernameObj[idx]) usernameObj[idx] = name
+        if (idx === playerIndex) {
+          usernameObj.player = name
+        } else {
+          usernameObj.opponent = name
+        }
       })
 
       payload.usernames = usernameObj
-
-      // Store the opponentIndex if usernames' length is greater than 1
-      if (usernames.length > 1) {
-        const opponentIndex = usernames
-          .filter((_, idx) => idx !== playerIndex)
-          .pop()
-
-        payload.opponentIndex = opponentIndex.toString()
-      }
-
-      payload.opponentIndex = 'No Opponent'
 
       callbacks.gameStart(payload)
 
