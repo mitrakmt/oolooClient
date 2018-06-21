@@ -1,3 +1,7 @@
+/*
+ * Helper Functions
+ */
+
 const checkForValidValue = (value, resultKey) => {
   let result
   if (resultKey === 'totalCorrect') {
@@ -33,9 +37,13 @@ const convertMillisecToTime = millis => {
   return `${minutes}m ${seconds < 10 ? `0${seconds}s` : `${seconds}s`}`
 }
 
+/*
+ * Data Rendering Functions
+ */
+
 // If you're only getting the player's result, don't need a filterIdx
 // If you're getting a player and opponent's results, you need the filterIdx
-export const prepResultsState = (
+export const prepResultsFor = (
   gameResults,
   filteringIndex = null,
   resultsFor,
@@ -107,6 +115,36 @@ export const prepResultsState = (
   })
 
   return resultsArray
+}
+
+export const createGameResultVariables = (
+  gameResults,
+  numberOfQuestions,
+  playerIndex,
+) => {
+  let opponentResults
+
+  if (gameResults.score.length === 1) {
+    opponentResults = prepResultsFor(null, null, null, null, true)
+  } else {
+    opponentResults = prepResultsFor(
+      gameResults,
+      playerIndex,
+      'Opponent',
+      numberOfQuestions,
+      false,
+    )
+  }
+
+  const playerResults = prepResultsFor(
+    gameResults,
+    playerIndex,
+    'Player',
+    numberOfQuestions,
+    false,
+  )
+
+  return [playerResults, opponentResults]
 }
 
 export const handleFormatting = ({ value, resultKey }) => {

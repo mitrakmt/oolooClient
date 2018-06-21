@@ -6,7 +6,7 @@ import { Actions } from 'react-native-router-flux'
 import PropTypes from 'prop-types'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
 import {
-  prepResultsState,
+  createGameResultVariables,
   handleFormatting,
   generateRandomKey,
   formatQuizAnswer,
@@ -22,93 +22,12 @@ class Results extends Component {
     this.state = {
       numberOfQuestions,
       playerIndex,
-      playerResults: null,
-      opponentResults: null,
       username: usernames[playerIndex],
     }
   }
 
   componentWillMount() {
-    const { playerIndex, numberOfQuestions } = this.state
-    const { gameResults } = this.props
-    const { score } = gameResults
-    const scoreLength = score.length
-
     tracker.trackScreenView('Results')
-
-    console.log('gameResults inside CWM ', gameResults)
-
-    // before CM, check to see if we have both player results
-    // if we only have one pair of scores, we only have the player's results
-    if (scoreLength === 1) {
-      this.setState({
-        playerResults: prepResultsState(
-          gameResults,
-          null,
-          'Player',
-          numberOfQuestions,
-          false,
-        ),
-        opponentResults: prepResultsState(null, null, null, null, true),
-      })
-    } else {
-      // If we get an array with length 2, check for null
-      // which means we're still waiting for the opponent's results
-      const opponentResults = score.includes(null)
-        ? prepResultsState(null, null, null, null, true)
-        : prepResultsState(
-            gameResults,
-            playerIndex,
-            'Opponent',
-            numberOfQuestions,
-            false,
-          )
-
-      const playerResults = prepResultsState(
-        gameResults,
-        playerIndex,
-        'Player',
-        numberOfQuestions,
-        false,
-      )
-
-      this.setState({
-        playerResults,
-        opponentResults,
-      })
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    // newly received results from opponent are available in nextProps
-    const newGameResults = nextProps.gameResults
-
-    const { playerIndex, numberOfQuestions } = this.state
-
-    console.log('gameResults inside CWRP ', newGameResults)
-
-    const playerResults = prepResultsState(
-      newGameResults,
-      playerIndex,
-      'Player',
-      numberOfQuestions,
-      false,
-    )
-
-    const opponentResults = prepResultsState(
-      newGameResults,
-      playerIndex,
-      'Opponent',
-      numberOfQuestions,
-      false,
-    )
-
-    console.log('the newGameResults are ', newGameResults)
-
-    this.setState({
-      playerResults,
-      opponentResults,
-    })
   }
 
   renderPlayerColumn = (statsArray, baseString = 'Player') =>
@@ -159,13 +78,19 @@ class Results extends Component {
   }
 
   render() {
-    const { playerResults, opponentResults, username } = this.state
+    const { gameResults, opponentIndex, usernames, playerIndex } = this.props
 
-    const { gameResults, opponentIndex, usernames } = this.props
+    const { username, numberOfQuestions } = this.state
 
+    const [playerResults, opponentResults] = createGameResultVariables(
+      gameResults,
+      numberOfQuestions,
+      playerIndex,
+    )
+
+    console.log('gameResults in render ', gameResults)
     console.log('playerResults when render ', playerResults)
     console.log('opponentResults when render ', opponentResults)
-    console.log('usernames inside render ', usernames)
 
     return (
       <View style={styles.containerStyles}>
