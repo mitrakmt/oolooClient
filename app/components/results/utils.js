@@ -124,6 +124,8 @@ export const createGameResultVariables = (
 ) => {
   let opponentResults
 
+  // if the gameResults length is one, you don't have the opponent results yet
+  // return placeholder 'Waiting' array
   if (gameResults.score.length === 1) {
     opponentResults = prepResultsFor(null, null, null, null, true)
   } else {
