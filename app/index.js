@@ -8,6 +8,7 @@ import Home from './components/home'
 import Login from './components/login'
 import Leaderboard from './components/leaderboard/leaderboard'
 import Results from './components/results'
+import Profile from './components/profile/profile'
 import rootReducer from './services/redux/reducers'
 
 const environment = 'Development'
@@ -38,6 +39,12 @@ const App = () => (
           key="home"
           component={Home}
           title="Home/Let's Play"
+          hideNavBar="false"
+        />
+        <Scene
+          key="profile"
+          component={Profile}
+          title="Profile"
           hideNavBar="false"
         />
         <Scene
