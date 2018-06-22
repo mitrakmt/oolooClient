@@ -7,14 +7,14 @@ class Timer extends Component {
   constructor(props) {
     super(props)
 
-    // create animation property in constructor
-    this.animation = new Animated.Value(this.props.progress)
+    // create animation properties in constructor
+    this.timerWidthAnimation = new Animated.Value(this.props.progress)
   }
 
   componentDidUpdate(prevProps) {
     // update width of Animated.View with subtracted progress props
     if (prevProps.progress !== this.props.progress) {
-      Animated.timing(this.animation, {
+      Animated.timing(this.timerWidthAnimation, {
         toValue: this.props.progress,
         duration: 300,
       }).start()
@@ -23,7 +23,9 @@ class Timer extends Component {
 
   render() {
     // when component renders, interpolate
-    const widthInterpolated = this.animation.interpolate({
+    // Add styles that need to be animated to Animated.View
+
+    const widthInterpolated = this.timerWidthAnimation.interpolate({
       inputRange: [0, 300000], // hardcoded value is 5 minutes (300000ms)
       outputRange: ['0%', '100%'],
       extrapolate: 'clamp',
@@ -31,20 +33,19 @@ class Timer extends Component {
 
     return (
       <View style={styles.timerOuterView}>
-        <View style={styles.borderView}>
-          <View
+        <View
+          style={[
+            StyleSheet.absoluteFill,
+            { backgroundColor: 'rgba(255,255,255,.5)' },
+          ]}
+        >
+          <Animated.View
             style={[
-              StyleSheet.absoluteFill,
-              { backgroundColor: 'rgba(255,255,255,.5)' },
+              styles.borderView,
+              styles.timerAnimationStyles,
+              { width: widthInterpolated },
             ]}
-          >
-            <Animated.View
-              style={[
-                styles.timerAnimationStyles,
-                { width: widthInterpolated },
-              ]}
-            />
-          </View>
+          />
         </View>
       </View>
     )
