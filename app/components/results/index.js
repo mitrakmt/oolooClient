@@ -5,10 +5,13 @@ import { Text, View, Image, Button, ScrollView } from 'react-native'
 import { Actions } from 'react-native-router-flux'
 import PropTypes from 'prop-types'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
-import { prepResultsState, handleFormatting, generateRandomKey } from './utils'
+import {
+  handleFormatting,
+  generateRandomKey,
+  formatQuizAnswer,
+  prepResultsFor,
+} from './utils'
 import styles from './styles'
-
-const devEnvironment = false
 
 class Results extends Component {
   constructor(props) {
@@ -19,91 +22,16 @@ class Results extends Component {
     this.state = {
       numberOfQuestions,
       playerIndex,
-      playerResults: null,
-      opponentResults: null,
-      username: usernames[playerIndex],
+      usernames,
     }
   }
 
   componentWillMount() {
-    const { playerIndex, numberOfQuestions } = this.state
-    const { gameResults } = this.props
-    const scoreLength = gameResults.score.length
-
     tracker.trackScreenView('Results')
-
-    // before CM, check to see if we have both player results
-    // if we only have one pair of scores, we only have the player's results
-    if (scoreLength === 1) {
-      this.setState({
-        playerResults: prepResultsState(
-          gameResults,
-          null,
-          'Player',
-          numberOfQuestions,
-        ),
-      })
-    } else {
-      this.setState({
-        playerResults: prepResultsState(
-          gameResults,
-          playerIndex,
-          'Player',
-          numberOfQuestions,
-        ),
-        opponentResults: prepResultsState(
-          gameResults,
-          playerIndex,
-          'Opponent',
-          numberOfQuestions,
-        ),
-      })
-    }
   }
 
-  componentWillReceiveProps(prevProps) {
-    // when we initially only received one set of results,
-    // use CWRP to compare length of old score array with
-    // length of new score array received from server via Redux store
-    const oldScoreLength = prevProps.gameResults.score.length
-    const { gameResults } = this.props
-
-    const newScoreLength = gameResults.score.length
-
-    const { playerIndex, numberOfQuestions } = this.state
-
-    if (newScoreLength > oldScoreLength) {
-      this.setState({
-        playerResults: prepResultsState(
-          gameResults,
-          playerIndex,
-          'Player',
-          numberOfQuestions,
-        ),
-        opponentResults: prepResultsState(
-          gameResults,
-          playerIndex,
-          'Opponent',
-          numberOfQuestions,
-        ),
-      })
-    }
-  }
-
-  renderPlayerColumn = (statsArray = false, baseString = 'Player') => {
-    // if we're still waiting for opponent's results, use noData array
-    // to fill opponent results column
-    const noData = [
-      { value: 'n/a', resultKey: 'Waiting' },
-      { value: 'n/a', resultKey: 'Waiting' },
-      { value: 'n/a', resultKey: 'Waiting' },
-      { value: 'n/a', resultKey: 'Waiting' },
-    ]
-
-    const arrayToIterate =
-      statsArray === false || statsArray === null ? noData : statsArray
-
-    return arrayToIterate.map(statObject => {
+  renderPlayerColumn = (statsArray, baseString = 'Player') =>
+    statsArray.map(statObject => {
       const randomKey = generateRandomKey(statObject.value, baseString)
 
       return (
@@ -117,7 +45,6 @@ class Results extends Component {
         />
       )
     })
-  }
 
   renderLabels = labelArray =>
     labelArray.map(label => (
@@ -140,27 +67,36 @@ class Results extends Component {
       )
 
       // Get the resultObject for the player
-      const resultObj = result[playerIndex] || {}
+      const resultObj = !result[playerIndex] ? undefined : result[playerIndex]
 
       return (
         <Text style={{ fontWeight: '700' }} key={key}>
-          Question {idx + 1}:{' '}
-          {resultObj === null ||
-          typeof resultObj !== 'object' ||
-          !resultObj.correct
-            ? 'Incorrect'
-            : 'Correct'}{' '}
-          - {resultObj.answer}
+          {formatQuizAnswer(resultObj, idx)}
         </Text>
       )
     })
   }
 
   render() {
-    const { playerResults, opponentResults, username } = this.state
-    const { gameResults, opponentIndex, usernames } = this.props
+    const { gameResults, playerIndex } = this.props
 
-    console.log('gameResults when render ', gameResults)
+    const { usernames, numberOfQuestions } = this.state
+
+    const opponentResults = prepResultsFor(
+      gameResults,
+      playerIndex,
+      'Opponent',
+      numberOfQuestions,
+      false,
+    )
+
+    const playerResults = prepResultsFor(
+      gameResults,
+      playerIndex,
+      'Player',
+      numberOfQuestions,
+      false,
+    )
 
     return (
       <View style={styles.containerStyles}>
@@ -180,7 +116,7 @@ class Results extends Component {
                 source={{ url: 'https://placeimg.com/300/300/any' }}
               />
               <Text style={{ color: '#293f4e', textAlign: 'center' }}>
-                {!username ? `You` : `${username}`}
+                {usernames.player}
               </Text>
             </View>
 
@@ -199,7 +135,7 @@ class Results extends Component {
               />
 
               <Text style={{ color: '#293f4e', textAlign: 'center' }}>
-                {usernames[opponentIndex] || 'Your Opponent'}
+                {usernames.opponent}
               </Text>
             </View>
           </View>
@@ -211,17 +147,11 @@ class Results extends Component {
             </View>
 
             <View style={styles.statColContainer}>
-              {this.renderLabels(
-                devEnvironment
-                  ? ['Overall', 'Time', 'Total Score']
-                  : ['Overall', 'Time', 'Total Score', 'Rank'],
-              )}
+              {this.renderLabels(['Overall', 'Time', 'Total Score', 'Rank'])}
             </View>
 
             <View style={styles.statColContainer}>
-              {opponentResults === null
-                ? this.renderPlayerColumn(false)
-                : this.renderPlayerColumn(opponentResults, 'Opponent')}
+              {this.renderPlayerColumn(opponentResults, 'Opponent')}
             </View>
           </View>
           {/* end statContainer  */}
@@ -269,14 +199,13 @@ class Results extends Component {
 
 function mapStateToProps({
   gameResults,
-  gameStart: { numberOfQuestions, playerIndex, usernames, opponentIndex },
+  gameStart: { numberOfQuestions, playerIndex, usernames },
 }) {
   return {
     gameResults,
     numberOfQuestions,
     usernames,
     playerIndex,
-    opponentIndex,
   }
 }
 
@@ -284,10 +213,9 @@ Results.propTypes = {
   numberOfQuestions: PropTypes.number.isRequired,
   playerIndex: PropTypes.number.isRequired,
   usernames: PropTypes.shape({
-    0: PropTypes.string,
-    1: PropTypes.string,
+    player: PropTypes.string,
+    opponent: PropTypes.string,
   }).isRequired,
-  opponentIndex: PropTypes.string.isRequired,
 
   gameResults: PropTypes.shape({
     remainingTime: PropTypes.number,
