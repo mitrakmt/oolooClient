@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, Button, Image } from 'react-native'
+import { TabBarIOS, Text, View, Button, Image } from 'react-native'
 import { Actions } from 'react-native-router-flux'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
 import styles from './styles'
@@ -18,7 +18,7 @@ class Home extends Component {
     Actions.gameplay()
   }
 
-  render() {
+  renderHomeView() {
     return (
       <View style={styles.containerStyles}>
         <View style={styles.textContainerStyles}>
@@ -92,6 +92,22 @@ class Home extends Component {
           </View>
         </View>
       </View>
+    )
+  }
+
+  render() {
+    return (
+      <TabBarIOS>
+        <TabBarIOS.Item
+          iconName="home"
+          iconSize={20}
+          // onPress={ () => this._setSelectedTab('home') }
+          selected
+          title="home"
+        >
+          {this.renderHomeView()}
+        </TabBarIOS.Item>
+      </TabBarIOS>
     )
   }
 }
