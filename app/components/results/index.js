@@ -6,10 +6,10 @@ import { Actions } from 'react-native-router-flux'
 import PropTypes from 'prop-types'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
 import {
-  createGameResultVariables,
   handleFormatting,
   generateRandomKey,
   formatQuizAnswer,
+  prepResultsFor,
 } from './utils'
 import styles from './styles'
 
@@ -82,15 +82,21 @@ class Results extends Component {
 
     const { usernames, numberOfQuestions } = this.state
 
-    const [playerResults, opponentResults] = createGameResultVariables(
+    const opponentResults = prepResultsFor(
       gameResults,
-      numberOfQuestions,
       playerIndex,
+      'Opponent',
+      numberOfQuestions,
+      false,
     )
 
-    console.log('gameResults in render ', gameResults)
-    console.log('playerResults when render ', playerResults)
-    console.log('opponentResults when render ', opponentResults)
+    const playerResults = prepResultsFor(
+      gameResults,
+      playerIndex,
+      'Player',
+      numberOfQuestions,
+      false,
+    )
 
     return (
       <View style={styles.containerStyles}>
@@ -145,9 +151,7 @@ class Results extends Component {
             </View>
 
             <View style={styles.statColContainer}>
-              {opponentResults === null
-                ? this.renderPlayerColumn(false)
-                : this.renderPlayerColumn(opponentResults, 'Opponent')}
+              {this.renderPlayerColumn(opponentResults, 'Opponent')}
             </View>
           </View>
           {/* end statContainer  */}

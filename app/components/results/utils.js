@@ -4,22 +4,33 @@
 
 const checkForValidValue = (value, resultKey) => {
   let result
-  if (resultKey === 'totalCorrect') {
-    result = value === undefined || value.length === 0 ? 0 : value
-  }
 
-  if (resultKey === 'score') {
-    result = value === undefined || value.length === 0 ? 0 : value
+  if (resultKey === 'totalCorrect' || resultKey === 'score') {
+    if (Array.isArray(value) && (value.includes(null) || value.length === 0)) {
+      result = 0
+    } else if (value === null) {
+      result = 0
+    } else {
+      result = value
+    }
   }
 
   return result
 }
 
-const filterForPlayer = (filteringIndex, gameResults, key) =>
-  filteringIndex === null
-    ? gameResults[key][0]
-    : gameResults[key][filteringIndex]
+const filterForPlayer = (filteringIndex, gameResults, key) => {
+  let result =
+    filteringIndex === null
+      ? gameResults[key][0]
+      : gameResults[key][filteringIndex]
 
+  // If there's no value in the array, return null
+  result = result === undefined ? null : result
+
+  return result
+}
+
+// Will return an array with a value, or null
 const filterForOpponent = (filteringIndex, gameResults, key) =>
   gameResults[key].filter((_, idx) => idx !== filteringIndex)
 
@@ -52,6 +63,9 @@ export const prepResultsFor = (
 ) => {
   const resultsArray = []
 
+  // If we don't want to show a player what an opponent's Overall %
+  // is while they wait for quiz to end, we can send the 'Await' payload
+  // for the Opponent Results column
   if (waiting === true) {
     return [
       { value: 'n/a', resultKey: 'Waiting' },
@@ -115,38 +129,6 @@ export const prepResultsFor = (
   })
 
   return resultsArray
-}
-
-export const createGameResultVariables = (
-  gameResults,
-  numberOfQuestions,
-  playerIndex,
-) => {
-  let opponentResults
-
-  // if the gameResults length is one, you don't have the opponent results yet
-  // return placeholder 'Waiting' array
-  if (gameResults.score.length === 1) {
-    opponentResults = prepResultsFor(null, null, null, null, true)
-  } else {
-    opponentResults = prepResultsFor(
-      gameResults,
-      playerIndex,
-      'Opponent',
-      numberOfQuestions,
-      false,
-    )
-  }
-
-  const playerResults = prepResultsFor(
-    gameResults,
-    playerIndex,
-    'Player',
-    numberOfQuestions,
-    false,
-  )
-
-  return [playerResults, opponentResults]
 }
 
 export const handleFormatting = ({ value, resultKey }) => {
