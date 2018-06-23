@@ -18,7 +18,6 @@ const timerAnimationStyles = {
   left: 0,
   top: 0,
   bottom: 0,
-  backgroundColor: '#128574',
 }
 
 export default {
