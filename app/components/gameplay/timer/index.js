@@ -9,12 +9,18 @@ class Timer extends Component {
 
     // create animation properties in constructor
     this.timerWidthAnimation = new Animated.Value(this.props.progress)
+    this.colorAnimation = new Animated.Value(this.props.progress)
   }
 
   componentDidUpdate(prevProps) {
     // update width of Animated.View with subtracted progress props
     if (prevProps.progress !== this.props.progress) {
       Animated.timing(this.timerWidthAnimation, {
+        toValue: this.props.progress,
+        duration: 300,
+      }).start()
+
+      Animated.timing(this.colorAnimation, {
         toValue: this.props.progress,
         duration: 300,
       }).start()
@@ -31,6 +37,19 @@ class Timer extends Component {
       extrapolate: 'clamp',
     })
 
+    const BGColorInterpolated = this.colorAnimation.interpolate({
+      inputRange: [0, 30000, 60000, 120000, 180000, 240000, 300000],
+      outputRange: [
+        'rgb(236, 94, 75)',
+        'rgb(236, 94, 75)',
+        'rgb(238, 127, 79)',
+        'rgb(229, 180, 91)',
+        'rgb(229, 180, 91)',
+        'rgb(185,169, 95)',
+        'rgb(18, 133, 116)',
+      ],
+    })
+
     return (
       <View style={styles.timerOuterView}>
         <View
@@ -43,7 +62,10 @@ class Timer extends Component {
             style={[
               styles.borderView,
               styles.timerAnimationStyles,
-              { width: widthInterpolated },
+              {
+                width: widthInterpolated,
+                backgroundColor: BGColorInterpolated,
+              },
             ]}
           />
         </View>
