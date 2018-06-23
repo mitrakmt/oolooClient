@@ -22,15 +22,15 @@ class Home extends Component {
     return (
       <View style={styles.containerStyles}>
         <View style={styles.textContainerStyles}>
-          <Text style={{ fontSize: 15, color: '#01a38d', marginTop: '10%' }}>
+          <Text style={{ fontSize: 15, color: '#01a38d', marginTop: '6%' }}>
             {' '}
             OOLOO
           </Text>
         </View>
         {/* End .textContainerStyles */}
 
-        <View style={styles.newsContainerStyles}>
-          <View>
+        <View style={styles.contentContainerStyles}>
+          <View style={styles.newsHeaderContainer}>
             <Text style={{ fontSize: 35, color: '#344856', fontWeight: '300' }}>
               News
             </Text>
@@ -70,15 +70,7 @@ class Home extends Component {
         </View>
         {/* End .newsItemsContainerStyles */}
 
-        <View style={styles.gameTitleContainerStyles}>
-          <View style={styles.gameTitleTextContainerStyles}>
-            <Text style={{ fontSize: 20, color: '#344856', fontWeight: '700' }}>
-              Game title
-            </Text>
-
-            <Text style={{ color: '#344856' }}>Description of game</Text>
-          </View>
-
+        <View style={styles.contentContainerStyles}>
           <View style={styles.buttonContainerStyle}>
             <View style={styles.buttonStyles}>
               <Button
@@ -89,8 +81,21 @@ class Home extends Component {
               />
             </View>
           </View>
-          {/* end .buttonContainer */}
+          {/* End .buttonContainer */}
         </View>
+
+        {/* <View style={styles.gameTitleContainerStyles}>
+          <View style={styles.gameTitleTextContainerStyles}>
+            <Text style={{ fontSize: 20, color: '#344856', fontWeight: '700' }}>
+              Game title
+            </Text>
+
+            <Text style={{ color: '#344856' }}>Description of game</Text>
+          </View>
+
+
+        </View> */}
+        {/* End .gameTitleContainerStyles */}
       </View>
     )
   }
