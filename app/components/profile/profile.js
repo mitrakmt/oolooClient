@@ -4,7 +4,13 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import styles from './styles'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
-import { prepPayload, getUserInterests, getInterests, getUser } from './utils'
+import {
+  prepPayload,
+  getUserInterests,
+  getInterests,
+  getUser,
+  deleteInterest,
+} from './utils'
 
 class Profile extends Component {
   constructor(props) {
@@ -13,14 +19,14 @@ class Profile extends Component {
   }
 
   componentWillMount() {
-    const token = this.props.auth
     tracker.trackScreenView('Profile')
-    this.getUserInfo(token)
-    this.getAllInterests(token)
-    this.getUserInterests(token)
+    this.getUserInfo()
+    this.getAllInterests()
+    this.getUserInterests()
   }
 
-  getUserInfo = async token => {
+  getUserInfo = async () => {
+    const token = this.props.auth
     const payload = prepPayload(token)
 
     try {
@@ -36,7 +42,8 @@ class Profile extends Component {
     }
   }
 
-  getAllInterests = async token => {
+  getAllInterests = async () => {
+    const token = this.props.auth
     const payload = prepPayload(token)
 
     try {
@@ -52,7 +59,8 @@ class Profile extends Component {
     }
   }
 
-  getUserInterests = async token => {
+  getUserInterests = async () => {
+    const token = this.props.auth
     const payload = prepPayload(token)
 
     try {
@@ -62,6 +70,24 @@ class Profile extends Component {
         this.handleError()
       } else {
         this.props.setUserInterests(getUserInterestsResponse)
+      }
+    } catch (err) {
+      this.handleError()
+    }
+  }
+
+  deleteInterest = async interestId => {
+    const token = this.props.auth
+    const payload = prepPayload(token)
+
+    try {
+      const deleteInterestResponse = await deleteInterest(payload, interestId)
+
+      if (!deleteInterestResponse) {
+        this.handleError()
+      } else {
+        // make sure backend now returns fill list of interests after deletion
+        this.props.setUserInterests(deleteInterestResponse)
       }
     } catch (err) {
       this.handleError()
