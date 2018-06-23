@@ -111,19 +111,16 @@ class GamePlay extends Component {
     )
   }
 
-  renderAnimatedQuestion = () => {
+  renderFadeInAnimatedQuestion = () => {
     const { questionAnimation, question } = this.state
 
-    const translateX = questionAnimation.interpolate({
+    const opacity = questionAnimation.interpolate({
       inputRange: [0, 1],
-      outputRange: [-500, 1],
-      extrapolate: 'clamp',
+      outputRange: [0, 1],
     })
 
-    const transform = [{ translateX }]
-
     return (
-      <Animated.Text style={[styles.questionContainer, { transform }]}>
+      <Animated.Text style={[styles.questionContainer, { opacity }]}>
         {question}
       </Animated.Text>
     )
@@ -208,7 +205,7 @@ class GamePlay extends Component {
         </View>
 
         <View style={styles.QAnswContainer}>
-          <ScrollView>{this.renderAnimatedQuestion()}</ScrollView>
+          <ScrollView>{this.renderFadeInAnimatedQuestion()}</ScrollView>
 
           <View style={styles.answersContainerStyle}>
             {this.renderAnswerChoices()}
