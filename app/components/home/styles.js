@@ -6,14 +6,14 @@ const containerStyles = {
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  justifyContent: 'space-around',
+  justifyContent: 'flex-start',
   height: '100%',
 }
 
 const textContainerStyles = {
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'center',
+  // alignItems: 'center',
   justifyContent: 'space-between',
   marginLeft: 'auto',
   marginRight: 'auto',
