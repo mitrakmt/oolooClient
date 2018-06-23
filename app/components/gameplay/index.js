@@ -11,7 +11,7 @@ import Icon from 'react-native-vector-icons/Entypo'
 import PropTypes from 'prop-types'
 import styles from './styles'
 import Timer from './timer'
-import generateRandomKey from './utils'
+import { generateRandomKey, runTimerOnce, animateStopwatch } from './utils'
 import { gameResults } from '../../services/redux/actions/gameresults'
 import { startTheGame } from '../../services/redux/actions/gameplay'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
@@ -23,12 +23,14 @@ class GamePlay extends Component {
     this.state = {
       gameStart: false,
       progress: 300000,
+      tickTockProgress: 1,
       questionNumber: null,
       question: 'A new challenger is being selected. Get ready!',
       possibleAnswers: [],
       chosenAnswer: null,
       buttonAnimation: new Animated.Value(0),
       questionAnimation: new Animated.Value(0),
+      timerIconAnimation: new Animated.Value(0),
       buttonColor: '#344856',
     }
   }
@@ -88,6 +90,25 @@ class GamePlay extends Component {
       buttonAnimation: new Animated.Value(0),
       chosenAnswer: null,
     })
+  }
+
+  renderAnimatedIcon = () => {
+    const { timerIconAnimation } = this.state
+
+    const tickTock = timerIconAnimation.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['-48deg', '48deg'],
+    })
+
+    const transform = [{ rotate: tickTock }]
+
+    return (
+      <View style={{ marginLeft: '7%' }}>
+        <Animated.Text style={[{ transform }]}>
+          <Icon name="stopwatch" size={25} />
+        </Animated.Text>
+      </View>
+    )
   }
 
   renderAnimatedQuestion = () => {
@@ -152,14 +173,20 @@ class GamePlay extends Component {
   }
 
   render() {
-    const { gameStart, questionNumber, questionAnimation } = this.state
+    const {
+      gameStart,
+      questionNumber,
+      questionAnimation,
+      tickTockProgress,
+      timerIconAnimation,
+    } = this.state
 
     // Run the animation one time before connecting to the socket server
     if (gameStart === false) {
-      Animated.timing(questionAnimation, {
-        toValue: 1,
-        duration: 400,
-      }).start()
+      runTimerOnce(questionAnimation)
+    } else {
+      // As soon as game starts, Animate stopWatch on each rerender
+      animateStopwatch(timerIconAnimation, tickTockProgress)
     }
 
     return (
@@ -188,10 +215,7 @@ class GamePlay extends Component {
           </View>
 
           <View style={{ flexDirection: 'row', marginBottom: '3%' }}>
-            <View style={{ marginLeft: '7%' }}>
-              <Icon name="stopwatch" size={25} />
-            </View>
-
+            {this.renderAnimatedIcon()}
             <Timer progress={this.state.progress} />
           </View>
         </View>

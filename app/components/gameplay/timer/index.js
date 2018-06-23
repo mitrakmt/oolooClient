@@ -17,12 +17,12 @@ class Timer extends Component {
     if (prevProps.progress !== this.props.progress) {
       Animated.timing(this.timerWidthAnimation, {
         toValue: this.props.progress,
-        duration: 300,
+        duration: 200,
       }).start()
 
       Animated.timing(this.colorAnimation, {
         toValue: this.props.progress,
-        duration: 300,
+        duration: 200,
       }).start()
     }
   }

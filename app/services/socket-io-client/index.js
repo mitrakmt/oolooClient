@@ -35,11 +35,13 @@ const socketMiddleware = (auth, context, callbacks) => {
 
       callbacks.gameStart(payload)
 
+      // setInterval to update timer and tickTock progress
       intervalID = setInterval(() => {
         context.setState(state => ({
           playerIndex,
           gameStart: true,
           progress: state.progress - 1000,
+          tickTockProgress: state.tickTockProgress === 0 ? 1 : 0,
         }))
       }, 1000)
     },
