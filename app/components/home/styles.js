@@ -1,12 +1,14 @@
-const colors = {
-  buttonColor: '#01a38d',
-}
-
 // Apply to containers for debugging layout
+/*
 const debuggingStyles = {
   borderWidth: 2,
   borderRadius: 25,
   borderColor: '#E18678',
+}
+*/
+
+const colors = {
+  buttonColor: '#01a38d',
 }
 
 const containerStyles = {
@@ -25,25 +27,22 @@ const textContainerStyles = {
   marginRight: 'auto',
 }
 
-const contentContainerStyles = {
+const newsContainerStyles = {
   height: '40%',
   width: '90%',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-  ...debuggingStyles,
 }
 
 const newsHeaderContainer = {
   height: '20%',
-  ...debuggingStyles,
 }
 
 const newsItemsContainerStyles = {
   display: 'flex',
   height: '75%',
   justifyContent: 'space-around',
-  ...debuggingStyles,
 }
 
 const singleNewsItem = {
@@ -66,24 +65,13 @@ const singleNewsItemText = {
   fontWeight: '800',
 }
 
-const gameTitleContainerStyles = {
-  width: '50%',
-  height: '28%',
-  // borderWidth: 2,
-  // borderRadius: 25,
-  // borderColor: '#E18678',
-
-  ...debuggingStyles,
-
-  display: 'flex',
-  justifyContent: 'space-between',
-}
-
-const gameTitleTextContainerStyles = {
+// Layout for bottomContainer will change with design changes
+const bottomContainerStyles = {
   height: '40%',
+  width: '90%',
   display: 'flex',
-  justifyContent: 'space-around',
   alignItems: 'center',
+  justifyContent: 'flex-end',
 }
 
 const buttonContainerStyle = {
@@ -106,15 +94,13 @@ const buttonStyles = {
 export default {
   containerStyles,
   textContainerStyles,
-  contentContainerStyles,
+  newsContainerStyles,
   newsHeaderContainer,
   singleNewsItem,
   newsItemsContainerStyles,
   playerAvatar,
   singleNewsItemText,
-
-  gameTitleContainerStyles,
-  gameTitleTextContainerStyles,
+  bottomContainerStyles,
   buttonContainerStyle,
   buttonStyles,
 }

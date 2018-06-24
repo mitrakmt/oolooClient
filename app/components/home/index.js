@@ -27,9 +27,8 @@ class Home extends Component {
             OOLOO
           </Text>
         </View>
-        {/* End .textContainerStyles */}
 
-        <View style={styles.contentContainerStyles}>
+        <View style={styles.newsContainerStyles}>
           <View style={styles.newsHeaderContainer}>
             <Text style={{ fontSize: 35, color: '#344856', fontWeight: '300' }}>
               News
@@ -68,9 +67,8 @@ class Home extends Component {
             </View>
           </View>
         </View>
-        {/* End .newsItemsContainerStyles */}
 
-        <View style={styles.contentContainerStyles}>
+        <View style={styles.bottomContainerStyles}>
           <View style={styles.buttonContainerStyle}>
             <View style={styles.buttonStyles}>
               <Button
@@ -81,21 +79,7 @@ class Home extends Component {
               />
             </View>
           </View>
-          {/* End .buttonContainer */}
         </View>
-
-        {/* <View style={styles.gameTitleContainerStyles}>
-          <View style={styles.gameTitleTextContainerStyles}>
-            <Text style={{ fontSize: 20, color: '#344856', fontWeight: '700' }}>
-              Game title
-            </Text>
-
-            <Text style={{ color: '#344856' }}>Description of game</Text>
-          </View>
-
-
-        </View> */}
-        {/* End .gameTitleContainerStyles */}
       </View>
     )
   }
