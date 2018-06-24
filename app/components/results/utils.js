@@ -1,8 +1,36 @@
-const filterForPlayer = (filteringIndex, gameResults, key) =>
-  filteringIndex === null
-    ? gameResults[key][0]
-    : gameResults[key][filteringIndex]
+/*
+ * Helper Functions
+ */
 
+const checkForValidValue = (value, resultKey) => {
+  let result
+
+  if (resultKey === 'totalCorrect' || resultKey === 'score') {
+    if (Array.isArray(value) && (value.includes(null) || value.length === 0)) {
+      result = 0
+    } else if (value === null) {
+      result = 0
+    } else {
+      result = value
+    }
+  }
+
+  return result
+}
+
+const filterForPlayer = (filteringIndex, gameResults, key) => {
+  let result =
+    filteringIndex === null
+      ? gameResults[key][0]
+      : gameResults[key][filteringIndex]
+
+  // If there's no value in the array, return null
+  result = result === undefined ? null : result
+
+  return result
+}
+
+// Will return an array with a value, or null
 const filterForOpponent = (filteringIndex, gameResults, key) =>
   gameResults[key].filter((_, idx) => idx !== filteringIndex)
 
@@ -20,27 +48,45 @@ const convertMillisecToTime = millis => {
   return `${minutes}m ${seconds < 10 ? `0${seconds}s` : `${seconds}s`}`
 }
 
+/*
+ * Data Rendering Functions
+ */
+
 // If you're only getting the player's result, don't need a filterIdx
 // If you're getting a player and opponent's results, you need the filterIdx
-export const prepResultsState = (
+export const prepResultsFor = (
   gameResults,
   filteringIndex = null,
   resultsFor,
   numberOfQuestions,
+  waiting = false,
 ) => {
   const resultsArray = []
 
+  // If we don't want to show a player what an opponent's Overall %
+  // is while they wait for quiz to end, we can send the 'Await' payload
+  // for the Opponent Results column
+  if (waiting === true) {
+    return [
+      { value: 'n/a', resultKey: 'Waiting' },
+      { value: 'n/a', resultKey: 'Waiting' },
+      { value: 'n/a', resultKey: 'Waiting' },
+      { value: 'n/a', resultKey: 'Waiting' },
+    ]
+  }
+
   Object.keys(gameResults).forEach(key => {
     if (key === 'totalCorrect') {
-      let totalCorrect
-
-      if (resultsFor === 'Player') {
-        totalCorrect = filterForPlayer(filteringIndex, gameResults, key)
-      }
-
-      if (resultsFor === 'Opponent') {
-        totalCorrect = filterForOpponent(filteringIndex, gameResults, key)
-      }
+      const totalCorrect =
+        resultsFor === 'Player'
+          ? checkForValidValue(
+              filterForPlayer(filteringIndex, gameResults, key),
+              'totalCorrect',
+            )
+          : checkForValidValue(
+              filterForOpponent(filteringIndex, gameResults, key),
+              'totalCorrect',
+            )
 
       resultsArray[0] = {
         value: calculateOverall(totalCorrect, numberOfQuestions),
@@ -49,41 +95,34 @@ export const prepResultsState = (
     }
 
     if (key === 'finishedTime') {
-      let timeValue
-
-      if (resultsFor === 'Player') {
-        timeValue = filterForPlayer(filteringIndex, gameResults, key)
-      }
-
-      if (resultsFor === 'Opponent') {
-        timeValue = filterForOpponent(filteringIndex, gameResults, key)
-      }
+      const timeValue =
+        resultsFor === 'Player'
+          ? filterForPlayer(filteringIndex, gameResults, key)
+          : filterForOpponent(filteringIndex, gameResults, key)
 
       resultsArray[1] = { value: timeValue, resultKey: 'Time' }
     }
 
     if (key === 'score') {
-      let scoreValue
-
-      if (resultsFor === 'Player') {
-        scoreValue = filterForPlayer(filteringIndex, gameResults, key)
-      }
-      if (resultsFor === 'Opponent') {
-        scoreValue = filterForOpponent(filteringIndex, gameResults, key)
-      }
+      const scoreValue =
+        resultsFor === 'Player'
+          ? checkForValidValue(
+              filterForPlayer(filteringIndex, gameResults, key),
+              'score',
+            )
+          : checkForValidValue(
+              filterForOpponent(filteringIndex, gameResults, key),
+              'score',
+            )
 
       resultsArray[2] = { value: scoreValue, resultKey: 'Total Score' }
     }
 
     if (key === 'ranks') {
-      let rankValue
-
-      if (resultsFor === 'Player') {
-        rankValue = filterForPlayer(filteringIndex, gameResults, key)
-      }
-      if (resultsFor === 'Opponent') {
-        rankValue = filterForOpponent(filteringIndex, gameResults, key)
-      }
+      const rankValue =
+        resultsFor === 'Player'
+          ? filterForPlayer(filteringIndex, gameResults, key)
+          : filterForOpponent(filteringIndex, gameResults, key)
 
       resultsArray[3] = { value: rankValue, resultKey: 'Rank' }
     }
@@ -112,6 +151,20 @@ export const handleFormatting = ({ value, resultKey }) => {
     default:
       return 'No result'
   }
+}
+
+export const formatQuizAnswer = (resultObj, idx) => {
+  if (resultObj === undefined) {
+    return `Question ${idx + 1}: Incorrect - No Response Submitted`
+  }
+
+  const correctResponse = `Question ${idx + 1}: Correct - ${resultObj.answer}`
+
+  const incorrectResponse = `Question ${idx + 1}: Incorrect - ${
+    resultObj.answer
+  }`
+
+  return resultObj.correct === true ? correctResponse : incorrectResponse
 }
 
 export const generateRandomKey = (value, baseString) => {
