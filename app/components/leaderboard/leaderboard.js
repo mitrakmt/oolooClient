@@ -18,7 +18,7 @@ class Leaderboard extends Component {
     tracker.trackScreenView('Leaderboard')
     const payload = prepPayload(this.props.auth)
     fetchLeaderboard(payload).then(status => {
-      console.log('status', status)
+      this.setState(status)
     })
   }
 
