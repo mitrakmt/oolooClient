@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import styles from './styles'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
+import { fetchLeaderboard, prepPayload } from './utils'
 
 class Leaderboard extends Component {
   constructor(props) {
@@ -15,12 +16,10 @@ class Leaderboard extends Component {
 
   componentWillMount() {
     tracker.trackScreenView('Leaderboard')
-  }
-
-  useAuth = () => {
-    // created to avoid eslint error, delete before merging to master
-    const { auth } = this.props
-    console.log('auth is ', auth)
+    const payload = prepPayload(this.props.auth)
+    fetchLeaderboard(payload).then(status => {
+      console.log('status', status)
+    })
   }
 
   yourSchoolTab = () => {
