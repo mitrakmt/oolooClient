@@ -57,7 +57,7 @@ const profileContainerText = {
 
 const profileImage = {
   width: '30%',
-  height: '120%',
+  height: '110%',
   marginRight: 30,
   borderRadius: 40,
 }

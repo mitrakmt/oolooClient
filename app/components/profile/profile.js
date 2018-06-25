@@ -132,6 +132,18 @@ class Profile extends Component {
 
           <View style={styles.interestsContainer}>
             <Text style={styles.userInfoText}>Interests</Text>
+            <View
+              style={{
+                width: '80%',
+                display: 'flex',
+                justifyContent: 'space-between',
+                padding: '5%',
+              }}
+            >
+              <Text>Biology</Text>
+              <Text>Radiology</Text>
+              <Text>Medicine</Text>
+            </View>
           </View>
         </View>
       </View>
