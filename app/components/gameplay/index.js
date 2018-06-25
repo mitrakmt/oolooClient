@@ -62,7 +62,7 @@ class GamePlay extends Component {
     // Button backgroundColor animates
     this.setState({ chosenAnswer: idx }, () => {
       Animated.timing(buttonAnimation, {
-        toValue: 0.3,
+        toValue: 1,
       }).start()
     })
 
@@ -140,8 +140,17 @@ class GamePlay extends Component {
       outputRange: ['#ffffff', '#01a38d'],
     })
 
+    const interpolateTextColor = buttonAnimation.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['#293f4e', '#ffffff'],
+    })
+
     const animatedStyle = {
       backgroundColor: interpolateBGColor,
+    }
+
+    const textStyle = {
+      color: interpolateTextColor,
     }
 
     return possibleAnswers.map((choice, idx) => (
@@ -156,14 +165,15 @@ class GamePlay extends Component {
         <TouchableWithoutFeedback
           onPress={() => this.onButtonPress(`${choice}`, idx)}
         >
-          <View>
-            <Text
-              style={{ fontSize: 20, fontWeight: '600' }}
-              color={idx === chosenAnswer ? '#ffffff' : buttonColor}
-            >
-              {choice}
-            </Text>
-          </View>
+          <Animated.Text
+            style={
+              idx === chosenAnswer
+                ? [textStyle, { fontSize: 20, fontWeight: '600' }]
+                : [{ fontSize: 20, fontWeight: '600', color: buttonColor }]
+            }
+          >
+            {choice}
+          </Animated.Text>
         </TouchableWithoutFeedback>
       </Animated.View>
     ))
