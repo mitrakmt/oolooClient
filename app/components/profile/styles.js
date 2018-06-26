@@ -57,7 +57,7 @@ const profileContainerText = {
 
 const profileImage = {
   width: '30%',
-  height: '110%',
+  height: '100%',
   marginRight: 30,
   borderRadius: 40,
 }
@@ -65,6 +65,7 @@ const profileImage = {
 const userInfoText = {
   fontSize: 16,
   fontWeight: '600',
+  marginBottom: '3%',
 }
 
 const interestsContainer = {

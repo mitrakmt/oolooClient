@@ -135,14 +135,23 @@ class Profile extends Component {
             <View
               style={{
                 width: '80%',
-                display: 'flex',
-                justifyContent: 'space-between',
-                padding: '5%',
               }}
             >
-              <Text>Biology</Text>
-              <Text>Radiology</Text>
-              <Text>Medicine</Text>
+              {this.props.userInterests.map(interest => (
+                <View
+                  style={{ display: 'flex', flexDirection: 'row' }}
+                  key={`userInterestsMap${interest.id}`}
+                >
+                  <Text>{interest.name}</Text>
+                  <Text
+                    style={{
+                      marginLeft: 'auto',
+                    }}
+                  >
+                    x
+                  </Text>
+                </View>
+              ))}
             </View>
           </View>
         </View>
@@ -165,6 +174,7 @@ Profile.propTypes = {
   setInterests: PropTypes.func.isRequired,
   setUser: PropTypes.func.isRequired,
   setUserInterests: PropTypes.func.isRequired,
+  userInterests: PropTypes.array(PropTypes.shape({})).isRequired,
 }
 
 const mapDispatchToProps = dispatch => ({
