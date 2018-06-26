@@ -174,7 +174,7 @@ Profile.propTypes = {
   setInterests: PropTypes.func.isRequired,
   setUser: PropTypes.func.isRequired,
   setUserInterests: PropTypes.func.isRequired,
-  userInterests: PropTypes.array(PropTypes.shape({})).isRequired,
+  userInterests: PropTypes.arrayOf(React.PropTypes.shape({})).isRequired,
 }
 
 const mapDispatchToProps = dispatch => ({
