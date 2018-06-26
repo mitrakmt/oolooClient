@@ -22,6 +22,12 @@ const dummyData = [
   { quarter: 4, earnings: 19000 },
 ]
 
+const debugging = {
+  borderWidth: 2,
+  borderRadius: 25,
+  borderColor: '#E18678',
+}
+
 class Results extends Component {
   constructor(props) {
     super(props)
@@ -118,15 +124,7 @@ class Results extends Component {
         </View>
 
         <View style={styles.ResultsContainer}>
-          <ScrollView
-            style={{
-              borderWidth: 2,
-              borderRadius: 25,
-              borderColor: '#E18678',
-              // height: '40%',
-              display: 'flex',
-            }}
-          >
+          <ScrollView style={debugging}>
             <View style={styles.versusContainer}>
               <View style={styles.avatarContainer}>
                 <Image
@@ -176,13 +174,13 @@ class Results extends Component {
           </ScrollView>
 
           <ScrollView
-            style={{
-              borderWidth: 2,
-              borderRadius: 25,
-              borderColor: '#E18678',
-              height: '40%',
-              display: 'flex',
-            }}
+            style={[
+              {
+                height: '40%',
+                display: 'flex',
+              },
+              debugging,
+            ]}
           >
             <VictoryChart>
               <VictoryBar
