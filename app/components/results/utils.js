@@ -15,24 +15,29 @@ const checkForValidValue = (value, resultKey) => {
     }
   }
 
+  if (resultKey === 'ranks') {
+    if (Array.isArray(value) && value.length === 0) {
+      result = 0
+    } else {
+      result = value[0].rank
+    }
+  }
+
   return result
 }
 
 const filterForPlayer = (filteringIndex, gameResults, key) => {
-  let result =
-    filteringIndex === null
-      ? gameResults[key][0]
-      : gameResults[key][filteringIndex]
-
-  // If there's no value in the array, return null
-  result = result === undefined ? null : result
+  const result = gameResults[key].filter((_, idx) => idx === filteringIndex)
 
   return result
 }
 
 // Will return an array with a value, or null
-const filterForOpponent = (filteringIndex, gameResults, key) =>
-  gameResults[key].filter((_, idx) => idx !== filteringIndex)
+const filterForOpponent = (filteringIndex, gameResults, key) => {
+  const result = gameResults[key].filter((_, idx) => idx !== filteringIndex)
+
+  return result
+}
 
 const calculateOverall = (totalCorrect, totalPossible) =>
   (totalCorrect / totalPossible) * 100
@@ -121,8 +126,14 @@ export const prepResultsFor = (
     if (key === 'ranks') {
       const rankValue =
         resultsFor === 'Player'
-          ? filterForPlayer(filteringIndex, gameResults, key)
-          : filterForOpponent(filteringIndex, gameResults, key)
+          ? checkForValidValue(
+              filterForPlayer(filteringIndex, gameResults, key),
+              'ranks',
+            )
+          : checkForValidValue(
+              filterForOpponent(filteringIndex, gameResults, key),
+              'ranks',
+            )
 
       resultsArray[3] = { value: rankValue, resultKey: 'Rank' }
     }

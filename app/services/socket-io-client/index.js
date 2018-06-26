@@ -92,26 +92,25 @@ const socketMiddleware = (auth, context, callbacks) => {
       )
     },
   )
+
   socket.on('question', ({ question, questionNumber, possibleAnswers }) => {
     // on gameInit, questionNumber starts at 0
     // incrementing questionNumber in state will cause server crash
 
-    // when we get a new question from the server, start animating the question
-    const { questionAnimation } = context.state
+    const [
+      questionArray,
+      animatedValues,
+      animatedSequence,
+    ] = callbacks.createTextAnimationObjects(question)
 
-    context.setState(
-      {
-        question,
-        questionNumber,
-        possibleAnswers,
-      },
-      () => {
-        Animated.timing(questionAnimation, {
-          toValue: 1,
-          duration: 400,
-        }).start()
-      },
-    )
+    context.setState({
+      question,
+      questionNumber,
+      possibleAnswers,
+      questionArray,
+      animatedValues,
+      animatedSequence,
+    })
   })
 
   // Store Socket in state

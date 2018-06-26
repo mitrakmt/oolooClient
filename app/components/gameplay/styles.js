@@ -39,9 +39,22 @@ const QAnswContainer = {
   },
 }
 
-const questionContainer = {
+const initialScroll = {
   padding: '5%',
   fontWeight: '700',
+}
+
+const questionScrollContainer = {
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'flex-start',
+  flexWrap: 'wrap',
+  padding: '5%',
+}
+
+const questionTextContainer = {
+  fontWeight: '700',
+  marginRight: '1%',
 }
 
 const answersContainerStyle = {
@@ -66,7 +79,9 @@ export default {
   containerStyles,
   textContainerStyles,
   QAnswContainer,
-  questionContainer,
+  initialScroll,
+  questionScrollContainer,
+  questionTextContainer,
   answersContainerStyle,
   buttonStyles,
 }
