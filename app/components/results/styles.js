@@ -1,3 +1,10 @@
+/*
+
+versusContainer: '30%'
+statColContainer: '40%',
+
+*/
+
 const colors = {
   softCyan: '#97d9d7',
 
@@ -37,7 +44,7 @@ const ResultsContainer = {
   backgroundColor: colors.white,
   padding: '1%',
 
-  height: '70%',
+  height: '82%', // originally 70%
   width: '85%',
 
   borderRadius: 10,
@@ -54,7 +61,7 @@ const ResultsContainer = {
 const versusContainer = {
   ...baseStatsPositioning,
 
-  height: '30%',
+  height: 'auto', // originally 30%
 }
 
 const avatarContainer = {
@@ -79,7 +86,7 @@ const statContainer = {
 const statColContainer = {
   display: 'flex',
   alignItems: 'center',
-  height: '40%',
+  height: 'auto',
   justifyContent: 'space-around',
 }
 
