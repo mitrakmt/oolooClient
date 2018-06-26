@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Text, View, Image } from 'react-native'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import styles from './styles'
+import { Dropdown } from 'react-native-material-dropdown'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
 import {
   prepPayload,
@@ -11,11 +11,14 @@ import {
   getUser,
   deleteInterest,
 } from './utils'
+import styles from './styles'
 
 class Profile extends Component {
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      addInterestText: '',
+    }
   }
 
   componentWillMount() {
@@ -76,6 +79,23 @@ class Profile extends Component {
     }
   }
 
+  addInterest = async () => {
+    const token = this.props.auth
+    const payload = prepPayload(token)
+
+    try {
+      const getUserInterestsResponse = await getUserInterests(payload)
+
+      if (!getUserInterestsResponse) {
+        this.handleError()
+      } else {
+        this.props.setUserInterests(getUserInterestsResponse)
+      }
+    } catch (err) {
+      this.handleError()
+    }
+  }
+
   deleteInterest = async interestId => {
     const token = this.props.auth
     const payload = prepPayload(token)
@@ -97,6 +117,17 @@ class Profile extends Component {
   handleError = () => {}
 
   render() {
+    const data = [
+      {
+        value: 'Biology',
+      },
+      {
+        value: 'Radiology',
+      },
+      {
+        value: 'Psychology',
+      },
+    ]
     return (
       <View style={styles.containerStyles}>
         <Text
@@ -123,9 +154,15 @@ class Profile extends Component {
               }}
             />
             <View style={styles.profileContainerText}>
-              <Text style={styles.userInfoText}>Michael Mitrakos</Text>
+              <Text style={styles.userInfoText}>
+                {this.props.user.username}
+              </Text>
               <Text style={styles.userInfoText}>Title</Text>
-              <Text style={styles.userInfoText}>Miami University</Text>
+              {this.props.user.university && (
+                <Text style={styles.userInfoText}>
+                  {this.props.user.university}
+                </Text>
+              )}
               <Text style={styles.userInfoText}>Class of 2020</Text>
             </View>
           </View>
@@ -152,6 +189,27 @@ class Profile extends Component {
                   </Text>
                 </View>
               ))}
+              <View
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'flex-start',
+                  alignItems: 'center',
+                }}
+              >
+                <Dropdown
+                  label="Select"
+                  data={data}
+                  containerStyle={{
+                    height: 50,
+                    width: '100%',
+                  }}
+                  onChangeText={addInterestText =>
+                    this.setState({ addInterestText })
+                  }
+                  value={this.state.addInterestText}
+                />
+              </View>
             </View>
           </View>
         </View>
@@ -161,6 +219,7 @@ class Profile extends Component {
 }
 
 function mapStateToProps({ auth, user, interests, userInterests }) {
+  console.log('user', user)
   return {
     auth,
     user,
@@ -174,7 +233,17 @@ Profile.propTypes = {
   setInterests: PropTypes.func.isRequired,
   setUser: PropTypes.func.isRequired,
   setUserInterests: PropTypes.func.isRequired,
-  userInterests: PropTypes.arrayOf(React.PropTypes.shape({})).isRequired,
+  user: PropTypes.shape({
+    username: PropTypes.string.isRequired,
+    university: PropTypes.string,
+  }),
+  userInterests: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+}
+
+Profile.defaultProps = {
+  user: {
+    university: '',
+  },
 }
 
 const mapDispatchToProps = dispatch => ({

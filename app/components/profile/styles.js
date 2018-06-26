@@ -63,7 +63,7 @@ const profileImage = {
 }
 
 const userInfoText = {
-  fontSize: 16,
+  fontSize: 14,
   fontWeight: '600',
   marginBottom: '3%',
 }
