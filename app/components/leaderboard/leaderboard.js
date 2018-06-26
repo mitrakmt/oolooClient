@@ -93,6 +93,7 @@ class Leaderboard extends Component {
               />
             </View>
           </View>
+
           <View style={styles.leaderboardContainerStyle}>
             {this.state.activeTab === 'top players' && (
               <View style={styles.playerLeaderboardStyles}>

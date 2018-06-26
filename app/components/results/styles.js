@@ -1,3 +1,12 @@
+// Apply to containers for debugging layout
+/*
+const debuggingStyles = {
+  borderWidth: 2,
+  borderRadius: 25,
+  borderColor: '#E18678',
+}
+*/
+
 const colors = {
   softCyan: '#97d9d7',
 
