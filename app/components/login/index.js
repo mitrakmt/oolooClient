@@ -167,8 +167,8 @@ class Login extends Component {
     authUser(Authorization)
 
     // Navigate to Home/Let's Play
-    // Actions.profile()
-    Actions.home()
+    Actions.profile()
+    // Actions.home()
   }
 
   render() {
