@@ -11,7 +11,12 @@ import Icon from 'react-native-vector-icons/Entypo'
 import PropTypes from 'prop-types'
 import styles from './styles'
 import Timer from './timer'
-import { generateRandomKey, runTimerOnce, animateStopwatch } from './utils'
+import {
+  generateRandomKey,
+  runTimerOnce,
+  animateStopwatch,
+  createTextAnimationObjects,
+} from './utils'
 import { gameResults } from '../../services/redux/actions/gameresults'
 import { startTheGame } from '../../services/redux/actions/gameplay'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
@@ -26,6 +31,7 @@ class GamePlay extends Component {
       tickTockProgress: 1,
       questionNumber: null,
       question: 'A new challenger is being selected. Get ready!',
+      animatedValues: [],
       possibleAnswers: [],
       chosenAnswer: null,
       buttonAnimation: new Animated.Value(0),
@@ -43,7 +49,11 @@ class GamePlay extends Component {
     const { auth, socketGameResults, gameStart } = this.props
     const context = this
 
-    const callbacks = { socketGameResults, gameStart }
+    const callbacks = {
+      socketGameResults,
+      gameStart,
+      createTextAnimationObjects,
+    }
 
     // Create socket and store in local state
     socketMiddleware(auth, context, callbacks)
@@ -53,6 +63,8 @@ class GamePlay extends Component {
     // When a new question comes from sockets, reset button animation
     if (prevState.questionNumber !== this.state.questionNumber) {
       this.resetButtonAnimation()
+
+      Animated.sequence(this.state.animatedSequence).start()
     }
   }
 
@@ -112,18 +124,29 @@ class GamePlay extends Component {
   }
 
   renderFadeInAnimatedQuestion = () => {
-    const { questionAnimation, question } = this.state
+    const { animatedValues, questionArray, gameStart, question } = this.state
 
-    const opacity = questionAnimation.interpolate({
-      inputRange: [0, 1],
-      outputRange: [0, 1],
+    if (!gameStart) {
+      return <Text style={styles.initialScroll}>{question}</Text>
+    }
+
+    return questionArray.map((word, index) => {
+      const opacity = animatedValues[index].interpolate({
+        inputRange: [0, 1],
+        outputRange: [0, 1],
+      })
+
+      const key = generateRandomKey(word, index)
+
+      return (
+        <Animated.Text
+          key={key}
+          style={[styles.questionTextContainer, { opacity }]}
+        >
+          {word}
+        </Animated.Text>
+      )
     })
-
-    return (
-      <Animated.Text style={[styles.questionContainer, { opacity }]}>
-        {question}
-      </Animated.Text>
-    )
   }
 
   renderAnswerChoices = () => {
@@ -215,7 +238,13 @@ class GamePlay extends Component {
         </View>
 
         <View style={styles.QAnswContainer}>
-          <ScrollView>{this.renderFadeInAnimatedQuestion()}</ScrollView>
+          <ScrollView
+            contentContainerStyle={
+              !gameStart ? '' : styles.questionScrollContainer
+            }
+          >
+            {this.renderFadeInAnimatedQuestion()}
+          </ScrollView>
 
           <View style={styles.answersContainerStyle}>
             {this.renderAnswerChoices()}
