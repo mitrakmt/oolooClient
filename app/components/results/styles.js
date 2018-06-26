@@ -1,10 +1,3 @@
-/*
-
-versusContainer: '30%'
-statColContainer: '40%',
-
-*/
-
 const colors = {
   softCyan: '#97d9d7',
   white: '#ffffff',

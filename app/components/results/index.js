@@ -16,17 +16,10 @@ import {
 import styles from './styles'
 
 const dummyData = [
-  { quarter: 1, earnings: 13000 },
-  { quarter: 2, earnings: 16500 },
-  { quarter: 3, earnings: 14250 },
-  { quarter: 4, earnings: 19000 },
+  { subject: 'Medicine', percentage: 80 },
+  { subject: 'Biology', percentage: 56 },
+  { subject: 'Radiology', percentage: 20 },
 ]
-
-const debugging = {
-  borderWidth: 2,
-  borderRadius: 25,
-  borderColor: '#E18678',
-}
 
 class Results extends Component {
   constructor(props) {
@@ -124,7 +117,7 @@ class Results extends Component {
         </View>
 
         <View style={styles.ResultsContainer}>
-          <ScrollView style={debugging}>
+          <ScrollView>
             <View style={styles.versusContainer}>
               <View style={styles.avatarContainer}>
                 <Image
@@ -174,20 +167,23 @@ class Results extends Component {
           </ScrollView>
 
           <ScrollView
-            style={[
-              {
-                height: '40%',
-                display: 'flex',
-              },
-              debugging,
-            ]}
+            contentContainerStyles={{ width: 'auto' }}
+            style={{
+              height: '40%',
+              display: 'flex',
+              flexDirection: 'row',
+            }}
           >
-            <VictoryChart>
+            <VictoryChart
+              // domainPadding will add space to each side of VictoryBar to
+              // prevent it from overlapping the axis
+              domainPadding={20}
+            >
               <VictoryBar
-                height={20}
                 data={dummyData}
-                x="quarter"
-                y="earnings"
+                x="subject"
+                y="percentage"
+                style={{ data: { fill: '#01a38d' } }}
               />
             </VictoryChart>
           </ScrollView>
