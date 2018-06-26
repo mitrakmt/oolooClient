@@ -7,13 +7,6 @@ export const generateRandomKey = (choice, indexNumber) => {
   return `${choice}-${randomNumber.toString()}-${indexNumber}-key`
 }
 
-export const runTimerOnce = questionAnimation => {
-  Animated.timing(questionAnimation, {
-    toValue: 1,
-    duration: 400,
-  }).start()
-}
-
 export const animateStopwatch = (timerIconAnimation, tickTockProgress) => {
   Animated.timing(timerIconAnimation, {
     toValue: tickTockProgress,

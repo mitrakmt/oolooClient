@@ -13,7 +13,6 @@ import styles from './styles'
 import Timer from './timer'
 import {
   generateRandomKey,
-  runTimerOnce,
   animateStopwatch,
   createTextAnimationObjects,
 } from './utils'
@@ -30,12 +29,11 @@ class GamePlay extends Component {
       progress: 300000,
       tickTockProgress: 1,
       questionNumber: null,
-      question: 'A new challenger is being selected. Get ready!',
       animatedValues: [],
       possibleAnswers: [],
       chosenAnswer: null,
       buttonAnimation: new Animated.Value(0),
-      questionAnimation: new Animated.Value(0),
+
       timerIconAnimation: new Animated.Value(0),
       buttonColor: '#344856',
     }
@@ -87,13 +85,9 @@ class GamePlay extends Component {
     }
 
     // Wait 800ms to allow Animation to finish, then send answer to server
-    // Also, reset the question animation here
 
     setTimeout(() => {
       socket.emit('answer', payload)
-      this.setState({
-        questionAnimation: new Animated.Value(0),
-      })
     }, 500)
   }
 
@@ -124,10 +118,14 @@ class GamePlay extends Component {
   }
 
   renderFadeInAnimatedQuestion = () => {
-    const { animatedValues, questionArray, gameStart, question } = this.state
+    const { animatedValues, questionArray, gameStart } = this.state
 
     if (!gameStart) {
-      return <Text style={styles.initialScroll}>{question}</Text>
+      return (
+        <Text style={styles.initialScroll}>
+          {gameStart ? '' : 'A new challenger is being selected. Get ready!'}
+        </Text>
+      )
     }
 
     return questionArray.map((word, index) => {
@@ -206,15 +204,12 @@ class GamePlay extends Component {
     const {
       gameStart,
       questionNumber,
-      questionAnimation,
+
       tickTockProgress,
       timerIconAnimation,
     } = this.state
 
-    // Run the animation one time before connecting to the socket server
-    if (gameStart === false) {
-      runTimerOnce(questionAnimation)
-    } else {
+    if (gameStart === true) {
       // As soon as game starts, Animate stopWatch on each rerender
       animateStopwatch(timerIconAnimation, tickTockProgress)
     }
