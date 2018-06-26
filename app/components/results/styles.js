@@ -1,6 +1,5 @@
 const colors = {
   softCyan: '#97d9d7',
-
   white: '#ffffff',
   buttonText: '#304857',
   buttonColor: '#01a38d',
@@ -37,7 +36,7 @@ const ResultsContainer = {
   backgroundColor: colors.white,
   padding: '1%',
 
-  height: '70%',
+  height: '75%', // originally 70%
   width: '85%',
 
   borderRadius: 10,
@@ -53,8 +52,8 @@ const ResultsContainer = {
 
 const versusContainer = {
   ...baseStatsPositioning,
-
-  height: '30%',
+  marginTop: '5%',
+  height: 'auto', // originally 30%
 }
 
 const avatarContainer = {
@@ -74,12 +73,13 @@ const statContainer = {
   display: 'flex',
   flexDirection: 'row',
   justifyContent: 'space-around',
+  marginTop: '8%',
 }
 
 const statColContainer = {
   display: 'flex',
   alignItems: 'center',
-  height: '40%',
+  height: 'auto',
   justifyContent: 'space-around',
 }
 

@@ -4,7 +4,9 @@ import React, { Component } from 'react'
 import { Text, View, Image, Button, ScrollView } from 'react-native'
 import { Actions } from 'react-native-router-flux'
 import PropTypes from 'prop-types'
+import { VictoryBar, VictoryChart } from 'victory-native'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
+
 import {
   handleFormatting,
   generateRandomKey,
@@ -12,6 +14,12 @@ import {
   prepResultsFor,
 } from './utils'
 import styles from './styles'
+
+const dummyData = [
+  { subject: 'Medicine', percentage: 80 },
+  { subject: 'Biology', percentage: 56 },
+  { subject: 'Radiology', percentage: 20 },
+]
 
 class Results extends Component {
   constructor(props) {
@@ -109,68 +117,75 @@ class Results extends Component {
         </View>
 
         <View style={styles.ResultsContainer}>
-          <View style={styles.versusContainer}>
-            <View style={styles.avatarContainer}>
-              <Image
-                style={styles.playerAvatar}
-                source={{ url: 'https://placeimg.com/300/300/any' }}
-              />
-              <Text style={{ color: '#293f4e', textAlign: 'center' }}>
-                {usernames.player}
-              </Text>
-            </View>
+          <ScrollView>
+            <View style={styles.versusContainer}>
+              <View style={styles.avatarContainer}>
+                <Image
+                  style={styles.playerAvatar}
+                  source={{ url: 'https://placeimg.com/300/300/any' }}
+                />
+                <Text style={{ color: '#293f4e', textAlign: 'center' }}>
+                  {usernames.player}
+                </Text>
+              </View>
 
-            <View>
-              <Text
-                style={{ color: '#293f4e', fontSize: 30, fontWeight: 'bold' }}
-              >
-                vs.
-              </Text>
-            </View>
+              <View>
+                <Text
+                  style={{ color: '#293f4e', fontSize: 30, fontWeight: 'bold' }}
+                >
+                  vs.
+                </Text>
+              </View>
 
-            <View style={styles.avatarContainer}>
-              <Image
-                style={styles.playerAvatar}
-                source={{ url: 'https://placeimg.com/300/300/any' }}
-              />
+              <View style={styles.avatarContainer}>
+                <Image
+                  style={styles.playerAvatar}
+                  source={{ url: 'https://placeimg.com/300/300/any' }}
+                />
 
-              <Text style={{ color: '#293f4e', textAlign: 'center' }}>
-                {usernames.opponent}
-              </Text>
+                <Text style={{ color: '#293f4e', textAlign: 'center' }}>
+                  {usernames.opponent}
+                </Text>
+              </View>
             </View>
-          </View>
-          {/* end versusContainer  */}
+            {/* end versusContainer  */}
 
-          <View style={styles.statContainer}>
-            <View style={styles.statColContainer}>
-              {this.renderPlayerColumn(playerResults, 'Player')}
-            </View>
+            <View style={styles.statContainer}>
+              <View style={styles.statColContainer}>
+                {this.renderPlayerColumn(playerResults, 'Player')}
+              </View>
 
-            <View style={styles.statColContainer}>
-              {this.renderLabels(['Overall', 'Time', 'Total Score', 'Rank'])}
-            </View>
+              <View style={styles.statColContainer}>
+                {this.renderLabels(['Overall', 'Time', 'Total Score', 'Rank'])}
+              </View>
 
-            <View style={styles.statColContainer}>
-              {this.renderPlayerColumn(opponentResults, 'Opponent')}
+              <View style={styles.statColContainer}>
+                {this.renderPlayerColumn(opponentResults, 'Opponent')}
+              </View>
             </View>
-          </View>
-          {/* end statContainer  */}
+            {/* end statContainer  */}
+          </ScrollView>
 
           <ScrollView
+            contentContainerStyles={{ width: 'auto' }}
             style={{
-              padding: '5%',
-              marginBottom: '5%',
-              height: '25%',
+              height: '40%',
+              display: 'flex',
+              flexDirection: 'row',
             }}
           >
-            <View
-              style={{
-                marginLeft: 'auto',
-                marginRight: 'auto',
-              }}
+            <VictoryChart
+              // domainPadding will add space to each side of VictoryBar to
+              // prevent it from overlapping the axis
+              domainPadding={20}
             >
-              {this.renderQuizResults(gameResults.answers)}
-            </View>
+              <VictoryBar
+                data={dummyData}
+                x="subject"
+                y="percentage"
+                style={{ data: { fill: '#01a38d' } }}
+              />
+            </VictoryChart>
           </ScrollView>
 
           <View style={styles.buttonContainer}>
