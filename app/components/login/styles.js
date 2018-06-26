@@ -13,7 +13,6 @@ const baseInputField = {
   borderRightWidth: 0,
   borderLeftWidth: 0,
   borderBottomWidth: 1.5,
-  // height: 50,
 }
 
 const containerStyles = {

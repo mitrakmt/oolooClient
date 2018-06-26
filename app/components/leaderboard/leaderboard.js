@@ -4,23 +4,24 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import styles from './styles'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
+import { fetchLeaderboard, prepPayload } from './utils'
 
 class Leaderboard extends Component {
   constructor(props) {
     super(props)
     this.state = {
       activeTab: 'top players',
+      users: [],
+      schools: [],
     }
   }
 
   componentWillMount() {
     tracker.trackScreenView('Leaderboard')
-  }
-
-  useAuth = () => {
-    // created to avoid eslint error, delete before merging to master
-    const { auth } = this.props
-    console.log('auth is ', auth)
+    const payload = prepPayload(this.props.auth)
+    fetchLeaderboard(payload).then(status => {
+      this.setState(status)
+    })
   }
 
   yourSchoolTab = () => {
@@ -36,98 +37,6 @@ class Leaderboard extends Component {
   }
 
   render() {
-    const players = [
-      {
-        place: 1,
-        name: 'Michael Mitrakos',
-      },
-      {
-        place: 2,
-        name: 'Mike Flores',
-      },
-      {
-        place: 3,
-        name: 'Drew Neillie',
-      },
-      {
-        place: 4,
-        name: 'Bob Jones',
-      },
-      {
-        place: 5,
-        name: 'Sidney Crosby',
-      },
-      {
-        place: 6,
-        name: 'James Baldwin',
-      },
-      {
-        place: 7,
-        name: 'Gabe Mitrakos',
-      },
-      {
-        place: 8,
-        name: 'Bill Cower',
-      },
-      {
-        place: 9,
-        name: 'Sam James',
-      },
-      {
-        place: 10,
-        name: 'Rick James',
-      },
-      {
-        place: 103,
-        name: 'Your name',
-      },
-    ]
-    const schools = [
-      {
-        place: 1,
-        name: 'Miami University',
-      },
-      {
-        place: 2,
-        name: 'Ohio University',
-      },
-      {
-        place: 3,
-        name: 'Ohio State University',
-      },
-      {
-        place: 4,
-        name: 'Florida University',
-      },
-      {
-        place: 5,
-        name: 'Pittsburgh University',
-      },
-      {
-        place: 6,
-        name: 'Penn State University',
-      },
-      {
-        place: 7,
-        name: 'Azusa Pacific University',
-      },
-      {
-        place: 8,
-        name: 'California University',
-      },
-      {
-        place: 9,
-        name: 'San Diego University',
-      },
-      {
-        place: 10,
-        name: 'Austin University',
-      },
-      {
-        place: 104,
-        name: 'Your University',
-      },
-    ]
     return (
       <View style={styles.containerStyles}>
         <Text
@@ -182,32 +91,34 @@ class Leaderboard extends Component {
           <View style={styles.leaderboardContainerStyle}>
             {this.state.activeTab === 'top players' && (
               <View style={styles.playerLeaderboardStyles}>
-                {players.map((player, index) => (
+                {this.state.users.map(player => (
                   <Text
-                    key={`player${player.id}/name${player.name}`}
+                    key={`player${player.rank}/name${player.username}`}
                     style={
-                      index === players.length - 1
+                      player.isYou
                         ? styles.myPlayersLeaderboardEntry
                         : styles.playersLeaderboardTextStyles
                     }
                   >
-                    {`${player.place}. ${player.name}`}
+                    {`${player.rank}. ${player.username} (${player.points})`}
                   </Text>
                 ))}
               </View>
             )}
             {this.state.activeTab === 'your school' && (
               <View style={styles.schoolLeaderboardStyles}>
-                {schools.map((school, index) => (
+                {this.state.schools.map(school => (
                   <Text
-                    key={`school${school.id}/name${school.name}`}
+                    key={`school${school.rank}/name${school.name} (${
+                      school.points
+                    })`}
                     style={
-                      index === schools.length - 1
+                      school.isYourSchool
                         ? styles.mySchoolsLeaderboardEntry
                         : styles.schoolLeaderboardTextStyles
                     }
                   >
-                    {`${school.place}. ${school.name}`}
+                    {`${school.rank}. ${school.name} (${school.points})`}
                   </Text>
                 ))}
               </View>

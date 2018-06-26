@@ -94,7 +94,7 @@ class GamePlay extends Component {
       this.setState({
         questionAnimation: new Animated.Value(0),
       })
-    }, 800)
+    }, 500)
   }
 
   resetButtonAnimation = () => {
