@@ -104,7 +104,6 @@ const socketMiddleware = (auth, context, callbacks) => {
     ] = callbacks.createTextAnimationObjects(question)
 
     context.setState({
-      question,
       questionNumber,
       possibleAnswers,
       questionArray,

@@ -73,6 +73,30 @@ const interestsContainer = {
   paddingTop: 40,
 }
 
+const bottomContainerStyles = {
+  height: '40%',
+  width: '90%',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}
+
+const buttonContainerStyle = {
+  height: '35%',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-around',
+}
+
+const buttonStyles = {
+  borderRadius: 10,
+  backgroundColor: colors.buttonColor,
+  width: '50%',
+  padding: '3%',
+  marginLeft: 'auto',
+  marginRight: 'auto',
+}
+
 export default {
   containerStyles,
   textContainerStyles,
@@ -82,4 +106,7 @@ export default {
   userInfoText,
   profileContainerText,
   interestsContainer,
+  bottomContainerStyles,
+  buttonContainerStyle,
+  buttonStyles,
 }

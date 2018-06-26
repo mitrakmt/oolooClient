@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { Text, View, Image } from 'react-native'
+import { Text, View, Image, Button } from 'react-native'
 import { connect } from 'react-redux'
+import { Actions } from 'react-native-router-flux'
 import PropTypes from 'prop-types'
 import { Dropdown } from 'react-native-material-dropdown'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
@@ -116,6 +117,10 @@ class Profile extends Component {
 
   handleError = () => {}
 
+  handleHomePress = () => {
+    Actions.home()
+  }
+
   render() {
     const data = [
       {
@@ -208,6 +213,19 @@ class Profile extends Component {
                     this.setState({ addInterestText })
                   }
                   value={this.state.addInterestText}
+                />
+              </View>
+            </View>
+          </View>
+
+          <View style={styles.bottomContainerStyles}>
+            <View style={styles.buttonContainerStyle}>
+              <View style={styles.buttonStyles}>
+                <Button
+                  onPress={this.handleHomePress}
+                  title="Homepage"
+                  color="white"
+                  accessibilityLabel="Home button for OOLOO Quiz App"
                 />
               </View>
             </View>

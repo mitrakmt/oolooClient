@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Button, Text, View } from 'react-native'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import { Actions } from 'react-native-router-flux'
 import styles from './styles'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
 import { fetchLeaderboard, prepPayload } from './utils'
@@ -34,6 +35,10 @@ class Leaderboard extends Component {
     this.setState({
       activeTab: 'top players',
     })
+  }
+
+  handleResultsPress = () => {
+    Actions.results()
   }
 
   render() {
@@ -88,6 +93,7 @@ class Leaderboard extends Component {
               />
             </View>
           </View>
+
           <View style={styles.leaderboardContainerStyle}>
             {this.state.activeTab === 'top players' && (
               <View style={styles.playerLeaderboardStyles}>
@@ -123,6 +129,19 @@ class Leaderboard extends Component {
                 ))}
               </View>
             )}
+          </View>
+
+          <View style={styles.bottomContainerStyles}>
+            <View style={styles.buttonContainerStyle}>
+              <View style={styles.resultsButtonStyles}>
+                <Button
+                  onPress={this.handleResultsPress}
+                  title="Results"
+                  color="white"
+                  accessibilityLabel="Home button for OOLOO Quiz App"
+                />
+              </View>
+            </View>
           </View>
         </View>
       </View>

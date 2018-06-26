@@ -168,6 +168,7 @@ class Login extends Component {
 
     // Navigate to Home/Let's Play
     Actions.profile()
+    // Actions.home()
   }
 
   render() {

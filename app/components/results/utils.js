@@ -19,7 +19,7 @@ const checkForValidValue = (value, resultKey) => {
     if (Array.isArray(value) && value.length === 0) {
       result = 0
     } else {
-      result = value[0].rank
+      ;[result] = value
     }
   }
 
@@ -28,14 +28,12 @@ const checkForValidValue = (value, resultKey) => {
 
 const filterForPlayer = (filteringIndex, gameResults, key) => {
   const result = gameResults[key].filter((_, idx) => idx === filteringIndex)
-
   return result
 }
 
 // Will return an array with a value, or null
 const filterForOpponent = (filteringIndex, gameResults, key) => {
   const result = gameResults[key].filter((_, idx) => idx !== filteringIndex)
-
   return result
 }
 
