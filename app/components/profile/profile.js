@@ -305,7 +305,7 @@ Profile.propTypes = {
   setUser: PropTypes.func.isRequired,
   setUserInterests: PropTypes.func.isRequired,
   user: PropTypes.shape({
-    username: PropTypes.string.isRequired,
+    username: PropTypes.string,
     university: PropTypes.string,
   }),
   userInterests: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
@@ -314,6 +314,7 @@ Profile.propTypes = {
 Profile.defaultProps = {
   user: {
     university: '',
+    username: '',
   },
 }
 
