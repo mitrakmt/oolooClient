@@ -34,7 +34,7 @@ class MatchSearch extends Component {
     return (
       <View style={[styles.containerStyles, styles.debuggingStyles]}>
         <View style={styles.mainContainerStyles}>
-          <View style={[styles.textContainerStyles, styles.debuggingStyles]}>
+          <View style={styles.textContainerStyles}>
             <Text
               style={{
                 fontSize: 15,
@@ -45,14 +45,14 @@ class MatchSearch extends Component {
             </Text>
           </View>
 
-          <View style={[styles.searchingContainer]}>
-            <View>
+          <View style={styles.searchingContainer}>
+            <View style={{ marginTop: '5%' }}>
               <Text style={styles.findingHeader}>
                 Finding worthy opponent...
               </Text>
             </View>
 
-            <View style={[styles.findingAvatar, styles.debuggingStyles]}>
+            <View style={styles.findingAvatar}>
               <Image
                 style={styles.playerAvatar}
                 source={{ url: 'https://placeimg.com/300/300/any' }}

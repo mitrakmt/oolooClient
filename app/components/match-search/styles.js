@@ -1,10 +1,11 @@
 // Apply to containers for debugging layout
-
+/*
 const debuggingStyles = {
   borderWidth: 2,
   borderRadius: 25,
   borderColor: '#E18678',
 }
+*/
 
 const colors = {
   softCyan: '#97d9d7',
@@ -52,19 +53,18 @@ const searchingContainer = {
   display: 'flex',
   justifyContent: 'space-around',
   alignItems: 'center',
-
-  // height: '60%',
 }
 
 const findingHeader = {
-  // height: '20%',
   color: '#344756',
   fontSize: 20,
   fontWeight: '800',
 }
 
 const findingAvatar = {
-  // height: '50%',
+  borderWidth: 3,
+  borderRadius: 50,
+  padding: '3%',
 }
 
 const playerAvatar = {
@@ -91,7 +91,6 @@ const buttonStyles = {
 }
 
 export default {
-  debuggingStyles,
   containerStyles,
   mainContainerStyles,
   textContainerStyles,
