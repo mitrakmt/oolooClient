@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { TabBarIOS, Text, View, Button, Image } from 'react-native'
 import { Actions } from 'react-native-router-flux'
+import Icon from 'react-native-vector-icons/Ionicons'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
 import styles from './styles'
 
@@ -101,33 +102,36 @@ class Home extends Component {
   render() {
     return (
       <TabBarIOS>
-        <TabBarIOS.Item
-          systemIcon="favorites"
+        <Icon.TabBarItem
           iconSize={20}
           onPress={() => this.navigateToView('home')}
+          title="Home"
+          iconName="md-home"
+          selectedIconName="md-home"
           selected
-          title="home"
         >
           {this.renderHomeView()}
-        </TabBarIOS.Item>
+        </Icon.TabBarItem>
 
-        <TabBarIOS.Item
-          systemIcon="most-viewed"
+        <Icon.TabBarItem
           iconSize={20}
           onPress={() => this.navigateToView('profile')}
           title="Profile"
+          iconName="ios-person"
+          selectedIconName="ios-person"
         >
           {this.renderHomeView()}
-        </TabBarIOS.Item>
+        </Icon.TabBarItem>
 
-        <TabBarIOS.Item
-          systemIcon="top-rated"
+        <Icon.TabBarItem
           iconSize={20}
           onPress={() => this.navigateToView('leaderboard')}
           title="Leaderboard"
+          iconName="md-list"
+          selectedIconName="md-list"
         >
           {this.renderHomeView()}
-        </TabBarIOS.Item>
+        </Icon.TabBarItem>
       </TabBarIOS>
     )
   }
