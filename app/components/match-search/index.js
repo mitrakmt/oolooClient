@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/Ionicons'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
 import styles from './styles'
 
-class Home extends Component {
+class MatchSearch extends Component {
   constructor(props) {
     super(props)
     this.state = {}
@@ -16,10 +16,7 @@ class Home extends Component {
   }
 
   handlePlayPress = () => {
-    // Refactor Home component when MatchSearch Complete
     Actions.gameplay()
-
-    // Actions.match-search()
   }
 
   renderHomeView() {
@@ -126,4 +123,4 @@ class Home extends Component {
   }
 }
 
-export default Home
+export default MatchSearch
