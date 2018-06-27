@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import { Text, View, Image, Button, ScrollView } from 'react-native'
 import { Actions } from 'react-native-router-flux'
 import PropTypes from 'prop-types'
-import { VictoryBar, VictoryChart } from 'victory-native'
+// import { VictoryBar, VictoryChart } from 'victory-native'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
 
 import {
@@ -15,11 +15,11 @@ import {
 } from './utils'
 import styles from './styles'
 
-const dummyData = [
-  { subject: 'Medicine', percentage: 80 },
-  { subject: 'Biology', percentage: 56 },
-  { subject: 'Radiology', percentage: 20 },
-]
+// const dummyData = [
+//   { subject: 'Medicine', percentage: 80 },
+//   { subject: 'Biology', percentage: 56 },
+//   { subject: 'Radiology', percentage: 20 },
+// ]
 
 class Results extends Component {
   constructor(props) {
@@ -166,7 +166,7 @@ class Results extends Component {
             {/* end statContainer  */}
           </ScrollView>
 
-          <ScrollView
+          {/* <ScrollView
             contentContainerStyles={{ width: 'auto' }}
             style={{
               height: '40%',
@@ -186,6 +186,23 @@ class Results extends Component {
                 style={{ data: { fill: '#01a38d' } }}
               />
             </VictoryChart>
+          </ScrollView> */}
+
+          <ScrollView
+            style={{
+              padding: '5%',
+              marginBottom: '5%',
+              height: '25%',
+            }}
+          >
+            <View
+              style={{
+                marginLeft: 'auto',
+                marginRight: 'auto',
+              }}
+            >
+              {this.renderQuizResults(gameResults.answers)}
+            </View>
           </ScrollView>
 
           <View style={styles.buttonContainer}>
