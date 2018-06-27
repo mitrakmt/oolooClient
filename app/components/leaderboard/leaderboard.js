@@ -38,24 +38,6 @@ class Leaderboard extends Component {
     })
   }
 
-  navigateToView = view => {
-    if (view === 'home') {
-      Actions.home()
-    }
-
-    if (view === 'profile') {
-      Actions.profile()
-    }
-
-    if (view === 'leaderboard') {
-      Actions.leaderboard()
-    }
-  }
-
-  handleResultsPress = () => {
-    Actions.results()
-  }
-
   renderLeaderboardView = () => (
     <View style={styles.containerStyles}>
       <Text
@@ -166,7 +148,7 @@ class Leaderboard extends Component {
       <TabBarIOS>
         <Icon.TabBarItem
           iconSize={20}
-          onPress={() => this.navigateToView('home')}
+          onPress={() => Actions.home()}
           title="Home"
           iconName="md-home"
           selectedIconName="md-home"
@@ -176,7 +158,7 @@ class Leaderboard extends Component {
 
         <Icon.TabBarItem
           iconSize={20}
-          onPress={() => this.navigateToView('profile')}
+          onPress={() => Actions.profile()}
           title="Profile"
           iconName="ios-person"
           selectedIconName="ios-person"
@@ -186,7 +168,7 @@ class Leaderboard extends Component {
 
         <Icon.TabBarItem
           iconSize={20}
-          onPress={() => this.navigateToView('leaderboard')}
+          onPress={() => Actions.leaderboard()}
           title="Leaderboard"
           iconName="md-list"
           selectedIconName="md-list"

@@ -122,20 +122,6 @@ class Profile extends Component {
     Actions.home()
   }
 
-  navigateToView = view => {
-    if (view === 'home') {
-      Actions.home()
-    }
-
-    if (view === 'profile') {
-      Actions.profile()
-    }
-
-    if (view === 'leaderboard') {
-      Actions.leaderboard()
-    }
-  }
-
   renderProfileView = () => {
     const data = [
       {
@@ -256,7 +242,7 @@ class Profile extends Component {
       <TabBarIOS>
         <Icon.TabBarItem
           iconSize={20}
-          onPress={() => this.navigateToView('home')}
+          onPress={() => Actions.home()}
           title="Home"
           iconName="md-home"
           selectedIconName="md-home"
@@ -266,7 +252,7 @@ class Profile extends Component {
 
         <Icon.TabBarItem
           iconSize={20}
-          onPress={() => this.navigateToView('profile')}
+          onPress={() => Actions.profile()}
           title="Profile"
           iconName="ios-person"
           selectedIconName="ios-person"
@@ -277,7 +263,7 @@ class Profile extends Component {
 
         <Icon.TabBarItem
           iconSize={20}
-          onPress={() => this.navigateToView('leaderboard')}
+          onPress={() => Actions.leaderboard()}
           title="Leaderboard"
           iconName="md-list"
           selectedIconName="md-list"

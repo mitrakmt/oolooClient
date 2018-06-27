@@ -19,20 +19,6 @@ class Home extends Component {
     Actions.gameplay()
   }
 
-  navigateToView = view => {
-    if (view === 'home') {
-      Actions.home()
-    }
-
-    if (view === 'profile') {
-      Actions.profile()
-    }
-
-    if (view === 'leaderboard') {
-      Actions.leaderboard()
-    }
-  }
-
   renderHomeView() {
     return (
       <View style={styles.containerStyles}>
@@ -104,7 +90,7 @@ class Home extends Component {
       <TabBarIOS>
         <Icon.TabBarItem
           iconSize={20}
-          onPress={() => this.navigateToView('home')}
+          onPress={() => Actions.home()}
           title="Home"
           iconName="md-home"
           selectedIconName="md-home"
@@ -115,7 +101,7 @@ class Home extends Component {
 
         <Icon.TabBarItem
           iconSize={20}
-          onPress={() => this.navigateToView('profile')}
+          onPress={() => Actions.profile()}
           title="Profile"
           iconName="ios-person"
           selectedIconName="ios-person"
@@ -125,7 +111,7 @@ class Home extends Component {
 
         <Icon.TabBarItem
           iconSize={20}
-          onPress={() => this.navigateToView('leaderboard')}
+          onPress={() => Actions.leaderboard()}
           title="Leaderboard"
           iconName="md-list"
           selectedIconName="md-list"
