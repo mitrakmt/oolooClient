@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { Text, View, Button, Image } from 'react-native'
+import { TabBarIOS, Text, View, Button, Image } from 'react-native'
 import { Actions } from 'react-native-router-flux'
+import Icon from 'react-native-vector-icons/Ionicons'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
 import styles from './styles'
 
@@ -18,7 +19,7 @@ class Home extends Component {
     Actions.gameplay()
   }
 
-  render() {
+  renderHomeView() {
     return (
       <View style={styles.containerStyles}>
         <View style={styles.textContainerStyles}>
@@ -81,6 +82,43 @@ class Home extends Component {
           </View>
         </View>
       </View>
+    )
+  }
+
+  render() {
+    return (
+      <TabBarIOS>
+        <Icon.TabBarItem
+          iconSize={20}
+          onPress={() => Actions.home()}
+          title="Home"
+          iconName="md-home"
+          selectedIconName="md-home"
+          selected
+        >
+          {this.renderHomeView()}
+        </Icon.TabBarItem>
+
+        <Icon.TabBarItem
+          iconSize={20}
+          onPress={() => Actions.profile()}
+          title="Profile"
+          iconName="ios-person"
+          selectedIconName="ios-person"
+        >
+          {this.renderHomeView()}
+        </Icon.TabBarItem>
+
+        <Icon.TabBarItem
+          iconSize={20}
+          onPress={() => Actions.leaderboard()}
+          title="Leaderboard"
+          iconName="md-list"
+          selectedIconName="md-list"
+        >
+          {this.renderHomeView()}
+        </Icon.TabBarItem>
+      </TabBarIOS>
     )
   }
 }

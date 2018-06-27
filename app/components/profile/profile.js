@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { Text, View, Image, Button } from 'react-native'
+import { TabBarIOS, Text, View, Image } from 'react-native'
 import { connect } from 'react-redux'
 import { Actions } from 'react-native-router-flux'
+import Icon from 'react-native-vector-icons/Ionicons'
 import PropTypes from 'prop-types'
 import { Dropdown } from 'react-native-material-dropdown'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
@@ -121,7 +122,7 @@ class Profile extends Component {
     Actions.home()
   }
 
-  render() {
+  renderProfileView = () => {
     const data = [
       {
         value: 'Biology',
@@ -133,6 +134,7 @@ class Profile extends Component {
         value: 'Psychology',
       },
     ]
+
     return (
       <View style={styles.containerStyles}>
         <Text
@@ -218,7 +220,7 @@ class Profile extends Component {
             </View>
           </View>
 
-          <View style={styles.bottomContainerStyles}>
+          {/* <View style={styles.bottomContainerStyles}>
             <View style={styles.buttonContainerStyle}>
               <View style={styles.buttonStyles}>
                 <Button
@@ -229,9 +231,46 @@ class Profile extends Component {
                 />
               </View>
             </View>
-          </View>
+          </View> */}
         </View>
       </View>
+    )
+  }
+
+  render() {
+    return (
+      <TabBarIOS>
+        <Icon.TabBarItem
+          iconSize={20}
+          onPress={() => Actions.home()}
+          title="Home"
+          iconName="md-home"
+          selectedIconName="md-home"
+        >
+          {this.renderProfileView()}
+        </Icon.TabBarItem>
+
+        <Icon.TabBarItem
+          iconSize={20}
+          onPress={() => Actions.profile()}
+          title="Profile"
+          iconName="ios-person"
+          selectedIconName="ios-person"
+          selected
+        >
+          {this.renderProfileView()}
+        </Icon.TabBarItem>
+
+        <Icon.TabBarItem
+          iconSize={20}
+          onPress={() => Actions.leaderboard()}
+          title="Leaderboard"
+          iconName="md-list"
+          selectedIconName="md-list"
+        >
+          {this.renderProfileView()}
+        </Icon.TabBarItem>
+      </TabBarIOS>
     )
   }
 }
