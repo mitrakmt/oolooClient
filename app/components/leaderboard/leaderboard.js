@@ -210,38 +210,3 @@ Leaderboard.propTypes = {
 }
 
 export default connect(mapStateToProps)(Leaderboard)
-
-/*
-
-<TabBarIOS>
-        <TabBarIOS.Item
-          systemIcon="favorites"
-          iconSize={20}
-          onPress={() => this.navigateToView('home')}
-          title="home"
-        >
-          {this.renderProfileView()}
-        </TabBarIOS.Item>
-
-        <TabBarIOS.Item
-          systemIcon="most-viewed"
-          iconSize={20}
-          onPress={() => this.navigateToView('profile')}
-          selected
-          title="Profile"
-        >
-          {this.renderProfileView()}
-        </TabBarIOS.Item>
-
-        <TabBarIOS.Item
-          systemIcon="top-rated"
-          iconSize={20}
-          onPress={() => this.navigateToView('leaderboard')}
-          title="Leaderboard"
-        >
-          {this.renderProfileView()}
-        </TabBarIOS.Item>
-      </TabBarIOS>
-
-
-*/
