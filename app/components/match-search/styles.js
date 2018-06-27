@@ -38,7 +38,6 @@ const textContainerStyles = {
 
 const searchingContainer = {
   backgroundColor: colors.white,
-  padding: '10%',
   height: 300,
   width: 300,
   borderRadius: 10,
@@ -51,18 +50,38 @@ const searchingContainer = {
   },
 
   display: 'flex',
-  justifyContent: 'space-between',
+  justifyContent: 'space-around',
   alignItems: 'center',
+
+  // height: '60%',
+}
+
+const findingHeader = {
+  // height: '20%',
+  color: '#344756',
+  fontSize: 20,
+  fontWeight: '800',
+}
+
+const findingAvatar = {
+  // height: '50%',
+}
+
+const playerAvatar = {
+  width: 75,
+  height: 75,
+  borderWidth: 1,
+  borderRadius: 37,
 }
 
 const buttonContainerStyle = {
-  height: '35%',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-around',
 }
 
 const buttonStyles = {
+  marginTop: '15%',
   borderRadius: 10,
   backgroundColor: colors.buttonColor,
   width: '50%',
@@ -77,6 +96,9 @@ export default {
   mainContainerStyles,
   textContainerStyles,
   searchingContainer,
+  findingHeader,
+  findingAvatar,
+  playerAvatar,
   buttonContainerStyle,
   buttonStyles,
 }

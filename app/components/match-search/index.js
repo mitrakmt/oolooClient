@@ -39,20 +39,20 @@ class MatchSearch extends Component {
               style={{
                 fontSize: 15,
                 color: '#01a38d',
-                // marginBottom: '3%',
               }}
             >
-              {' '}
               OOLOO
             </Text>
           </View>
 
-          <View style={[styles.searchingContainer, styles.debuggingStyles]}>
+          <View style={[styles.searchingContainer]}>
             <View>
-              <Text>Finding worthy opponent...</Text>
+              <Text style={styles.findingHeader}>
+                Finding worthy opponent...
+              </Text>
             </View>
 
-            <View>
+            <View style={[styles.findingAvatar, styles.debuggingStyles]}>
               <Image
                 style={styles.playerAvatar}
                 source={{ url: 'https://placeimg.com/300/300/any' }}
