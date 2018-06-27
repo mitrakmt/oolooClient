@@ -1,14 +1,17 @@
 // Apply to containers for debugging layout
-/*
+
 const debuggingStyles = {
   borderWidth: 2,
   borderRadius: 25,
   borderColor: '#E18678',
 }
-*/
 
 const colors = {
+  softCyan: '#97d9d7',
+  white: '#ffffff',
+  buttonText: '#304857',
   buttonColor: '#01a38d',
+  answerSelection: '#18a28d',
 }
 
 const containerStyles = {
@@ -19,59 +22,37 @@ const containerStyles = {
   height: '100%',
 }
 
+const mainContainerStyles = {
+  display: 'flex',
+  justifyContent: 'space-around',
+  alignItems: 'center',
+  height: '75%',
+}
+
 const textContainerStyles = {
   display: 'flex',
   flexDirection: 'column',
-  justifyContent: 'space-between',
-  marginLeft: 'auto',
-  marginRight: 'auto',
-}
-
-const newsContainerStyles = {
-  height: '40%',
-  width: '90%',
-  display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
 }
 
-const newsHeaderContainer = {
-  height: '20%',
-}
+const searchingContainer = {
+  backgroundColor: colors.white,
+  padding: '10%',
+  height: 300,
+  width: 300,
+  borderRadius: 10,
+  shadowColor: colors.softCyan,
+  shadowOpacity: 900,
+  shadowRadius: 20,
+  shadowOffset: {
+    height: 2,
+    width: 2,
+  },
 
-const newsItemsContainerStyles = {
   display: 'flex',
-  height: '75%',
-  justifyContent: 'space-around',
-}
-
-const singleNewsItem = {
-  display: 'flex',
-  flexDirection: 'row',
-  justifyContent: 'flex-start',
+  justifyContent: 'space-between',
   alignItems: 'center',
-}
-
-const playerAvatar = {
-  width: 50,
-  height: 50,
-  borderWidth: 1,
-  borderRadius: 25,
-}
-
-const singleNewsItemText = {
-  marginLeft: '3%',
-  color: '#344856',
-  fontWeight: '800',
-}
-
-// Layout for bottomContainer will change with design changes
-const bottomContainerStyles = {
-  height: '40%',
-  width: '90%',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'flex-end',
 }
 
 const buttonContainerStyle = {
@@ -79,7 +60,6 @@ const buttonContainerStyle = {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-around',
-  marginTop: 80,
 }
 
 const buttonStyles = {
@@ -92,15 +72,11 @@ const buttonStyles = {
 }
 
 export default {
+  debuggingStyles,
   containerStyles,
+  mainContainerStyles,
   textContainerStyles,
-  newsContainerStyles,
-  newsHeaderContainer,
-  singleNewsItem,
-  newsItemsContainerStyles,
-  playerAvatar,
-  singleNewsItemText,
-  bottomContainerStyles,
+  searchingContainer,
   buttonContainerStyle,
   buttonStyles,
 }
