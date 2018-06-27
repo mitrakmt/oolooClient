@@ -88,7 +88,7 @@ class Home extends Component {
     return (
       <TabBarIOS>
         <TabBarIOS.Item
-          iconName="home"
+          systemIcon="favorites"
           iconSize={20}
           // onPress={ () => this._setSelectedTab('home') }
           selected
