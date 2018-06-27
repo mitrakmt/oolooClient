@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { TabBarIOS, Text, View, Image } from 'react-native'
 import { connect } from 'react-redux'
 import { Actions } from 'react-native-router-flux'
+import Icon from 'react-native-vector-icons/Ionicons'
 import PropTypes from 'prop-types'
 import { Dropdown } from 'react-native-material-dropdown'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
@@ -253,33 +254,36 @@ class Profile extends Component {
   render() {
     return (
       <TabBarIOS>
-        <TabBarIOS.Item
-          systemIcon="favorites"
+        <Icon.TabBarItem
           iconSize={20}
           onPress={() => this.navigateToView('home')}
-          title="home"
+          title="Home"
+          iconName="md-home"
+          selectedIconName="md-home"
         >
           {this.renderProfileView()}
-        </TabBarIOS.Item>
+        </Icon.TabBarItem>
 
-        <TabBarIOS.Item
-          systemIcon="most-viewed"
+        <Icon.TabBarItem
           iconSize={20}
           onPress={() => this.navigateToView('profile')}
-          selected
           title="Profile"
+          iconName="ios-person"
+          selectedIconName="ios-person"
+          selected
         >
           {this.renderProfileView()}
-        </TabBarIOS.Item>
+        </Icon.TabBarItem>
 
-        <TabBarIOS.Item
-          systemIcon="top-rated"
+        <Icon.TabBarItem
           iconSize={20}
           onPress={() => this.navigateToView('leaderboard')}
           title="Leaderboard"
+          iconName="md-list"
+          selectedIconName="md-list"
         >
           {this.renderProfileView()}
-        </TabBarIOS.Item>
+        </Icon.TabBarItem>
       </TabBarIOS>
     )
   }
@@ -329,38 +333,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(Profile)
-
-/*
-
-
-<TabBarIOS>
-        <TabBarIOS.Item
-          systemIcon="favorites"
-          iconSize={20}
-          onPress={() => this.navigateToView('home')}
-          selected
-          title="home"
-        >
-          {this.renderHomeView()}
-        </TabBarIOS.Item>
-
-        <TabBarIOS.Item
-          systemIcon="most-viewed"
-          iconSize={20}
-          onPress={() => this.navigateToView('profile')}
-          title="Profile"
-        >
-          {this.renderHomeView()}
-        </TabBarIOS.Item>
-
-        <TabBarIOS.Item
-          systemIcon="top-rated"
-          iconSize={20}
-          onPress={() => this.navigateToView('leaderboard')}
-          title="Leaderboard"
-        >
-          {this.renderHomeView()}
-        </TabBarIOS.Item>
-      </TabBarIOS>
-
-*/

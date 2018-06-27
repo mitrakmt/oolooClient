@@ -3,6 +3,7 @@ import { TabBarIOS, Button, Text, View } from 'react-native'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Actions } from 'react-native-router-flux'
+import Icon from 'react-native-vector-icons/Ionicons'
 import styles from './styles'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
 import { fetchLeaderboard, prepPayload } from './utils'
@@ -163,18 +164,30 @@ class Leaderboard extends Component {
   render() {
     return (
       <TabBarIOS>
-        <TabBarIOS.Item
+        {/* <TabBarIOS.Item
           systemIcon="favorites"
           iconSize={20}
           onPress={() => this.navigateToView('home')}
           title="home"
         >
           {this.renderLeaderboardView()}
-        </TabBarIOS.Item>
+        </TabBarIOS.Item> */}
+
+        <Icon.TabBarItem
+          iconSize={20}
+          onPress={() => this.navigateToView('home')}
+          title="home"
+          iconName="ios-person"
+          selectedIconName="ios-person"
+        >
+          <View>
+            <Text>Home</Text>
+          </View>
+        </Icon.TabBarItem>
 
         <TabBarIOS.Item
           systemIcon="most-viewed"
-          iconSize={20}
+          iconSize={30}
           onPress={() => this.navigateToView('profile')}
           title="Profile"
         >
