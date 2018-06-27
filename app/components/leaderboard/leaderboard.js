@@ -164,45 +164,36 @@ class Leaderboard extends Component {
   render() {
     return (
       <TabBarIOS>
-        {/* <TabBarIOS.Item
-          systemIcon="favorites"
-          iconSize={20}
-          onPress={() => this.navigateToView('home')}
-          title="home"
-        >
-          {this.renderLeaderboardView()}
-        </TabBarIOS.Item> */}
-
         <Icon.TabBarItem
           iconSize={20}
           onPress={() => this.navigateToView('home')}
-          title="home"
+          title="Home"
+          iconName="md-home"
+          selectedIconName="md-home"
+        >
+          {this.renderLeaderboardView()}
+        </Icon.TabBarItem>
+
+        <Icon.TabBarItem
+          iconSize={20}
+          onPress={() => this.navigateToView('profile')}
+          title="Profile"
           iconName="ios-person"
           selectedIconName="ios-person"
         >
-          <View>
-            <Text>Home</Text>
-          </View>
+          {this.renderLeaderboardView()}
         </Icon.TabBarItem>
 
-        <TabBarIOS.Item
-          systemIcon="most-viewed"
-          iconSize={30}
-          onPress={() => this.navigateToView('profile')}
-          title="Profile"
-        >
-          {this.renderLeaderboardView()}
-        </TabBarIOS.Item>
-
-        <TabBarIOS.Item
-          systemIcon="top-rated"
+        <Icon.TabBarItem
           iconSize={20}
           onPress={() => this.navigateToView('leaderboard')}
-          selected
           title="Leaderboard"
+          iconName="md-list"
+          selectedIconName="md-list"
+          selected
         >
           {this.renderLeaderboardView()}
-        </TabBarIOS.Item>
+        </Icon.TabBarItem>
       </TabBarIOS>
     )
   }
