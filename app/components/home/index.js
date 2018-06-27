@@ -18,6 +18,20 @@ class Home extends Component {
     Actions.gameplay()
   }
 
+  navigateToView = view => {
+    if (view === 'home') {
+      Actions.home()
+    }
+
+    if (view === 'profile') {
+      Actions.profile()
+    }
+
+    if (view === 'leaderboard') {
+      Actions.leaderboard()
+    }
+  }
+
   renderHomeView() {
     return (
       <View style={styles.containerStyles}>
@@ -90,9 +104,27 @@ class Home extends Component {
         <TabBarIOS.Item
           systemIcon="favorites"
           iconSize={20}
-          // onPress={ () => this._setSelectedTab('home') }
+          onPress={() => this.navigateToView('home')}
           selected
           title="home"
+        >
+          {this.renderHomeView()}
+        </TabBarIOS.Item>
+
+        <TabBarIOS.Item
+          systemIcon="most-viewed"
+          iconSize={20}
+          onPress={() => this.navigateToView('profile')}
+          title="Profile"
+        >
+          {this.renderHomeView()}
+        </TabBarIOS.Item>
+
+        <TabBarIOS.Item
+          systemIcon="top-rated"
+          iconSize={20}
+          onPress={() => this.navigateToView('leaderboard')}
+          title="Leaderboard"
         >
           {this.renderHomeView()}
         </TabBarIOS.Item>
