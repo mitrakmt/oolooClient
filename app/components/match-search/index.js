@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, Button } from 'react-native'
+import { Text, View, Button, Image } from 'react-native'
 import { Actions } from 'react-native-router-flux'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
 import styles from './styles'
@@ -12,6 +12,22 @@ class MatchSearch extends Component {
 
   componentWillMount() {
     tracker.trackScreenView('Home')
+  }
+
+  componentDidMount = () => {
+    /*
+    const { auth, socketGameResults, gameStart } = this.props
+    const context = this
+
+    const callbacks = {
+      socketGameResults,
+      gameStart,
+      createTextAnimationObjects,
+    }
+
+    // Create socket and store in local state
+    socketMiddleware(auth, context, callbacks)
+    */
   }
 
   render() {
@@ -32,7 +48,16 @@ class MatchSearch extends Component {
           </View>
 
           <View style={[styles.searchingContainer, styles.debuggingStyles]}>
-            <Text>Placeholder</Text>
+            <View>
+              <Text>Finding worthy opponent...</Text>
+            </View>
+
+            <View>
+              <Image
+                style={styles.playerAvatar}
+                source={{ url: 'https://placeimg.com/300/300/any' }}
+              />
+            </View>
 
             <View style={styles.buttonContainerStyle}>
               <View style={styles.buttonStyles}>
