@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, Image, Button } from 'react-native'
+import { TabBarIOS, Text, View, Image } from 'react-native'
 import { connect } from 'react-redux'
 import { Actions } from 'react-native-router-flux'
 import PropTypes from 'prop-types'
@@ -121,7 +121,21 @@ class Profile extends Component {
     Actions.home()
   }
 
-  render() {
+  navigateToView = view => {
+    if (view === 'home') {
+      Actions.home()
+    }
+
+    if (view === 'profile') {
+      Actions.profile()
+    }
+
+    if (view === 'leaderboard') {
+      Actions.leaderboard()
+    }
+  }
+
+  renderProfileView = () => {
     const data = [
       {
         value: 'Biology',
@@ -133,6 +147,7 @@ class Profile extends Component {
         value: 'Psychology',
       },
     ]
+
     return (
       <View style={styles.containerStyles}>
         <Text
@@ -218,7 +233,7 @@ class Profile extends Component {
             </View>
           </View>
 
-          <View style={styles.bottomContainerStyles}>
+          {/* <View style={styles.bottomContainerStyles}>
             <View style={styles.buttonContainerStyle}>
               <View style={styles.buttonStyles}>
                 <Button
@@ -229,9 +244,43 @@ class Profile extends Component {
                 />
               </View>
             </View>
-          </View>
+          </View> */}
         </View>
       </View>
+    )
+  }
+
+  render() {
+    return (
+      <TabBarIOS>
+        <TabBarIOS.Item
+          systemIcon="favorites"
+          iconSize={20}
+          onPress={() => this.navigateToView('home')}
+          title="home"
+        >
+          {this.renderProfileView()}
+        </TabBarIOS.Item>
+
+        <TabBarIOS.Item
+          systemIcon="most-viewed"
+          iconSize={20}
+          onPress={() => this.navigateToView('profile')}
+          selected
+          title="Profile"
+        >
+          {this.renderProfileView()}
+        </TabBarIOS.Item>
+
+        <TabBarIOS.Item
+          systemIcon="top-rated"
+          iconSize={20}
+          onPress={() => this.navigateToView('leaderboard')}
+          title="Leaderboard"
+        >
+          {this.renderProfileView()}
+        </TabBarIOS.Item>
+      </TabBarIOS>
     )
   }
 }
@@ -280,3 +329,38 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(Profile)
+
+/*
+
+
+<TabBarIOS>
+        <TabBarIOS.Item
+          systemIcon="favorites"
+          iconSize={20}
+          onPress={() => this.navigateToView('home')}
+          selected
+          title="home"
+        >
+          {this.renderHomeView()}
+        </TabBarIOS.Item>
+
+        <TabBarIOS.Item
+          systemIcon="most-viewed"
+          iconSize={20}
+          onPress={() => this.navigateToView('profile')}
+          title="Profile"
+        >
+          {this.renderHomeView()}
+        </TabBarIOS.Item>
+
+        <TabBarIOS.Item
+          systemIcon="top-rated"
+          iconSize={20}
+          onPress={() => this.navigateToView('leaderboard')}
+          title="Leaderboard"
+        >
+          {this.renderHomeView()}
+        </TabBarIOS.Item>
+      </TabBarIOS>
+
+*/
