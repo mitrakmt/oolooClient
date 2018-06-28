@@ -15,15 +15,6 @@ const socketMiddleware = (auth, context, callbacks) => {
   // Continue using TEMP_AUTH until backend teams finds permanent fix
   const socket = io(`${DEV_API_URL}/?token=${auth}`)
 
-  console.log('socket is ', socket)
-  console.log('\n')
-
-  socket.on('matchFound', response => {
-    console.log('response inside matchFound ', response)
-
-    Actions.matchFound()
-  })
-
   socket.on(
     'gameStart',
     ({ duration, numberOfQuestions, playerIndex, startTime, usernames }) => {
@@ -123,8 +114,15 @@ const socketMiddleware = (auth, context, callbacks) => {
     })
   })
 
+  socket.on('question answered', response => {
+    console.log('question answered ', response)
+  })
+
   // Store Socket in state => for gameplay
   // context.setState({ socket, questionAnimation: new Animated.Value(0) })
+
+  // Reminder: MUST setup questionAnimation in GamePlay local state
+  callbacks.connectSocket(socket)
 }
 
 export default socketMiddleware
