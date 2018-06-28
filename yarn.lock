@@ -5285,6 +5285,10 @@ react-native-safe-area-view@^0.7.0:
   dependencies:
     hoist-non-react-statics "^2.3.1"
 
+react-native-slot-machine@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/react-native-slot-machine/-/react-native-slot-machine-0.3.1.tgz#0ad693dd24ac31879c5d751a2fd55c476af4e291"
+
 react-native-svg@^6.3.1:
   version "6.3.1"
   resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-6.3.1.tgz#06a573f17c59ce953a56fd62e776fd79d632d765"
