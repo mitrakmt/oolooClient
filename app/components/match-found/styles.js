@@ -1,11 +1,10 @@
 // Apply to containers for debugging layout
-/*
+
 const debuggingStyles = {
   borderWidth: 2,
   borderRadius: 25,
   borderColor: '#E18678',
 }
-*/
 
 const colors = {
   softCyan: '#97d9d7',
@@ -37,7 +36,7 @@ const textContainerStyles = {
   justifyContent: 'space-between',
 }
 
-const searchingContainer = {
+const foundContainer = {
   backgroundColor: colors.white,
   height: 300,
   width: 300,
@@ -51,7 +50,7 @@ const searchingContainer = {
   },
 
   display: 'flex',
-  justifyContent: 'space-around',
+  justifyContent: 'flex-start',
   alignItems: 'center',
 }
 
@@ -61,12 +60,12 @@ const findingHeader = {
   fontWeight: '800',
 }
 
-const countdownContainer = {
+const avatarFoundContainer = {
   display: 'flex',
   flexDirection: 'row',
   justifyContent: 'space-around',
   alignItems: 'center',
-  width: '70%',
+  width: '100%',
 }
 
 const playerAvatar = {
@@ -93,12 +92,13 @@ const buttonStyles = {
 }
 
 export default {
+  debuggingStyles,
   containerStyles,
   mainContainerStyles,
   textContainerStyles,
-  searchingContainer,
+  foundContainer,
   findingHeader,
-  countdownContainer,
+  avatarFoundContainer,
   playerAvatar,
   buttonContainerStyle,
   buttonStyles,

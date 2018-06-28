@@ -3,7 +3,7 @@ import { Text, View, Image } from 'react-native'
 // import { Actions } from 'react-native-router-flux'
 // import { connect } from 'react-redux'
 // import PropTypes from 'prop-types'
-import CountdownCircle from 'react-native-countdown-circle'
+
 // import tracker from '../../services/analytics-tracker/analyticsTracker'
 import styles from './styles'
 
@@ -23,7 +23,7 @@ class MatchFound extends Component {
 
   render() {
     return (
-      <View style={[styles.containerStyles, styles.debuggingStyles]}>
+      <View style={styles.containerStyles}>
         <View style={styles.mainContainerStyles}>
           <View style={styles.textContainerStyles}>
             <Text
@@ -36,12 +36,12 @@ class MatchFound extends Component {
             </Text>
           </View>
 
-          <View style={styles.searchingContainer}>
-            <View style={{ marginTop: '5%' }}>
+          <View style={[styles.debuggingStyles, styles.foundContainer]}>
+            <View style={{ marginTop: '2%' }}>
               <Text style={styles.findingHeader}>Match Found!</Text>
             </View>
 
-            <View style={styles.countdownContainer}>
+            <View style={[styles.debuggingStyles, styles.avatarFoundContainer]}>
               <Image
                 style={styles.playerAvatar}
                 source={{ url: 'https://placeimg.com/300/300/any' }}
@@ -53,26 +53,7 @@ class MatchFound extends Component {
               />
             </View>
 
-            <View style={styles.buttonContainerStyle}>
-              {/* <View style={styles.buttonStyles}>
-                <Button
-                  onPress={() => Actions.home()}
-                  title="Back"
-                  color="white"
-                  accessibilityLabel="Back button for OOLOO Quiz App Home view"
-                />
-              </View> */}
-
-              <CountdownCircle
-                seconds={15}
-                radius={37}
-                borderWidth={8}
-                color="#01a38d"
-                bgColor="#fff"
-                textStyle={{ fontSize: 20 }}
-                onTimeElapsed={() => console.log('Elapsed!')}
-              />
-            </View>
+            <View style={styles.buttonContainerStyle} />
           </View>
         </View>
       </View>

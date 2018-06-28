@@ -54,7 +54,7 @@ class MatchSearch extends Component {
 
   render() {
     return (
-      <View style={[styles.containerStyles, styles.debuggingStyles]}>
+      <View style={styles.containerStyles}>
         <View style={styles.mainContainerStyles}>
           <View style={styles.textContainerStyles}>
             <Text
