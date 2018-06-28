@@ -18,8 +18,9 @@ const containerStyles = {
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  justifyContent: 'flex-start',
+  justifyContent: 'space-around',
   height: '100%',
+  marginTop: '5%',
 }
 
 const mainContainerStyles = {
@@ -61,7 +62,7 @@ const topContainer = {
   height: '60%',
 }
 
-const findingHeader = {
+const headerStyling = {
   color: '#344756',
   fontSize: 20,
   fontWeight: '800',
@@ -72,8 +73,7 @@ const avatarFoundContainer = {
   display: 'flex',
   flexDirection: 'row',
   justifyContent: 'space-around',
-  alignItems: 'center',
-  width: '100%',
+  width: '85%',
 }
 
 const playerAvatar = {
@@ -100,6 +100,12 @@ const buttonStyles = {
   marginRight: 'auto',
 }
 
+const roundStartsContainer = {
+  height: '15%',
+  display: 'flex',
+  justifyContent: 'flex-start',
+}
+
 export default {
   debuggingStyles,
   containerStyles,
@@ -107,9 +113,10 @@ export default {
   textContainerStyles,
   foundContainer,
   topContainer,
-  findingHeader,
+  headerStyling,
   avatarFoundContainer,
   playerAvatar,
   bottomContainer,
   buttonStyles,
+  roundStartsContainer,
 }

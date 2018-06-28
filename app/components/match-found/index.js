@@ -52,22 +52,25 @@ class MatchFound extends Component {
             </Text>
           </View>
 
-          <View style={[styles.foundContainer]}>
-            <View style={[styles.debuggingStyles, styles.topContainer]}>
+          <View style={styles.foundContainer}>
+            <View style={styles.topContainer}>
               <View>
-                <Text style={styles.findingHeader}>Match Found!</Text>
+                <Text style={styles.headerStyling}>Match Found!</Text>
               </View>
 
-              <View style={[styles.avatarFoundContainer]}>
-                <Image
-                  style={styles.playerAvatar}
-                  source={{ url: 'https://placeimg.com/300/300/any' }}
-                />
-
-                <Image
-                  style={styles.playerAvatar}
-                  source={{ url: 'https://placeimg.com/300/300/any' }}
-                />
+              <View style={styles.avatarFoundContainer}>
+                <View>
+                  <Image
+                    style={styles.playerAvatar}
+                    source={{ url: 'https://placeimg.com/300/300/any' }}
+                  />
+                </View>
+                <View>
+                  <Image
+                    style={styles.playerAvatar}
+                    source={{ url: 'https://placeimg.com/300/300/any' }}
+                  />
+                </View>
               </View>
             </View>
 
@@ -79,6 +82,10 @@ class MatchFound extends Component {
               />
             </View>
           </View>
+        </View>
+
+        <View style={styles.roundStartsContainer}>
+          <Text style={styles.headerStyling}>Round starting in...</Text>
         </View>
       </View>
     )
