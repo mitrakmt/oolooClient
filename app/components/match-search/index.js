@@ -31,13 +31,14 @@ class MatchSearch extends Component {
   }
 
   componentDidMount = () => {
+    // on CDM, setup Socket, attach 'matchFound' and save to Redux, save Socket to Redux
     const { auth, connectSocket, foundMatchAction } = this.props
 
     const socket = io(`${DEV_API_URL}/?token=${auth}`)
 
     socket.on('matchFound', data => events.matchFound(data, foundMatchAction))
 
-    connectSocket(socket) // save Socket in Redux
+    connectSocket(socket)
   }
 
   displayMatchError = () => {

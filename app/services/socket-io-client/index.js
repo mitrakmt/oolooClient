@@ -1,12 +1,9 @@
-// import { Actions } from 'react-native-router-flux'
-// import { Animated } from 'react-native'
-// import io from 'socket.io-client'
 import matchFound from './events/matchFound'
-
-// const DEV_API_URL = `https://ooloo-api-dev.herokuapp.com`
+import gameStart from './events/gameStart'
 
 const events = {
   matchFound,
+  gameStart,
 }
 
 export default events
