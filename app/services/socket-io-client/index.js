@@ -1,5 +1,5 @@
 import { Actions } from 'react-native-router-flux'
-import { Animated } from 'react-native'
+// import { Animated } from 'react-native'
 import io from 'socket.io-client'
 
 const DEV_API_URL = `https://ooloo-api-dev.herokuapp.com`
@@ -15,10 +15,21 @@ const socketMiddleware = (auth, context, callbacks) => {
   // Continue using TEMP_AUTH until backend teams finds permanent fix
   const socket = io(`${DEV_API_URL}/?token=${auth}`)
 
+  console.log('socket is ', socket)
+  console.log('\n')
+
+  socket.on('matchFound', response => {
+    console.log('response inside matchFound ', response)
+
+    Actions.matchSearch()
+  })
+
   socket.on(
     'gameStart',
     ({ duration, numberOfQuestions, playerIndex, startTime, usernames }) => {
       const payload = { duration, numberOfQuestions, playerIndex, startTime }
+
+      console.log('gameStart fired!')
 
       // convert username array to object to avoid PropTypes error
       const usernameObj = {}
@@ -112,8 +123,8 @@ const socketMiddleware = (auth, context, callbacks) => {
     })
   })
 
-  // Store Socket in state
-  context.setState({ socket, questionAnimation: new Animated.Value(0) })
+  // Store Socket in state => for gameplay
+  // context.setState({ socket, questionAnimation: new Animated.Value(0) })
 }
 
 export default socketMiddleware

@@ -45,7 +45,7 @@ const App = () => (
         />
 
         <Scene
-          key="match-search"
+          key="matchSearch"
           component={MatchSearch}
           title="Match Search"
           hideNavBar="false"

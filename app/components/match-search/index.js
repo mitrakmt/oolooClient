@@ -4,7 +4,7 @@ import { Actions } from 'react-native-router-flux'
 import CountdownCircle from 'react-native-countdown-circle'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import tracker from '../../services/analytics-tracker/analyticsTracker'
+// import tracker from '../../services/analytics-tracker/analyticsTracker'
 import styles from './styles'
 import createTextAnimationObjects from './utils'
 import { gameResults } from '../../services/redux/actions/gameresults'
@@ -18,7 +18,7 @@ class MatchSearch extends Component {
   }
 
   componentWillMount() {
-    tracker.trackScreenView('Home')
+    // tracker.trackScreenView('Home')
   }
 
   componentDidMount = () => {
