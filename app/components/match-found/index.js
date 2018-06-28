@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import { Text, View, Image } from 'react-native'
-// import { Actions } from 'react-native-router-flux'
 import { connect } from 'react-redux'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 
 import SlotMachine from 'react-native-slot-machine'
 import Icon from 'react-native-vector-icons/FontAwesome'
@@ -10,7 +9,7 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 // import tracker from '../../services/analytics-tracker/analyticsTracker'
 import styles from './styles'
 
-// import { matchFound } from '../../services/socket-io-client'
+// import events from '../../services/socket-io-client'
 
 const MedicalIcons = ['stethoscope', 'heartbeat', 'ambulance', 'flask']
 
@@ -26,7 +25,12 @@ class MatchFound extends Component {
     // tracker.trackScreenView('Home')
   }
 
-  componentDidMount = () => {}
+  componentDidMount = () => {
+    // on CDM, connect Socket to gameStart
+    const { socket } = this.props
+
+    console.log('GOT THE SOCKET! ', socket)
+  }
 
   renderSlotIcon = index => {
     const displayIndex = index > 3 ? index % 2 : index
@@ -92,14 +96,32 @@ class MatchFound extends Component {
   }
 }
 
-function mapStateToProps({ auth }) {
+function mapStateToProps({ socket }) {
   return {
-    auth,
+    socket,
   }
 }
 
-// MatchFound.PropTypes = {
-//   auth: PropTypes.string.isRequired,
-// }
+MatchFound.propTypes = {
+  socket: PropTypes.shape({
+    acks: PropTypes.object,
+    connected: PropTypes.bool,
+    disconnected: PropTypes.bool,
+    flags: PropTypes.object,
+    id: PropTypes.string,
+    ids: PropTypes.number,
+    io: PropTypes.object,
+    json: PropTypes.object,
+    nsp: PropTypes.string,
+    query: PropTypes.string,
+    receiveBuffer: PropTypes.array,
+    sendBuffer: PropTypes.array,
+    subs: PropTypes.array,
+    _callbacks: PropTypes.object,
+  }).isRequired,
+}
 
-export default connect(mapStateToProps)(MatchFound)
+export default connect(
+  mapStateToProps,
+  null,
+)(MatchFound)
