@@ -21,7 +21,7 @@ const socketMiddleware = (auth, context, callbacks) => {
   socket.on('matchFound', response => {
     console.log('response inside matchFound ', response)
 
-    Actions.matchSearch()
+    Actions.matchFound()
   })
 
   socket.on(

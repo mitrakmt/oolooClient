@@ -6,6 +6,7 @@ import { Router, Scene } from 'react-native-router-flux'
 import GamePlay from './components/gameplay'
 import Home from './components/home'
 import MatchSearch from './components/match-search'
+import MatchFound from './components/match-found'
 import Login from './components/login'
 import Leaderboard from './components/leaderboard/leaderboard'
 import Results from './components/results'
@@ -50,6 +51,14 @@ const App = () => (
           title="Match Search"
           hideNavBar="false"
         />
+
+        <Scene
+          key="matchFound"
+          component={MatchFound}
+          title="Match Found"
+          hideNavBar="false"
+        />
+
         <Scene
           key="profile"
           component={Profile}
