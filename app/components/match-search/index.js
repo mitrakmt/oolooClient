@@ -11,7 +11,6 @@ import { gameResults } from '../../services/redux/actions/gameresults'
 import { startTheGame } from '../../services/redux/actions/gameplay'
 import { socketConnected } from '../../services/redux/actions/socket'
 import { matchFound } from '../../services/redux/actions/matchfound'
-
 import events from '../../services/socket-io-client/'
 
 const DEV_API_URL = `https://ooloo-api-dev.herokuapp.com`

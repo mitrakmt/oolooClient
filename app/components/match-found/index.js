@@ -2,14 +2,12 @@ import React, { Component } from 'react'
 import { Text, View, Image } from 'react-native'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-
 import SlotMachine from 'react-native-slot-machine'
 import Icon from 'react-native-vector-icons/FontAwesome'
-
+import events from '../../services/socket-io-client/'
+import { startTheGame } from '../../services/redux/actions/gameplay'
 // import tracker from '../../services/analytics-tracker/analyticsTracker'
 import styles from './styles'
-
-// import events from '../../services/socket-io-client'
 
 const MedicalIcons = ['stethoscope', 'heartbeat', 'ambulance', 'flask']
 
@@ -26,10 +24,10 @@ class MatchFound extends Component {
   }
 
   componentDidMount = () => {
-    // on CDM, connect Socket to gameStart
-    const { socket } = this.props
+    // on CDM, connect Socket to gameStart, pass gameStart Action to event CB
+    const { socket, gameStart } = this.props
 
-    console.log('GOT THE SOCKET! ', socket)
+    socket.on('gameStart', data => events.gameStart(data, gameStart))
   }
 
   renderSlotIcon = index => {
@@ -119,9 +117,11 @@ MatchFound.propTypes = {
     subs: PropTypes.array,
     _callbacks: PropTypes.object,
   }).isRequired,
+
+  gameStart: PropTypes.func.isRequired,
 }
 
 export default connect(
   mapStateToProps,
-  null,
+  { gameStart: startTheGame },
 )(MatchFound)

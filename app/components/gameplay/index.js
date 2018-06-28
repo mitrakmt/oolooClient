@@ -17,23 +17,25 @@ import {
   createTextAnimationObjects,
 } from './utils'
 import { gameResults } from '../../services/redux/actions/gameresults'
-import { startTheGame } from '../../services/redux/actions/gameplay'
-import socketMiddleware from '../../services/socket-io-client'
+// import socketMiddleware from '../../services/socket-io-client'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
+import events from '../../services/socket-io-client'
 
 class GamePlay extends Component {
   constructor(props) {
     super(props)
+    const { playerIndex } = this.props
+
     this.state = {
       gameStart: false,
       progress: 300000,
+      playerIndex,
       tickTockProgress: 1,
       questionNumber: null,
       animatedValues: [],
       possibleAnswers: [],
       chosenAnswer: null,
       buttonAnimation: new Animated.Value(0),
-
       timerIconAnimation: new Animated.Value(0),
       buttonColor: '#344856',
     }
@@ -44,17 +46,35 @@ class GamePlay extends Component {
   }
 
   componentDidMount = () => {
-    const { auth, socketGameResults, gameStart } = this.props
+    // Get socket from Redux
+    const { socket, socketGameResults } = this.props
+
     const context = this
 
-    const callbacks = {
-      socketGameResults,
-      gameStart,
-      createTextAnimationObjects,
-    }
+    const intervalID = setInterval(() => {
+      this.setState(state => ({
+        gameStart: true,
+        progress: state.progress - 1000,
+        tickTockProgress: state.tickTockProgress === 0 ? 1 : 0,
+      }))
+    }, 1000)
 
-    // Create socket and store in local state
-    socketMiddleware(auth, context, callbacks)
+    // Set interval for Timer
+    // const intervalID = setInterval(() => {
+    //   this.setState(state => ({
+    //     gameStart: true,
+    //     progress: state.progress - 1000,
+    //     tickTockProgress: state.tickTockProgress === 0 ? 1 : 0,
+    //   }))
+    // }, 1000)
+
+    socket.on('question', data =>
+      events.questionEvent(data, createTextAnimationObjects, context),
+    )
+
+    socket.on('gameResults', data =>
+      events.gameResults(data, socketGameResults, intervalID),
+    )
   }
 
   componentDidUpdate = (_, prevState) => {
@@ -67,7 +87,8 @@ class GamePlay extends Component {
   }
 
   onButtonPress = (answer, idx) => {
-    const { socket, buttonAnimation, questionNumber, playerIndex } = this.state
+    const { buttonAnimation, questionNumber, playerIndex } = this.state
+    const { socket } = this.props
 
     // Button backgroundColor animates
     this.setState({ chosenAnswer: idx }, () => {
@@ -255,22 +276,38 @@ class GamePlay extends Component {
   }
 }
 
-function mapStateToProps({ auth }) {
+function mapStateToProps({ auth, socket, gameStart }) {
   return {
     auth,
+    socket,
+    playerIndex: gameStart.playerIndex,
   }
 }
 
 GamePlay.propTypes = {
-  auth: PropTypes.string.isRequired,
+  playerIndex: PropTypes.number.isRequired,
   socketGameResults: PropTypes.func.isRequired,
-  gameStart: PropTypes.func.isRequired,
+  socket: PropTypes.shape({
+    acks: PropTypes.object,
+    connected: PropTypes.bool,
+    disconnected: PropTypes.bool,
+    flags: PropTypes.object,
+    id: PropTypes.string,
+    ids: PropTypes.number,
+    io: PropTypes.object,
+    json: PropTypes.object,
+    nsp: PropTypes.string,
+    query: PropTypes.string,
+    receiveBuffer: PropTypes.array,
+    sendBuffer: PropTypes.array,
+    subs: PropTypes.array,
+    _callbacks: PropTypes.object,
+  }).isRequired,
 }
 
 export default connect(
   mapStateToProps,
   {
     socketGameResults: gameResults,
-    gameStart: startTheGame,
   },
 )(GamePlay)
