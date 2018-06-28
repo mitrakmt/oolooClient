@@ -61,10 +61,12 @@ const findingHeader = {
   fontWeight: '800',
 }
 
-const findingAvatar = {
-  borderWidth: 3,
-  borderRadius: 50,
-  padding: '3%',
+const countdownContainer = {
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-around',
+  alignItems: 'center',
+  width: '70%',
 }
 
 const playerAvatar = {
@@ -96,7 +98,7 @@ export default {
   textContainerStyles,
   searchingContainer,
   findingHeader,
-  findingAvatar,
+  countdownContainer,
   playerAvatar,
   buttonContainerStyle,
   buttonStyles,

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { Text, View, Button } from 'react-native'
+import { Text, View, Button, Image } from 'react-native'
 import { Actions } from 'react-native-router-flux'
+import CountdownCircle from 'react-native-countdown-circle'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
 import styles from './styles'
 
@@ -52,12 +53,22 @@ class MatchSearch extends Component {
               </Text>
             </View>
 
-            {/* <View style={styles.findingAvatar}>
+            <View style={styles.countdownContainer}>
               <Image
                 style={styles.playerAvatar}
                 source={{ url: 'https://placeimg.com/300/300/any' }}
               />
-            </View> */}
+
+              <CountdownCircle
+                seconds={15}
+                radius={37}
+                borderWidth={8}
+                color="#01a38d"
+                bgColor="#fff"
+                textStyle={{ fontSize: 20 }}
+                onTimeElapsed={() => console.log('Elapsed!')}
+              />
+            </View>
 
             <View style={styles.buttonContainerStyle}>
               <View style={styles.buttonStyles}>
