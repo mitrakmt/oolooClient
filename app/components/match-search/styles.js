@@ -69,6 +69,11 @@ const countdownContainer = {
   width: '70%',
 }
 
+const errorContainerStyle = {
+  marginLeft: '10%',
+  marginRight: '10%',
+}
+
 const playerAvatar = {
   width: 75,
   height: 75,
@@ -83,7 +88,7 @@ const buttonContainerStyle = {
 }
 
 const buttonStyles = {
-  marginTop: '15%',
+  marginTop: '5%',
   borderRadius: 10,
   backgroundColor: colors.buttonColor,
   width: '50%',
@@ -99,6 +104,7 @@ export default {
   searchingContainer,
   findingHeader,
   countdownContainer,
+  errorContainerStyle,
   playerAvatar,
   buttonContainerStyle,
   buttonStyles,
