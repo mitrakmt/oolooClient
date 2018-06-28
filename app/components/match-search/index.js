@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Text, View, Button } from 'react-native'
 import { Actions } from 'react-native-router-flux'
-import { AnimatedCircularProgress } from 'react-native-circular-progress'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
 import styles from './styles'
 
@@ -59,17 +58,6 @@ class MatchSearch extends Component {
                 source={{ url: 'https://placeimg.com/300/300/any' }}
               />
             </View> */}
-
-            <View>
-              <AnimatedCircularProgress
-                size={120}
-                width={15}
-                fill={100}
-                tintColor="#00e0ff"
-                onAnimationComplete={() => console.log('onAnimationComplete')}
-                backgroundColor="#3d5875"
-              />
-            </View>
 
             <View style={styles.buttonContainerStyle}>
               <View style={styles.buttonStyles}>
