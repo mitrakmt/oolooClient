@@ -52,24 +52,26 @@ class MatchFound extends Component {
             </Text>
           </View>
 
-          <View style={[styles.debuggingStyles, styles.foundContainer]}>
-            <View style={{ marginTop: '2%' }}>
-              <Text style={styles.findingHeader}>Match Found!</Text>
+          <View style={[styles.foundContainer]}>
+            <View style={[styles.debuggingStyles, styles.topContainer]}>
+              <View>
+                <Text style={styles.findingHeader}>Match Found!</Text>
+              </View>
+
+              <View style={[styles.avatarFoundContainer]}>
+                <Image
+                  style={styles.playerAvatar}
+                  source={{ url: 'https://placeimg.com/300/300/any' }}
+                />
+
+                <Image
+                  style={styles.playerAvatar}
+                  source={{ url: 'https://placeimg.com/300/300/any' }}
+                />
+              </View>
             </View>
 
-            <View style={[styles.debuggingStyles, styles.avatarFoundContainer]}>
-              <Image
-                style={styles.playerAvatar}
-                source={{ url: 'https://placeimg.com/300/300/any' }}
-              />
-
-              <Image
-                style={styles.playerAvatar}
-                source={{ url: 'https://placeimg.com/300/300/any' }}
-              />
-            </View>
-
-            <View style={styles.buttonContainerStyle}>
+            <View style={styles.bottomContainer}>
               <SlotMachine
                 text="0123"
                 range="0123456789"

@@ -38,7 +38,7 @@ const textContainerStyles = {
 
 const foundContainer = {
   backgroundColor: colors.white,
-  height: 300,
+  height: 400,
   width: 300,
   borderRadius: 10,
   shadowColor: colors.softCyan,
@@ -50,14 +50,22 @@ const foundContainer = {
   },
 
   display: 'flex',
-  justifyContent: 'flex-start',
+  justifyContent: 'space-between',
   alignItems: 'center',
+}
+
+const topContainer = {
+  display: 'flex',
+  justifyContent: 'space-around',
+  alignItems: 'center',
+  height: '60%',
 }
 
 const findingHeader = {
   color: '#344756',
   fontSize: 20,
   fontWeight: '800',
+  textAlign: 'center',
 }
 
 const avatarFoundContainer = {
@@ -75,10 +83,11 @@ const playerAvatar = {
   borderRadius: 37,
 }
 
-const buttonContainerStyle = {
+const bottomContainer = {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-around',
+  height: '40%',
 }
 
 const buttonStyles = {
@@ -97,9 +106,10 @@ export default {
   mainContainerStyles,
   textContainerStyles,
   foundContainer,
+  topContainer,
   findingHeader,
   avatarFoundContainer,
   playerAvatar,
-  buttonContainerStyle,
+  bottomContainer,
   buttonStyles,
 }
