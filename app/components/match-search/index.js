@@ -2,8 +2,14 @@ import React, { Component } from 'react'
 import { Text, View, Button, Image } from 'react-native'
 import { Actions } from 'react-native-router-flux'
 import CountdownCircle from 'react-native-countdown-circle'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
 import styles from './styles'
+import createTextAnimationObjects from './utils'
+import { gameResults } from '../../services/redux/actions/gameresults'
+import { startTheGame } from '../../services/redux/actions/gameplay'
+import socketMiddleware from '../../services/socket-io-client'
 
 class MatchSearch extends Component {
   constructor(props) {
@@ -16,7 +22,6 @@ class MatchSearch extends Component {
   }
 
   componentDidMount = () => {
-    /*
     const { auth, socketGameResults, gameStart } = this.props
     const context = this
 
@@ -26,9 +31,8 @@ class MatchSearch extends Component {
       createTextAnimationObjects,
     }
 
-    // Create socket and store in local state
+    // Create socket and store in Redux
     socketMiddleware(auth, context, callbacks)
-    */
   }
 
   render() {
@@ -87,4 +91,22 @@ class MatchSearch extends Component {
   }
 }
 
-export default MatchSearch
+function mapStateToProps({ auth }) {
+  return {
+    auth,
+  }
+}
+
+MatchSearch.propTypes = {
+  auth: PropTypes.string.isRequired,
+  socketGameResults: PropTypes.func.isRequired,
+  gameStart: PropTypes.func.isRequired,
+}
+
+export default connect(
+  mapStateToProps,
+  {
+    socketGameResults: gameResults,
+    gameStart: startTheGame,
+  },
+)(MatchSearch)

@@ -18,8 +18,8 @@ import {
 } from './utils'
 import { gameResults } from '../../services/redux/actions/gameresults'
 import { startTheGame } from '../../services/redux/actions/gameplay'
-import tracker from '../../services/analytics-tracker/analyticsTracker'
 import socketMiddleware from '../../services/socket-io-client'
+import tracker from '../../services/analytics-tracker/analyticsTracker'
 
 class GamePlay extends Component {
   constructor(props) {
