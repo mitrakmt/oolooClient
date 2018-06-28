@@ -12,6 +12,8 @@ import { startTheGame } from '../../services/redux/actions/gameplay'
 import { socketConnected } from '../../services/redux/actions/socket'
 import { matchFound } from '../../services/redux/actions/matchfound'
 
+import events from '../../services/socket-io-client/'
+
 const DEV_API_URL = `https://ooloo-api-dev.herokuapp.com`
 
 class MatchSearch extends Component {
@@ -29,14 +31,11 @@ class MatchSearch extends Component {
   }
 
   componentDidMount = () => {
-    const { auth, connectSocket, foundMatch } = this.props
+    const { auth, connectSocket, foundMatchAction } = this.props
 
     const socket = io(`${DEV_API_URL}/?token=${auth}`)
 
-    socket.on('matchFound', ({ interests }) => {
-      foundMatch(interests) // send interests to Redux store
-      Actions.matchFound()
-    })
+    socket.on('matchFound', data => events.matchFound(data, foundMatchAction))
 
     connectSocket(socket) // save Socket in Redux
   }
@@ -122,7 +121,7 @@ function mapStateToProps({ auth }) {
 MatchSearch.propTypes = {
   auth: PropTypes.string.isRequired,
   connectSocket: PropTypes.func.isRequired,
-  foundMatch: PropTypes.func.isRequired,
+  foundMatchAction: PropTypes.func.isRequired,
 }
 
 export default connect(
@@ -131,6 +130,6 @@ export default connect(
     socketGameResults: gameResults,
     gameStart: startTheGame,
     connectSocket: socketConnected,
-    foundMatch: matchFound,
+    foundMatchAction: matchFound,
   },
 )(MatchSearch)

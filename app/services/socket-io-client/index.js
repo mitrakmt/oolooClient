@@ -1,13 +1,22 @@
-import { Actions } from 'react-native-router-flux'
+// import { Actions } from 'react-native-router-flux'
 // import { Animated } from 'react-native'
-import io from 'socket.io-client'
+// import io from 'socket.io-client'
+import matchFound from './events/matchFound'
 
-const DEV_API_URL = `https://ooloo-api-dev.herokuapp.com`
+// const DEV_API_URL = `https://ooloo-api-dev.herokuapp.com`
+
+const events = {
+  matchFound,
+}
+
+export default events
+
 // const TEMP_AUTH =
 //   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaXNBZG1pbiI6ZmFsc2UsImlhdCI6MTUyOTI5ODAzNX0.me_DL5FV7q8ueyp_7vpUZ19x5G7TQtYn2ZLrlFnZHhc'
 
 // have access to 'question answered' sockets event
 
+/*
 const socketMiddleware = (auth, context, callbacks) => {
   let intervalID
 
@@ -126,3 +135,5 @@ const socketMiddleware = (auth, context, callbacks) => {
 }
 
 export default socketMiddleware
+
+*/

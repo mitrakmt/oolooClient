@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Text, View, Image } from 'react-native'
 // import { Actions } from 'react-native-router-flux'
-// import { connect } from 'react-redux'
+import { connect } from 'react-redux'
 // import PropTypes from 'prop-types'
 
 import SlotMachine from 'react-native-slot-machine'
@@ -10,11 +10,11 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 // import tracker from '../../services/analytics-tracker/analyticsTracker'
 import styles from './styles'
 
-// import socketMiddleware from '../../services/socket-io-client'
+// import { matchFound } from '../../services/socket-io-client'
 
 const MedicalIcons = ['stethoscope', 'heartbeat', 'ambulance', 'flask']
 
-// dna, tablets, hospital, file-prescription, notes-medical
+// Icons not available in librar: dna, tablets, hospital, file-prescription, notes-medical
 
 class MatchFound extends Component {
   constructor(props) {
@@ -92,4 +92,14 @@ class MatchFound extends Component {
   }
 }
 
-export default MatchFound
+function mapStateToProps({ auth }) {
+  return {
+    auth,
+  }
+}
+
+// MatchFound.PropTypes = {
+//   auth: PropTypes.string.isRequired,
+// }
+
+export default connect(mapStateToProps)(MatchFound)
