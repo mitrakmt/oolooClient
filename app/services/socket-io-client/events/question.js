@@ -1,3 +1,5 @@
+import { Animated } from 'react-native'
+
 const questionEvent = (
   { question, questionNumber, possibleAnswers },
   callback,
@@ -14,6 +16,7 @@ const questionEvent = (
     questionArray,
     animatedValues,
     animatedSequence,
+    questionAnimation: new Animated.Value(0),
   })
 }
 

@@ -10,8 +10,7 @@ import { startTheGame } from '../../services/redux/actions/gameplay'
 import styles from './styles'
 
 const MedicalIcons = ['stethoscope', 'heartbeat', 'ambulance', 'flask']
-
-// Icons not available in librar: dna, tablets, hospital, file-prescription, notes-medical
+// Icons not available in library: dna, tablets, hospital, file-prescription, notes-medical
 
 class MatchFound extends Component {
   constructor(props) {

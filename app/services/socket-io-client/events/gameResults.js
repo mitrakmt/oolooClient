@@ -1,4 +1,4 @@
-// import { Actions } from 'react-native-router-flux'
+import { Actions } from 'react-native-router-flux'
 
 const gameResults = (
   {
@@ -26,12 +26,15 @@ const gameResults = (
     ranks,
   )
 
+  // clear setInterval
   clearInterval(intervalID)
 
-  /*
+  // Navigate to Results
+  Actions.results()
 
   // Why did we need to set the context back to 300000?
 
+  /*
   context.setState(
     {
       progress: 300000,

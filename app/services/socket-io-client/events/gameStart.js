@@ -6,6 +6,8 @@ const gameStart = (
 ) => {
   const payload = { duration, numberOfQuestions, playerIndex, startTime }
 
+  payload.gameStarted = true
+
   // Convert username array to object to avoid PropTypes error
   const usernameObj = {}
 

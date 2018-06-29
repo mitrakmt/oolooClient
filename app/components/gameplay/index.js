@@ -9,25 +9,26 @@ import {
 import { connect } from 'react-redux'
 import Icon from 'react-native-vector-icons/Entypo'
 import PropTypes from 'prop-types'
-import styles from './styles'
 import Timer from './timer'
+import { gameResults } from '../../services/redux/actions/gameresults'
+import tracker from '../../services/analytics-tracker/analyticsTracker'
+import events from '../../services/socket-io-client'
+import styles from './styles'
 import {
   generateRandomKey,
   animateStopwatch,
   createTextAnimationObjects,
 } from './utils'
-import { gameResults } from '../../services/redux/actions/gameresults'
-// import socketMiddleware from '../../services/socket-io-client'
-import tracker from '../../services/analytics-tracker/analyticsTracker'
-import events from '../../services/socket-io-client'
 
 class GamePlay extends Component {
   constructor(props) {
     super(props)
-    const { playerIndex } = this.props
+
+    // Get these props from Redux store
+    const { playerIndex, gameStarted } = this.props
 
     this.state = {
-      gameStart: false,
+      gameStarted,
       progress: 300000,
       playerIndex,
       tickTockProgress: 1,
@@ -37,6 +38,7 @@ class GamePlay extends Component {
       chosenAnswer: null,
       buttonAnimation: new Animated.Value(0),
       timerIconAnimation: new Animated.Value(0),
+      // questionAnimation: new Animated.Value(0),
       buttonColor: '#344856',
     }
   }
@@ -46,6 +48,8 @@ class GamePlay extends Component {
   }
 
   componentDidMount = () => {
+    // on CDM, set Timer interval, hook up Socket events
+
     // Get socket from Redux
     const { socket, socketGameResults } = this.props
 
@@ -59,18 +63,15 @@ class GamePlay extends Component {
       }))
     }, 1000)
 
-    // Set interval for Timer
-    // const intervalID = setInterval(() => {
-    //   this.setState(state => ({
-    //     gameStart: true,
-    //     progress: state.progress - 1000,
-    //     tickTockProgress: state.tickTockProgress === 0 ? 1 : 0,
-    //   }))
-    // }, 1000)
-
+    // retrieves question and sets up animated question
     socket.on('question', data =>
       events.questionEvent(data, createTextAnimationObjects, context),
     )
+
+    // updates progress for Timer
+    socket.on('answerResults', data => events.answerResults(data, context))
+
+    socket.on('question answered', events.questionAnswered)
 
     socket.on('gameResults', data =>
       events.gameResults(data, socketGameResults, intervalID),
@@ -223,14 +224,13 @@ class GamePlay extends Component {
 
   render() {
     const {
-      gameStart,
+      gameStarted,
       questionNumber,
-
       tickTockProgress,
       timerIconAnimation,
     } = this.state
 
-    if (gameStart === true) {
+    if (gameStarted === true) {
       // As soon as game starts, Animate stopWatch on each rerender
       animateStopwatch(timerIconAnimation, tickTockProgress)
     }
@@ -249,14 +249,14 @@ class GamePlay extends Component {
             OOLOO
           </Text>
           <Text style={{ fontSize: 20 }}>
-            {!gameStart ? '' : `Question ${questionNumber + 1}/10`}
+            {!gameStarted ? '' : `Question ${questionNumber + 1}/10`}
           </Text>
         </View>
 
         <View style={styles.QAnswContainer}>
           <ScrollView
             contentContainerStyle={
-              !gameStart ? '' : styles.questionScrollContainer
+              !gameStarted ? '' : styles.questionScrollContainer
             }
           >
             {this.renderFadeInAnimatedQuestion()}
@@ -281,11 +281,13 @@ function mapStateToProps({ auth, socket, gameStart }) {
     auth,
     socket,
     playerIndex: gameStart.playerIndex,
+    gameStarted: gameStart.gameStarted,
   }
 }
 
 GamePlay.propTypes = {
   playerIndex: PropTypes.number.isRequired,
+  gameStarted: PropTypes.bool.isRequired,
   socketGameResults: PropTypes.func.isRequired,
   socket: PropTypes.shape({
     acks: PropTypes.object,

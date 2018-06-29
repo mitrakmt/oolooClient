@@ -6,6 +6,7 @@ const initialState = {
   playerIndex: null,
   startTime: null,
   usernames: {},
+  gameStarted: false,
 }
 
 const gamePlayReducer = (state = initialState, action) => {

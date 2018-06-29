@@ -30,7 +30,7 @@ class MatchSearch extends Component {
   }
 
   componentDidMount = () => {
-    // on CDM, setup Socket, attach 'matchFound' and save to Redux, save Socket to Redux
+    // on CDM, setup Socket, attach 'matchFound' and save MF data to Redux, save Socket to Redux
     const { auth, connectSocket, foundMatchAction } = this.props
 
     const socket = io(`${DEV_API_URL}/?token=${auth}`)
@@ -88,7 +88,7 @@ class MatchSearch extends Component {
                 textStyle={{ fontSize: 20 }}
                 onTimeElapsed={() =>
                   // Wait another 5 seconds for Sockets, then display error
-                  setTimeout(() => this.setState({ isError: true }), 5000)
+                  setTimeout(() => this.setState({ isError: true }), 10000)
                 }
               />
             </View>
