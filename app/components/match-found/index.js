@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Text, View, Image } from 'react-native'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import { Actions } from 'react-native-router-flux'
 import SlotMachine from 'react-native-slot-machine'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import events from '../../services/socket-io-client/'
@@ -18,6 +19,9 @@ class MatchFound extends Component {
     this.state = {
       counter: 5,
       intervalID: null,
+      isError: false,
+      errorMessage:
+        "Our systems are temporarily down. We'll be sending you back to the Home page. Try again later.",
     }
   }
 
@@ -41,9 +45,14 @@ class MatchFound extends Component {
   componentDidUpdate = (_, prevState) => {
     const { counter, intervalID } = this.state
     if (counter === 0 && prevState.counter === 1) {
-      console.log('clearing the interval')
       clearInterval(intervalID)
     }
+
+    setTimeout(() => this.setState({ isError: true }), 15000)
+  }
+
+  homepageRedirect = () => {
+    setInterval(() => Actions.home(), 7000)
   }
 
   renderSlotIcon = index => {
@@ -55,8 +64,28 @@ class MatchFound extends Component {
     )
   }
 
+  renderTextContainer = () => {
+    const { isError, counter, errorMessage } = this.state
+
+    if (isError) {
+      return (
+        <View style={styles.errorContainerStyle}>
+          <Text style={{ textAlign: 'center', color: '#f14169' }}>
+            {this.homepageRedirect()}
+            {errorMessage}
+          </Text>
+        </View>
+      )
+    }
+
+    return (
+      <Text style={styles.headerStyling}>
+        {`Round starting in ${counter}...`}
+      </Text>
+    )
+  }
+
   render() {
-    const { counter } = this.state
     return (
       <View style={styles.containerStyles}>
         <View style={styles.mainContainerStyles}>
@@ -104,9 +133,7 @@ class MatchFound extends Component {
         </View>
 
         <View style={styles.roundStartsContainer}>
-          <Text
-            style={styles.headerStyling}
-          >{`Round starting in ${counter}...`}</Text>
+          {this.renderTextContainer()}
         </View>
       </View>
     )
