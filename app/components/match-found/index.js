@@ -15,7 +15,10 @@ const MedicalIcons = ['stethoscope', 'heartbeat', 'ambulance', 'flask']
 class MatchFound extends Component {
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      counter: 5,
+      intervalID: null,
+    }
   }
 
   componentWillMount() {
@@ -27,6 +30,20 @@ class MatchFound extends Component {
     const { socket, gameStart } = this.props
 
     socket.on('gameStart', data => events.gameStart(data, gameStart))
+
+    const intervalID = setInterval(() => {
+      this.setState(prevState => ({ counter: prevState.counter - 1 }))
+    }, 1000)
+
+    this.setState({ intervalID })
+  }
+
+  componentDidUpdate = (_, prevState) => {
+    const { counter, intervalID } = this.state
+    if (counter === 0 && prevState.counter === 1) {
+      console.log('clearing the interval')
+      clearInterval(intervalID)
+    }
   }
 
   renderSlotIcon = index => {
@@ -39,6 +56,7 @@ class MatchFound extends Component {
   }
 
   render() {
+    const { counter } = this.state
     return (
       <View style={styles.containerStyles}>
         <View style={styles.mainContainerStyles}>
@@ -86,7 +104,9 @@ class MatchFound extends Component {
         </View>
 
         <View style={styles.roundStartsContainer}>
-          <Text style={styles.headerStyling}>Round starting in...</Text>
+          <Text
+            style={styles.headerStyling}
+          >{`Round starting in ${counter}...`}</Text>
         </View>
       </View>
     )

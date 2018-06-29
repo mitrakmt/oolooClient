@@ -21,7 +21,7 @@ class MatchSearch extends Component {
     this.state = {
       isError: false,
       errorMessage:
-        "We couldn't find a match, please go back to the Home page and try again.",
+        "We couldn't find a match, please use the Back button to return to the Home page and try again.",
     }
   }
 
