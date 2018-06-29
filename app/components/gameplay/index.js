@@ -145,7 +145,7 @@ class GamePlay extends Component {
     if (!gameStart) {
       return (
         <Text style={styles.initialScroll}>
-          {gameStart ? '' : 'A new challenger is being selected. Get ready!'}
+          {gameStart ? '' : 'Please wait for the quiz to load...'}
         </Text>
       )
     }
