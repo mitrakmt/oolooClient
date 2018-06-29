@@ -73,7 +73,14 @@ const avatarFoundContainer = {
   display: 'flex',
   flexDirection: 'row',
   justifyContent: 'space-around',
-  width: '85%',
+  width: 300,
+}
+
+const avatarContainer = {
+  width: '50%',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
 }
 
 const playerAvatar = {
@@ -120,6 +127,7 @@ export default {
   topContainer,
   headerStyling,
   avatarFoundContainer,
+  avatarContainer,
   playerAvatar,
   bottomContainer,
   buttonStyles,

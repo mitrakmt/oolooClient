@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Text, View, Image } from 'react-native'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { Actions } from 'react-native-router-flux'
 import SlotMachine from 'react-native-slot-machine'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import events from '../../services/socket-io-client/'
@@ -19,9 +18,6 @@ class MatchFound extends Component {
     this.state = {
       counter: 5,
       intervalID: null,
-      isError: false,
-      errorMessage:
-        "Our systems are temporarily down. We'll be sending you back to the Home page. Try again later.",
     }
   }
 
@@ -47,12 +43,6 @@ class MatchFound extends Component {
     if (counter === 0 && prevState.counter === 1) {
       clearInterval(intervalID)
     }
-
-    setTimeout(() => this.setState({ isError: true }), 15000)
-  }
-
-  homepageRedirect = () => {
-    setInterval(() => Actions.home(), 7000)
   }
 
   renderSlotIcon = index => {
@@ -65,18 +55,7 @@ class MatchFound extends Component {
   }
 
   renderTextContainer = () => {
-    const { isError, counter, errorMessage } = this.state
-
-    if (isError) {
-      return (
-        <View style={styles.errorContainerStyle}>
-          <Text style={{ textAlign: 'center', color: '#f14169' }}>
-            {this.homepageRedirect()}
-            {errorMessage}
-          </Text>
-        </View>
-      )
-    }
+    const { counter } = this.state
 
     return (
       <Text style={styles.headerStyling}>
@@ -86,6 +65,10 @@ class MatchFound extends Component {
   }
 
   render() {
+    const {
+      displayMatchFound: { player, opponent },
+    } = this.props
+
     return (
       <View style={styles.containerStyles}>
         <View style={styles.mainContainerStyles}>
@@ -107,17 +90,23 @@ class MatchFound extends Component {
               </View>
 
               <View style={styles.avatarFoundContainer}>
-                <View>
+                <View style={styles.avatarContainer}>
                   <Image
                     style={styles.playerAvatar}
                     source={{ url: 'https://placeimg.com/300/300/any' }}
                   />
+                  <Text style={{ color: '#293f4e', textAlign: 'center' }}>
+                    {!player ? 'Test' : player}
+                  </Text>
                 </View>
-                <View>
+                <View style={styles.avatarContainer}>
                   <Image
                     style={styles.playerAvatar}
                     source={{ url: 'https://placeimg.com/300/300/any' }}
                   />
+                  <Text style={{ color: '#293f4e', textAlign: 'center' }}>
+                    {!opponent ? 'Average Scores:' : opponent}
+                  </Text>
                 </View>
               </View>
             </View>
@@ -140,9 +129,10 @@ class MatchFound extends Component {
   }
 }
 
-function mapStateToProps({ socket }) {
+function mapStateToProps({ socket, displayMatchFound }) {
   return {
     socket,
+    displayMatchFound,
   }
 }
 
@@ -162,6 +152,12 @@ MatchFound.propTypes = {
     sendBuffer: PropTypes.array,
     subs: PropTypes.array,
     _callbacks: PropTypes.object,
+  }).isRequired,
+
+  displayMatchFound: PropTypes.shape({
+    player: PropTypes.string,
+    opponent: PropTypes.string,
+    interests: PropTypes.array,
   }).isRequired,
 
   gameStart: PropTypes.func.isRequired,

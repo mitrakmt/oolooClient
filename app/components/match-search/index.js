@@ -69,7 +69,7 @@ class MatchSearch extends Component {
           <View style={styles.searchingContainer}>
             <View style={{ marginTop: '5%' }}>
               <Text style={styles.findingHeader}>
-                Finding worthy opponent...
+                Finding a worthy opponent...
               </Text>
             </View>
 
@@ -87,8 +87,8 @@ class MatchSearch extends Component {
                 bgColor="#fff"
                 textStyle={{ fontSize: 20 }}
                 onTimeElapsed={() =>
-                  // Wait another 5 seconds for Sockets, then display error
-                  setTimeout(() => this.setState({ isError: true }), 10000)
+                  // Wait another 20 seconds for Sockets, then display error
+                  setTimeout(() => this.setState({ isError: true }), 20000)
                 }
               />
             </View>

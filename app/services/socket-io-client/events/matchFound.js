@@ -14,7 +14,7 @@ const matchFound = ({ interests, playerIndex, usernames }, callback) => {
     }
   })
 
-  callback(interests) // Send matchFoundObj to Redux store
+  callback(matchFoundObj) // Send matchFoundObj to Redux store
 
   Actions.matchFound()
 }
