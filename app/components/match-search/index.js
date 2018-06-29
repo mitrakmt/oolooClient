@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import { Text, View, Button, Image } from 'react-native'
 import { Actions } from 'react-native-router-flux'
 import CountdownCircle from 'react-native-countdown-circle'
+import * as Keychain from 'react-native-keychain'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import io from 'socket.io-client'
-// import tracker from '../../services/analytics-tracker/analyticsTracker'
 import styles from './styles'
 import { gameResults } from '../../services/redux/actions/gameresults'
 import { startTheGame } from '../../services/redux/actions/gameplay'
@@ -25,13 +25,52 @@ class MatchSearch extends Component {
     }
   }
 
-  componentWillMount() {
-    // tracker.trackScreenView('Home')
+  componentDidMount = async () => {
+    // On CDM, check for tokens stored in Redux and Keychain.
+    // If we have a token, create & store socket, else show error.
+    const { auth } = this.props
+    const storedToken = await this.retrieveStoredToken()
+
+    if (!auth && !storedToken) {
+      this.setState(
+        {
+          isError: true,
+          errorMessage:
+            "There was a problem storing your credentials. We'll direct you to the Login page in a few moments.",
+        },
+        () => {
+          setTimeout(() => Actions.login(), 10000)
+        },
+      )
+    }
+
+    if (auth) {
+      this.createAndStoreSocket(auth)
+    } else {
+      this.createAndStoreSocket(storedToken)
+    }
   }
 
-  componentDidMount = () => {
-    // on CDM, setup Socket, attach 'matchFound' and save MF data to Redux, save Socket to Redux
-    const { auth, connectSocket, foundMatchAction } = this.props
+  retrieveStoredToken = async () => {
+    // Retreive the credentials
+    let credentials = await Keychain.getGenericPassword()
+
+    if (credentials) {
+      console.log(
+        `Credentials successfully retrieved in Match Search: ${credentials}`,
+      )
+
+      credentials = credentials.password
+    } else {
+      console.log('No credentials stored in Keychain')
+      credentials = null
+    }
+
+    return credentials
+  }
+
+  createAndStoreSocket = auth => {
+    const { connectSocket, foundMatchAction } = this.props
 
     const socket = io(`${DEV_API_URL}/?token=${auth}`)
 
@@ -52,6 +91,7 @@ class MatchSearch extends Component {
   }
 
   render() {
+    const { isError } = this.state
     return (
       <View style={styles.containerStyles}>
         <View style={styles.mainContainerStyles}>
@@ -80,7 +120,7 @@ class MatchSearch extends Component {
               />
 
               <CountdownCircle
-                seconds={15}
+                seconds={!isError ? 15 : 1}
                 radius={37}
                 borderWidth={8}
                 color="#01a38d"

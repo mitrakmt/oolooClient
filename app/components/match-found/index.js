@@ -6,7 +6,6 @@ import SlotMachine from 'react-native-slot-machine'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import events from '../../services/socket-io-client/'
 import { startTheGame } from '../../services/redux/actions/gameplay'
-// import tracker from '../../services/analytics-tracker/analyticsTracker'
 import styles from './styles'
 
 const MedicalIcons = ['stethoscope', 'heartbeat', 'ambulance', 'flask']
@@ -19,10 +18,6 @@ class MatchFound extends Component {
       counter: 5,
       intervalID: null,
     }
-  }
-
-  componentWillMount() {
-    // tracker.trackScreenView('Home')
   }
 
   componentDidMount = () => {
@@ -65,9 +60,12 @@ class MatchFound extends Component {
   }
 
   render() {
-    const {
+    let {
       displayMatchFound: { player, opponent },
     } = this.props
+
+    player = !player ? 'Player' : player
+    opponent = !opponent ? 'Average Scores:' : opponent
 
     return (
       <View style={styles.containerStyles}>
@@ -96,7 +94,7 @@ class MatchFound extends Component {
                     source={{ url: 'https://placeimg.com/300/300/any' }}
                   />
                   <Text style={{ color: '#293f4e', textAlign: 'center' }}>
-                    {!player ? 'Test' : player}
+                    {player}
                   </Text>
                 </View>
                 <View style={styles.avatarContainer}>
@@ -105,7 +103,7 @@ class MatchFound extends Component {
                     source={{ url: 'https://placeimg.com/300/300/any' }}
                   />
                   <Text style={{ color: '#293f4e', textAlign: 'center' }}>
-                    {!opponent ? 'Average Scores:' : opponent}
+                    {opponent}
                   </Text>
                 </View>
               </View>
