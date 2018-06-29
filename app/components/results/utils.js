@@ -37,8 +37,11 @@ const filterForOpponent = (filteringIndex, gameResults, key) => {
   return result
 }
 
-const calculateOverall = (totalCorrect, totalPossible) =>
-  Math.round((totalCorrect / totalPossible) * 100)
+const calculateOverall = (totalCorrect, totalPossible) => {
+  const result = Math.round((totalCorrect / totalPossible) * 100)
+
+  return !(result >= 0) ? 0 : result
+}
 
 const convertMillisecToTime = millis => {
   const minutes = Math.floor(millis / 60000)
