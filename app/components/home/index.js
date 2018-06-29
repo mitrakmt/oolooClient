@@ -16,7 +16,10 @@ class Home extends Component {
   }
 
   handlePlayPress = () => {
-    Actions.gameplay()
+    // Refactor Home component when MatchSearch Complete
+    // Actions.gameplay()
+
+    Actions.matchSearch()
   }
 
   renderHomeView() {

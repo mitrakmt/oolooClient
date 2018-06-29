@@ -208,7 +208,7 @@ class Results extends Component {
           <View style={styles.buttonContainer}>
             <View style={styles.buttonStyles}>
               <Button
-                onPress={() => Actions.gameplay()}
+                onPress={() => Actions.matchSearch()}
                 title="Play Again!"
                 color="white"
                 accessibilityLabel="Play again button for OOLOO Quiz App"

@@ -2,10 +2,11 @@ import { GAME_START } from '../../actions/gameplay'
 
 const initialState = {
   duration: null,
-  numberOfQuestions: null,
+  numberOfQuestions: 0,
   playerIndex: null,
   startTime: null,
   usernames: {},
+  gameStarted: false,
 }
 
 const gamePlayReducer = (state = initialState, action) => {

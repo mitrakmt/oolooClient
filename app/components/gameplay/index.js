@@ -9,32 +9,36 @@ import {
 import { connect } from 'react-redux'
 import Icon from 'react-native-vector-icons/Entypo'
 import PropTypes from 'prop-types'
-import styles from './styles'
 import Timer from './timer'
+import { gameResults } from '../../services/redux/actions/gameresults'
+import tracker from '../../services/analytics-tracker/analyticsTracker'
+import events from '../../services/socket-io-client'
+import styles from './styles'
 import {
   generateRandomKey,
   animateStopwatch,
   createTextAnimationObjects,
 } from './utils'
-import { gameResults } from '../../services/redux/actions/gameresults'
-import { startTheGame } from '../../services/redux/actions/gameplay'
-import tracker from '../../services/analytics-tracker/analyticsTracker'
-import socketMiddleware from '../../services/socket-io-client'
 
 class GamePlay extends Component {
   constructor(props) {
     super(props)
+
+    // Get these props from Redux store
+    const { playerIndex, gameStarted } = this.props
+
     this.state = {
-      gameStart: false,
+      gameStarted,
       progress: 300000,
+      playerIndex,
       tickTockProgress: 1,
       questionNumber: null,
       animatedValues: [],
       possibleAnswers: [],
       chosenAnswer: null,
       buttonAnimation: new Animated.Value(0),
-
       timerIconAnimation: new Animated.Value(0),
+      // questionAnimation: new Animated.Value(0),
       buttonColor: '#344856',
     }
   }
@@ -44,17 +48,34 @@ class GamePlay extends Component {
   }
 
   componentDidMount = () => {
-    const { auth, socketGameResults, gameStart } = this.props
+    // on CDM, set Timer interval, hook up Socket events
+
+    // Get socket from Redux
+    const { socket, socketGameResults } = this.props
+
     const context = this
 
-    const callbacks = {
-      socketGameResults,
-      gameStart,
-      createTextAnimationObjects,
-    }
+    const intervalID = setInterval(() => {
+      this.setState(state => ({
+        gameStart: true,
+        progress: state.progress - 1000,
+        tickTockProgress: state.tickTockProgress === 0 ? 1 : 0,
+      }))
+    }, 1000)
 
-    // Create socket and store in local state
-    socketMiddleware(auth, context, callbacks)
+    // retrieves question and sets up animated question
+    socket.on('question', data =>
+      events.questionEvent(data, createTextAnimationObjects, context),
+    )
+
+    // updates progress for Timer
+    socket.on('answerResults', data => events.answerResults(data, context))
+
+    socket.on('question answered', events.questionAnswered)
+
+    socket.on('gameResults', data =>
+      events.gameResults(data, socketGameResults, intervalID),
+    )
   }
 
   componentDidUpdate = (_, prevState) => {
@@ -67,7 +88,8 @@ class GamePlay extends Component {
   }
 
   onButtonPress = (answer, idx) => {
-    const { socket, buttonAnimation, questionNumber, playerIndex } = this.state
+    const { buttonAnimation, questionNumber, playerIndex } = this.state
+    const { socket } = this.props
 
     // Button backgroundColor animates
     this.setState({ chosenAnswer: idx }, () => {
@@ -123,7 +145,7 @@ class GamePlay extends Component {
     if (!gameStart) {
       return (
         <Text style={styles.initialScroll}>
-          {gameStart ? '' : 'A new challenger is being selected. Get ready!'}
+          {gameStart ? '' : 'Please wait for the quiz to load...'}
         </Text>
       )
     }
@@ -202,14 +224,13 @@ class GamePlay extends Component {
 
   render() {
     const {
-      gameStart,
+      gameStarted,
       questionNumber,
-
       tickTockProgress,
       timerIconAnimation,
     } = this.state
 
-    if (gameStart === true) {
+    if (gameStarted === true) {
       // As soon as game starts, Animate stopWatch on each rerender
       animateStopwatch(timerIconAnimation, tickTockProgress)
     }
@@ -228,14 +249,14 @@ class GamePlay extends Component {
             OOLOO
           </Text>
           <Text style={{ fontSize: 20 }}>
-            {!gameStart ? '' : `Question ${questionNumber + 1}/10`}
+            {!gameStarted ? '' : `Question ${questionNumber + 1}/10`}
           </Text>
         </View>
 
         <View style={styles.QAnswContainer}>
           <ScrollView
             contentContainerStyle={
-              !gameStart ? '' : styles.questionScrollContainer
+              !gameStarted ? '' : styles.questionScrollContainer
             }
           >
             {this.renderFadeInAnimatedQuestion()}
@@ -255,22 +276,40 @@ class GamePlay extends Component {
   }
 }
 
-function mapStateToProps({ auth }) {
+function mapStateToProps({ auth, socket, gameStart }) {
   return {
     auth,
+    socket,
+    playerIndex: gameStart.playerIndex,
+    gameStarted: gameStart.gameStarted,
   }
 }
 
 GamePlay.propTypes = {
-  auth: PropTypes.string.isRequired,
+  playerIndex: PropTypes.number.isRequired,
+  gameStarted: PropTypes.bool.isRequired,
   socketGameResults: PropTypes.func.isRequired,
-  gameStart: PropTypes.func.isRequired,
+  socket: PropTypes.shape({
+    acks: PropTypes.object,
+    connected: PropTypes.bool,
+    disconnected: PropTypes.bool,
+    flags: PropTypes.object,
+    id: PropTypes.string,
+    ids: PropTypes.number,
+    io: PropTypes.object,
+    json: PropTypes.object,
+    nsp: PropTypes.string,
+    query: PropTypes.string,
+    receiveBuffer: PropTypes.array,
+    sendBuffer: PropTypes.array,
+    subs: PropTypes.array,
+    _callbacks: PropTypes.object,
+  }).isRequired,
 }
 
 export default connect(
   mapStateToProps,
   {
     socketGameResults: gameResults,
-    gameStart: startTheGame,
   },
 )(GamePlay)
