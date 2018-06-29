@@ -5,7 +5,7 @@ import gameResultsReducer from './gameresults'
 import interestsReducer from './interests/interests'
 import userInterestsReducer from './userinterests/userinterests'
 import userReducer from './user/user'
-import matchingInterestsReducer from './displayinterests'
+import displayMatchFoundReducer from './displaymatchfound'
 import socketReducer from './socket'
 
 // import leaderboardReducer from './leaderboard/leaderboard'
@@ -18,7 +18,7 @@ const rootReducer = combineReducers({
   userInterests: userInterestsReducer,
   user: userReducer,
   socket: socketReducer,
-  displayMatchedInterests: matchingInterestsReducer,
+  displayMatchFound: displayMatchFoundReducer,
 })
 
 export default rootReducer
