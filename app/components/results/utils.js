@@ -198,3 +198,48 @@ export const generateRandomKey = (value, baseString) => {
 
   return `${value}-${baseString}-${randomKey}`
 }
+
+const extractaverageByInterest = data => {
+  const results = {
+    data: [],
+    keys: [],
+  }
+
+  let averageByInterestValuesData = []
+  let averageByInterestKeys = []
+
+  const keysToIterate = Object.keys(data)
+
+  for (let i = 0; i < keysToIterate.length; i += 1) {
+    const currentKey = keysToIterate[i]
+
+    averageByInterestValuesData.push(data[currentKey])
+    averageByInterestKeys.push(currentKey)
+
+    if ((i + 1) % 3 === 0) {
+      results.data.push(averageByInterestValuesData)
+      results.keys.push(averageByInterestKeys)
+
+      averageByInterestValuesData = []
+      averageByInterestKeys = []
+    }
+  }
+
+  return results
+}
+
+export const prepChartData = (data = null) => {
+  if (!data) {
+    return []
+  }
+
+  console.log('data inside prepChartData ', data)
+
+  let averageByInterest = null
+
+  if (data.averageByInterest) {
+    averageByInterest = extractaverageByInterest(data.averageByInterest.data)
+  }
+
+  return averageByInterest
+}

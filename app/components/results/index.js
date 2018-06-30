@@ -2,9 +2,15 @@ import AnimateNumber from 'react-native-animate-number'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
 import { Text, View, Image, Button, ScrollView } from 'react-native'
+import { BarChart, Grid, XAxis } from 'react-native-svg-charts'
+
+/* eslint-disable import/no-extraneous-dependencies */
+import * as scale from 'd3-scale'
+/* eslint-enable import/no-extraneous-dependencies */
+
 import { Actions } from 'react-native-router-flux'
 import PropTypes from 'prop-types'
-// import { VictoryBar, VictoryChart } from 'victory-native'
+
 import tracker from '../../services/analytics-tracker/analyticsTracker'
 
 import {
@@ -12,14 +18,38 @@ import {
   generateRandomKey,
   formatQuizAnswer,
   prepResultsFor,
+  prepChartData,
 } from './utils'
 import styles from './styles'
 
-// const dummyData = [
-//   { subject: 'Medicine', percentage: 80 },
-//   { subject: 'Biology', percentage: 56 },
-//   { subject: 'Radiology', percentage: 20 },
-// ]
+const fill = 'rgb(173, 216, 216)'
+
+const dummyData1 = {
+  averageByInterest: {
+    data: {
+      Anatomy: 0.8,
+      Biology: 0.56,
+      Radiology: 0.2,
+      Medicine: 0.8,
+      Cytology: 0.56,
+      Genetics: 0.2,
+      Histology: 0.8,
+      Immunology: 0.56,
+      Microbiology: 0.2,
+      Neuroscience: 0.8,
+      Pathology: 0.56,
+      Toxicology: 0.2,
+    },
+  },
+  interestScoreOverTime: {
+    timeInterval: 'week',
+    data: {
+      Medicine: [0.9, 0.55, 0.67, 0.54, 0.4],
+      Biology: [0.8, 0.6, 0.4, 0.38, 0.3],
+      Radiology: [0.7, 0.44, 0.35],
+    },
+  },
+}
 
 class Results extends Component {
   constructor(props) {
@@ -85,6 +115,45 @@ class Results extends Component {
     })
   }
 
+  renderCharts = ({ data, keys }) =>
+    data.map((dataArray, idx) => {
+      console.log('the data array is ', dataArray) // [0.8, 0.56, 0.2]
+
+      console.log('the keys array is ', keys[idx]) // ["Anatomy", "Biology", "Radiology"]
+
+      const currentKeysArray = keys[idx]
+
+      return (
+        <View style={{ marginTop: '10%', marginBottom: '10%' }}>
+          <BarChart
+            style={{ height: 200, width: 'auto' }}
+            data={dataArray}
+            svg={{ fill }}
+            contentInset={{ bottom: 30 }}
+            // contentInset={{ top: 30, bottom: 30 }} // don't include top contentInset
+          >
+            <Grid />
+          </BarChart>
+          <XAxis
+            style={{ marginTop: '3%' }}
+            scale={scale.scaleBand}
+            data={dataArray}
+            formatLabel={(value, index) => Math.round(dataArray[index] * 100)}
+            // contentInset={{ left: 10, right: 10 }}
+            svg={{ fontSize: 12, fill: 'black' }}
+          />
+          <XAxis
+            // style={{ marginHorizontal: -10 }}
+            scale={scale.scaleBand}
+            data={currentKeysArray}
+            formatLabel={(value, index) => currentKeysArray[index]}
+            // contentInset={{ left: 10, right: 10 }}
+            svg={{ fontSize: 12, fill: 'black' }}
+          />
+        </View>
+      )
+    })
+
   render() {
     const { gameResults, playerIndex } = this.props
 
@@ -106,6 +175,10 @@ class Results extends Component {
       false,
     )
 
+    const averageByInterest = prepChartData(dummyData1)
+
+    console.log('averageByInterest ', averageByInterest)
+
     return (
       <View style={styles.containerStyles}>
         <View style={styles.textContainerStyles}>
@@ -117,54 +190,54 @@ class Results extends Component {
         </View>
 
         <View style={styles.ResultsContainer}>
-          <ScrollView>
-            <View style={styles.versusContainer}>
-              <View style={styles.avatarContainer}>
-                <Image
-                  style={styles.playerAvatar}
-                  source={{ url: 'https://placeimg.com/300/300/any' }}
-                />
-                <Text style={{ color: '#293f4e', textAlign: 'center' }}>
-                  {usernames.player}
-                </Text>
-              </View>
-
-              <View>
-                <Text
-                  style={{ color: '#293f4e', fontSize: 30, fontWeight: 'bold' }}
-                >
-                  vs.
-                </Text>
-              </View>
-
-              <View style={styles.avatarContainer}>
-                <Image
-                  style={styles.playerAvatar}
-                  source={{ url: 'https://placeimg.com/300/300/any' }}
-                />
-
-                <Text style={{ color: '#293f4e', textAlign: 'center' }}>
-                  {usernames.opponent}
-                </Text>
-              </View>
+          {/* <ScrollView> */}
+          <View style={styles.versusContainer}>
+            <View style={styles.avatarContainer}>
+              <Image
+                style={styles.playerAvatar}
+                source={{ url: 'https://placeimg.com/300/300/any' }}
+              />
+              <Text style={{ color: '#293f4e', textAlign: 'center' }}>
+                {usernames.player}
+              </Text>
             </View>
-            {/* end versusContainer  */}
 
-            <View style={styles.statContainer}>
-              <View style={styles.statColContainer}>
-                {this.renderPlayerColumn(playerResults, 'Player')}
-              </View>
-
-              <View style={styles.statColContainer}>
-                {this.renderLabels(['Overall', 'Time', 'Total Score', 'Rank'])}
-              </View>
-
-              <View style={styles.statColContainer}>
-                {this.renderPlayerColumn(opponentResults, 'Opponent')}
-              </View>
+            <View>
+              <Text
+                style={{ color: '#293f4e', fontSize: 30, fontWeight: 'bold' }}
+              >
+                vs.
+              </Text>
             </View>
-            {/* end statContainer  */}
-          </ScrollView>
+
+            <View style={styles.avatarContainer}>
+              <Image
+                style={styles.playerAvatar}
+                source={{ url: 'https://placeimg.com/300/300/any' }}
+              />
+
+              <Text style={{ color: '#293f4e', textAlign: 'center' }}>
+                {usernames.opponent}
+              </Text>
+            </View>
+          </View>
+          {/* end versusContainer  */}
+
+          <View style={styles.statContainer}>
+            <View style={styles.statColContainer}>
+              {this.renderPlayerColumn(playerResults, 'Player')}
+            </View>
+
+            <View style={styles.statColContainer}>
+              {this.renderLabels(['Overall', 'Time', 'Total Score', 'Rank'])}
+            </View>
+
+            <View style={styles.statColContainer}>
+              {this.renderPlayerColumn(opponentResults, 'Opponent')}
+            </View>
+          </View>
+          {/* end statContainer  */}
+          {/* </ScrollView> */}
 
           {/* <ScrollView
             contentContainerStyles={{ width: 'auto' }}
@@ -188,7 +261,7 @@ class Results extends Component {
             </VictoryChart>
           </ScrollView> */}
 
-          <ScrollView
+          {/* <ScrollView
             style={{
               padding: '5%',
               marginBottom: '5%',
@@ -202,6 +275,12 @@ class Results extends Component {
               }}
             >
               {this.renderQuizResults(gameResults.answers)}
+            </View>
+          </ScrollView> */}
+
+          <ScrollView>
+            <View style={{ height: 'auto' }}>
+              {this.renderCharts(averageByInterest)}
             </View>
           </ScrollView>
 
