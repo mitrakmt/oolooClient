@@ -9,6 +9,8 @@ export const gameResults = (
   answers,
   finishedTime,
   ranks,
+  averagesByInterest,
+  interestsOverTime,
 ) => {
   const payload = {
     remainingTime,
@@ -19,6 +21,8 @@ export const gameResults = (
     answers,
     finishedTime,
     ranks,
+    averagesByInterest,
+    interestsOverTime,
   }
 
   return {

@@ -3,14 +3,11 @@ import { connect } from 'react-redux'
 import React, { Component } from 'react'
 import { Text, View, Image, Button, ScrollView } from 'react-native'
 import { BarChart, Grid, XAxis } from 'react-native-svg-charts'
-
 /* eslint-disable import/no-extraneous-dependencies */
-import * as scale from 'd3-scale'
+import * as scale from 'd3-scale' // DO NOT REMOVE eslint-disable comments!
 /* eslint-enable import/no-extraneous-dependencies */
-
 import { Actions } from 'react-native-router-flux'
 import PropTypes from 'prop-types'
-
 import tracker from '../../services/analytics-tracker/analyticsTracker'
 
 import {
@@ -190,7 +187,6 @@ class Results extends Component {
         </View>
 
         <View style={styles.ResultsContainer}>
-          {/* <ScrollView> */}
           <View style={styles.versusContainer}>
             <View style={styles.avatarContainer}>
               <Image
@@ -221,7 +217,6 @@ class Results extends Component {
               </Text>
             </View>
           </View>
-          {/* end versusContainer  */}
 
           <View style={styles.statContainer}>
             <View style={styles.statColContainer}>
@@ -236,30 +231,6 @@ class Results extends Component {
               {this.renderPlayerColumn(opponentResults, 'Opponent')}
             </View>
           </View>
-          {/* end statContainer  */}
-          {/* </ScrollView> */}
-
-          {/* <ScrollView
-            contentContainerStyles={{ width: 'auto' }}
-            style={{
-              height: '40%',
-              display: 'flex',
-              flexDirection: 'row',
-            }}
-          >
-            <VictoryChart
-              // domainPadding will add space to each side of VictoryBar to
-              // prevent it from overlapping the axis
-              domainPadding={20}
-            >
-              <VictoryBar
-                data={dummyData}
-                x="subject"
-                y="percentage"
-                style={{ data: { fill: '#01a38d' } }}
-              />
-            </VictoryChart>
-          </ScrollView> */}
 
           {/* <ScrollView
             style={{
@@ -337,6 +308,8 @@ Results.propTypes = {
     answers: PropTypes.array,
     finishedTime: PropTypes.array,
     ranks: PropTypes.array,
+    averagesByInterest: PropTypes.array,
+    interestsOverTime: PropTypes.object,
   }).isRequired,
 }
 
