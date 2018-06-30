@@ -220,7 +220,8 @@ const extractAverageByInterest = dataArray => {
     let currentValue = currentDataObj[currentKey]
 
     // Check if Value is > 0 and round
-    currentValue = !(currentValue >= 0) ? 0 : Math.round(currentValue * 100)
+    // Math.round(currentValue * 100)
+    currentValue = !(currentValue >= 0) ? 0 : currentValue
 
     averageByInterestValuesData.push(currentValue)
 
@@ -245,8 +246,6 @@ export const prepAvgByInterestChartData = (data = []) => {
   if (data.length === 0) {
     return []
   }
-
-  console.log('data inside prepChartData ', data)
 
   return extractAverageByInterest(data)
 }

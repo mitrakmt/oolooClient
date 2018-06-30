@@ -1,7 +1,7 @@
 import AnimateNumber from 'react-native-animate-number'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
-import { Text, View, Image, Button } from 'react-native'
+import { Text, View, Image, Button, ScrollView } from 'react-native'
 import { BarChart, Grid, XAxis } from 'react-native-svg-charts'
 /* eslint-disable import/no-extraneous-dependencies */
 import * as scale from 'd3-scale' // DO NOT REMOVE eslint-disable comments!
@@ -174,11 +174,7 @@ class Results extends Component {
       false,
     )
 
-    console.log('averagesByInterest BEFORE parse ', averagesByInterest)
-
     averagesByInterest = prepAvgByInterestChartData(averagesByInterest)
-
-    console.log('averagesByInterest inside Results', averagesByInterest)
 
     return (
       <View style={styles.containerStyles}>
@@ -253,11 +249,11 @@ class Results extends Component {
             </View>
           </ScrollView> */}
 
-          {/* <ScrollView>
+          <ScrollView>
             <View style={{ height: 'auto' }}>
-              {this.renderCharts(averageByInterest)}
+              {this.renderCharts(averagesByInterest)}
             </View>
-          </ScrollView> */}
+          </ScrollView>
 
           <View style={styles.buttonContainer}>
             <View style={styles.buttonStyles}>
