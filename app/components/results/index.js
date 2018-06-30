@@ -1,7 +1,7 @@
 import AnimateNumber from 'react-native-animate-number'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
-import { Text, View, Image, Button, ScrollView } from 'react-native'
+import { Text, View, Image, Button } from 'react-native'
 import { BarChart, Grid, XAxis } from 'react-native-svg-charts'
 /* eslint-disable import/no-extraneous-dependencies */
 import * as scale from 'd3-scale' // DO NOT REMOVE eslint-disable comments!
@@ -15,38 +15,38 @@ import {
   generateRandomKey,
   formatQuizAnswer,
   prepResultsFor,
-  prepChartData,
+  prepAvgByInterestChartData,
 } from './utils'
 import styles from './styles'
 
 const fill = 'rgb(173, 216, 216)'
 
-const dummyData1 = {
-  averageByInterest: {
-    data: {
-      Anatomy: 0.8,
-      Biology: 0.56,
-      Radiology: 0.2,
-      Medicine: 0.8,
-      Cytology: 0.56,
-      Genetics: 0.2,
-      Histology: 0.8,
-      Immunology: 0.56,
-      Microbiology: 0.2,
-      Neuroscience: 0.8,
-      Pathology: 0.56,
-      Toxicology: 0.2,
-    },
-  },
-  interestScoreOverTime: {
-    timeInterval: 'week',
-    data: {
-      Medicine: [0.9, 0.55, 0.67, 0.54, 0.4],
-      Biology: [0.8, 0.6, 0.4, 0.38, 0.3],
-      Radiology: [0.7, 0.44, 0.35],
-    },
-  },
-}
+// const dummyData1 = {
+//   averageByInterest: {
+//     data: {
+//       Anatomy: 0.8,
+//       Biology: 0.56,
+//       Radiology: 0.2,
+//       Medicine: 0.8,
+//       Cytology: 0.56,
+//       Genetics: 0.2,
+//       Histology: 0.8,
+//       Immunology: 0.56,
+//       Microbiology: 0.2,
+//       Neuroscience: 0.8,
+//       Pathology: 0.56,
+//       Toxicology: 0.2,
+//     },
+//   },
+//   interestScoreOverTime: {
+//     timeInterval: 'week',
+//     data: {
+//       Medicine: [0.9, 0.55, 0.67, 0.54, 0.4],
+//       Biology: [0.8, 0.6, 0.4, 0.38, 0.3],
+//       Radiology: [0.7, 0.44, 0.35],
+//     },
+//   },
+// }
 
 class Results extends Component {
   constructor(props) {
@@ -154,6 +154,8 @@ class Results extends Component {
   render() {
     const { gameResults, playerIndex } = this.props
 
+    let { averagesByInterest } = gameResults
+
     const { usernames, numberOfQuestions } = this.state
 
     const opponentResults = prepResultsFor(
@@ -172,9 +174,11 @@ class Results extends Component {
       false,
     )
 
-    const averageByInterest = prepChartData(dummyData1)
+    console.log('averagesByInterest BEFORE parse ', averagesByInterest)
 
-    console.log('averageByInterest ', averageByInterest)
+    averagesByInterest = prepAvgByInterestChartData(averagesByInterest)
+
+    console.log('averagesByInterest inside Results', averagesByInterest)
 
     return (
       <View style={styles.containerStyles}>
@@ -249,11 +253,11 @@ class Results extends Component {
             </View>
           </ScrollView> */}
 
-          <ScrollView>
+          {/* <ScrollView>
             <View style={{ height: 'auto' }}>
               {this.renderCharts(averageByInterest)}
             </View>
-          </ScrollView>
+          </ScrollView> */}
 
           <View style={styles.buttonContainer}>
             <View style={styles.buttonStyles}>

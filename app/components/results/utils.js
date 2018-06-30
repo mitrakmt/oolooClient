@@ -55,7 +55,7 @@ const convertMillisecToTime = millis => {
 }
 
 /*
- * Data Rendering Functions
+ * Results Data Rendering Functions
  */
 
 // If you're only getting the player's result, don't need a filterIdx
@@ -199,7 +199,11 @@ export const generateRandomKey = (value, baseString) => {
   return `${value}-${baseString}-${randomKey}`
 }
 
-const extractaverageByInterest = data => {
+/*
+ * Chart Rendering Functions
+ */
+
+const extractAverageByInterest = dataArray => {
   const results = {
     data: [],
     keys: [],
@@ -208,15 +212,22 @@ const extractaverageByInterest = data => {
   let averageByInterestValuesData = []
   let averageByInterestKeys = []
 
-  const keysToIterate = Object.keys(data)
+  for (let i = 0; i < dataArray.length; i += 1) {
+    const currentDataObj = dataArray[i]
 
-  for (let i = 0; i < keysToIterate.length; i += 1) {
-    const currentKey = keysToIterate[i]
+    const currentKey = Object.keys(currentDataObj).pop()
 
-    averageByInterestValuesData.push(data[currentKey])
+    let currentValue = currentDataObj[currentKey]
+
+    // Check if Value is > 0 and round
+    currentValue = !(currentValue >= 0) ? 0 : Math.round(currentValue * 100)
+
+    averageByInterestValuesData.push(currentValue)
+
     averageByInterestKeys.push(currentKey)
 
-    if ((i + 1) % 3 === 0) {
+    // If the currentDataObj is the 3rd in a series or if we'v reached the last one
+    if ((i + 1) % 3 === 0 || i + 1 === dataArray.length) {
       results.data.push(averageByInterestValuesData)
       results.keys.push(averageByInterestKeys)
 
@@ -225,21 +236,17 @@ const extractaverageByInterest = data => {
     }
   }
 
+  console.log('results inside extractAverageByInterest ', results)
+
   return results
 }
 
-export const prepChartData = (data = null) => {
-  if (!data) {
+export const prepAvgByInterestChartData = (data = []) => {
+  if (data.length === 0) {
     return []
   }
 
   console.log('data inside prepChartData ', data)
 
-  let averageByInterest = null
-
-  if (data.averageByInterest) {
-    averageByInterest = extractaverageByInterest(data.averageByInterest.data)
-  }
-
-  return averageByInterest
+  return extractAverageByInterest(data)
 }
