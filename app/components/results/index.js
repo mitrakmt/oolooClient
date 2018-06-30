@@ -22,22 +22,20 @@ import styles from './styles'
 const fill = 'rgb(173, 216, 216)'
 
 // const dummyData1 = {
-//   averageByInterest: {
-//     data: {
-//       Anatomy: 0.8,
-//       Biology: 0.56,
-//       Radiology: 0.2,
-//       Medicine: 0.8,
-//       Cytology: 0.56,
-//       Genetics: 0.2,
-//       Histology: 0.8,
-//       Immunology: 0.56,
-//       Microbiology: 0.2,
-//       Neuroscience: 0.8,
-//       Pathology: 0.56,
-//       Toxicology: 0.2,
-//     },
-//   },
+//   averagesByInterest: [
+//     { Anatomy: 0.99 },
+//     { Biology: 0.41 },
+//     { Radiology: 0.3 },
+//     { Immunology: 0.56 },
+//     { Medicine: 0.8 },
+//     { Genetics: 1 },
+//     { Histology: 0.8 },
+//     { Microbiology: 0.2 },
+//     { Neuroscience: 0.79 },
+//     { Cytology: 0.56 },
+//     { Pathology: 0.56 },
+//     // { Toxicology: 0.2 },
+//   ],
 //   interestScoreOverTime: {
 //     timeInterval: 'week',
 //     data: {
@@ -114,9 +112,9 @@ class Results extends Component {
 
   renderCharts = ({ data, keys }) =>
     data.map((dataArray, idx) => {
-      console.log('the data array is ', dataArray) // [0.8, 0.56, 0.2]
+      console.log('the data array is ', dataArray)
 
-      console.log('the keys array is ', keys[idx]) // ["Anatomy", "Biology", "Radiology"]
+      console.log('the keys array is ', keys[idx])
 
       const currentKeysArray = keys[idx]
 
@@ -125,26 +123,26 @@ class Results extends Component {
           <BarChart
             style={{ height: 200, width: 'auto' }}
             data={dataArray}
-            svg={{ fill }}
+            svg={{ fill, width: 10 }}
             contentInset={{ bottom: 30 }}
-            // contentInset={{ top: 30, bottom: 30 }} // don't include top contentInset
+            gridMin={0} // Secret Sauce: what enables showing all the bars
+            bandwidth={5}
           >
             <Grid />
           </BarChart>
           <XAxis
-            style={{ marginTop: '3%' }}
+            style={{ marginTop: '1.5%' }}
             scale={scale.scaleBand}
             data={dataArray}
-            formatLabel={(value, index) => Math.round(dataArray[index] * 100)}
-            // contentInset={{ left: 10, right: 10 }}
+            formatLabel={(value, index) =>
+              `${Math.round(dataArray[index] * 100)}%`
+            }
             svg={{ fontSize: 12, fill: 'black' }}
           />
           <XAxis
-            // style={{ marginHorizontal: -10 }}
             scale={scale.scaleBand}
             data={currentKeysArray}
             formatLabel={(value, index) => currentKeysArray[index]}
-            // contentInset={{ left: 10, right: 10 }}
             svg={{ fontSize: 12, fill: 'black' }}
           />
         </View>
@@ -175,6 +173,8 @@ class Results extends Component {
     )
 
     averagesByInterest = prepAvgByInterestChartData(averagesByInterest)
+
+    // averagesByInterest = prepAvgByInterestChartData(dummyData1.averagesByInterest)
 
     return (
       <View style={styles.containerStyles}>

@@ -212,6 +212,8 @@ const extractAverageByInterest = dataArray => {
   let averageByInterestValuesData = []
   let averageByInterestKeys = []
 
+  console.log('dataArray before loop ', dataArray)
+
   for (let i = 0; i < dataArray.length; i += 1) {
     const currentDataObj = dataArray[i]
 
@@ -219,8 +221,6 @@ const extractAverageByInterest = dataArray => {
 
     let currentValue = currentDataObj[currentKey]
 
-    // Check if Value is > 0 and round
-    // Math.round(currentValue * 100)
     currentValue = !(currentValue >= 0) ? 0 : currentValue
 
     averageByInterestValuesData.push(currentValue)
@@ -246,6 +246,8 @@ export const prepAvgByInterestChartData = (data = []) => {
   if (data.length === 0) {
     return []
   }
+
+  console.log('data inside prepAvgByInterests', data)
 
   return extractAverageByInterest(data)
 }
