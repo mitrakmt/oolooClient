@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { TextInput, Text, View, Button, Image, Animated } from 'react-native'
+import { TextInput, Text, View, Button, Animated } from 'react-native'
 import * as EmailValidator from 'email-validator'
 import * as Keychain from 'react-native-keychain'
 import { connect } from 'react-redux'
@@ -9,7 +9,7 @@ import { prepPayload, fetchUser, createAnimatedStyles } from './utils'
 import { userAuthenticated } from '../../services/redux/actions/auth'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
 
-import LoginAvatar from './img/ooloo-login-avatar.png'
+// import LoginAvatar from './img/ooloo-login-avatar.png'
 
 class Login extends Component {
   constructor(props) {
@@ -43,7 +43,7 @@ class Login extends Component {
     let animationsArray = [BorderColor, Height, Margin]
 
     animationsArray = animationsArray.map(animation =>
-      Animated.timing(animation, { toValue, duration: 200 }),
+      Animated.timing(animation, { toValue, duration: 90 }),
     )
 
     Animated.sequence(animationsArray).start()
@@ -187,11 +187,8 @@ class Login extends Component {
           </View>
 
           <View style={styles.imageVerbiageStyles}>
-            <View style={{ width: '40%' }}>
-              <Image style={{ width: 90, height: 90 }} source={LoginAvatar} />
-            </View>
-            <View style={{ width: '60%' }}>
-              <Text>
+            <View style={{ width: '70%' }}>
+              <Text style={{ textAlign: 'center' }}>
                 Welcome to OOLOO! Show off your knowledge to put your school in
                 the top rankings!
               </Text>
