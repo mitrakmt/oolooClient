@@ -12,6 +12,7 @@ import {
   getInterests,
   getUser,
   deleteInterest,
+  setUserInterests,
 } from './utils'
 import styles from './styles'
 
@@ -81,17 +82,23 @@ class Profile extends Component {
     }
   }
 
-  addInterest = async () => {
+  addInterest = async userInterest => {
     const token = this.props.auth
     const payload = prepPayload(token)
 
     try {
-      const getUserInterestsResponse = await getUserInterests(payload)
+      const addUserInterestResponse = await setUserInterests(payload, {
+        interests: [
+          this.props.interests.find(element => element.name === userInterest)
+            .id,
+        ],
+      })
 
-      if (!getUserInterestsResponse) {
+      if (!addUserInterestResponse) {
         this.handleError()
       } else {
-        this.props.setUserInterests(getUserInterestsResponse)
+        // console.log('got user interest response ', addUserInterestResponse)
+        // this.props.setUserInterests(addUserInterestResponse)
       }
     } catch (err) {
       this.handleError()
@@ -210,7 +217,7 @@ class Profile extends Component {
                     width: '100%',
                   }}
                   onChangeText={addInterestText =>
-                    this.setState({ addInterestText })
+                    this.addInterest(addInterestText)
                   }
                   value={this.state.addInterestText}
                 />
@@ -303,6 +310,9 @@ Profile.defaultProps = {
 }
 
 const mapDispatchToProps = dispatch => ({
+  postUserInterests: payload => {
+    dispatch({ type: 'POST_USER_INTERESTS', payload })
+  },
   setInterests: payload => {
     dispatch({ type: 'SET_INTERESTS', payload })
   },

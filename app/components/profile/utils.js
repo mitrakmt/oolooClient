@@ -55,3 +55,14 @@ export const deleteInterest = async (payload, interestId) => {
 
   return serverResponse
 }
+
+export const setUserInterests = async (payload, interest) => {
+  const apiPayload = payload
+  apiPayload.body = JSON.stringify(interest)
+  apiPayload.method = 'POST'
+  const serverResponse = await fetch(`${API_URL}/interest`, apiPayload)
+    .then(response => response.json())
+    .then(interests => interests)
+
+  return serverResponse
+}
