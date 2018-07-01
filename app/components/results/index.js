@@ -166,7 +166,6 @@ class Results extends Component {
       playerIndex,
       'Opponent',
       numberOfQuestions,
-      false,
     )
 
     const playerResults = prepResultsFor(
@@ -174,7 +173,6 @@ class Results extends Component {
       playerIndex,
       'Player',
       numberOfQuestions,
-      false,
     )
 
     return (
