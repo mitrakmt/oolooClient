@@ -2,12 +2,13 @@ import AnimateNumber from 'react-native-animate-number'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
 import { Text, View, Image, Button, ScrollView } from 'react-native'
-import { BarChart, LineChart, Grid, XAxis } from 'react-native-svg-charts'
+import { LineChart, Grid, XAxis } from 'react-native-svg-charts'
 /* eslint-disable import/no-extraneous-dependencies */
 import * as scale from 'd3-scale' // DO NOT REMOVE eslint-disable comments!
 /* eslint-enable import/no-extraneous-dependencies */
 import { Actions } from 'react-native-router-flux'
 import PropTypes from 'prop-types'
+import InterestsAverageChart from './charts/InterestsAverageChart'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
 
 import {
@@ -18,8 +19,6 @@ import {
   prepAvgByInterestChartData,
 } from './utils'
 import styles from './styles'
-
-const fill = 'rgb(173, 216, 216)'
 
 class Results extends Component {
   constructor(props) {
@@ -92,43 +91,13 @@ class Results extends Component {
 
     const results = incomingData.pop()
 
-    const { data, keys } = results
+    console.log('results to send to barChart ', results) // Leave for debugging
 
-    return data.map((dataArray, idx) => {
-      const currentKeysArray = keys[idx]
-
-      const randomKey = generateRandomKey(idx, 'BarChart')
-
-      return (
-        <View key={randomKey} style={{ marginBottom: '15%' }}>
-          <BarChart
-            style={{ height: 200, width: 'auto' }}
-            data={dataArray}
-            svg={{ fill, width: 10 }}
-            contentInset={{ bottom: 30 }}
-            gridMin={0} // Secret Sauce: what enables showing all the bars
-            bandwidth={5}
-          >
-            <Grid />
-          </BarChart>
-          <XAxis
-            style={{ marginTop: '1.5%' }}
-            scale={scale.scaleBand}
-            data={dataArray}
-            formatLabel={(value, index) =>
-              `${Math.round(dataArray[index] * 100)}%`
-            }
-            svg={{ fontSize: 12, fill: 'black' }}
-          />
-          <XAxis
-            scale={scale.scaleBand}
-            data={currentKeysArray}
-            formatLabel={(value, index) => currentKeysArray[index]}
-            svg={{ fontSize: 12, fill: 'black' }}
-          />
-        </View>
-      )
-    })
+    return (
+      <View>
+        <InterestsAverageChart results={results} />
+      </View>
+    )
   }
 
   renderLineCharts = data => {
@@ -147,6 +116,8 @@ class Results extends Component {
     if (dataKeys.length === 0) {
       return null
     }
+
+    console.log('incoming data for renderLineCharts ', data)
 
     return dataKeys.map(key => {
       const randomKey = generateRandomKey(key, 'LineChart')
@@ -210,6 +181,8 @@ class Results extends Component {
     )
 
     averagesByInterest = prepAvgByInterestChartData(averagesByInterest)
+
+    console.log('averagesByInterest ', averagesByInterest)
 
     return (
       <View style={styles.containerStyles}>

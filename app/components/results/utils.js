@@ -213,8 +213,6 @@ const extractAverageByInterest = dataArray => {
 
   let averageByInterestKeys = []
 
-  console.log('dataArray before loop ', dataArray)
-
   for (let i = 0; i < dataArray.length; i += 1) {
     const currentDataObj = dataArray[i]
 
