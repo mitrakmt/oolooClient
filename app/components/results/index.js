@@ -190,6 +190,15 @@ class Results extends Component {
           style={{ marginTop: '1.5%' }}
           scale={scale.scaleBand}
           data={dataObj[key]}
+          formatLabel={(value, index) =>
+            `${Math.round(dataObj[key][index] * 100)}%`
+          }
+          svg={{ fontSize: 12, fill: 'black' }}
+        />
+        <XAxis
+          style={{ marginTop: '1.5%' }}
+          scale={scale.scaleBand}
+          data={dataObj[key]}
           formatLabel={(value, index) => `${daysOfWeek[index]}`}
           svg={{ fontSize: 12, fill: 'black' }}
         />
