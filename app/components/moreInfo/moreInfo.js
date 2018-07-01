@@ -192,13 +192,15 @@ class MoreInfo extends Component {
                   width: 100,
                   height: 100,
                   borderRadius: 50,
-                  marginTop: 50,
+                  marginTop: 70,
                 }}
+                photoPickerTitle="Upload Profile Image"
                 resizeMode="cover"
                 source={{
                   uri:
                     'https://www.sparklabs.com/forum/styles/comboot/theme/images/default_avatar.jpg',
                 }}
+                onPhotoSelect={base64 => this.uploadImage(base64)}
               />
             </PhotoUpload>
           </View>
