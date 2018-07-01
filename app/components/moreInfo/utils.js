@@ -1,6 +1,6 @@
 const API_URL = `https://ooloo-api-dev.herokuapp.com/api`
 
-export const prepPayload = (name, graduationYear) => {
+export const prepPayload = (token, name, graduationYear) => {
   const body = JSON.stringify({
     name,
     graduationYear,
@@ -11,6 +11,7 @@ export const prepPayload = (name, graduationYear) => {
     method: 'PUT',
     headers: {
       Accept: 'application/json',
+      Authorization: token,
       'Content-Type': 'application/json',
     },
     body,

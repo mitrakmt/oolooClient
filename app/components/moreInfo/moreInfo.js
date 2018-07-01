@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { TextInput, Text, View, Button, Image, Animated } from 'react-native'
 import { connect } from 'react-redux'
 import { Actions } from 'react-native-router-flux'
 import styles from './styles'
 import { prepPayload, saveUserData, createAnimatedStyles } from './utils'
-import { userAuthenticated } from '../../services/redux/actions/auth'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
 
 import LoginAvatar from './img/ooloo-login-avatar.png'
@@ -101,12 +101,11 @@ class MoreInfo extends Component {
   }
 
   saveUser = async (name, graduationYear) => {
-    const payload = prepPayload(name, graduationYear)
-    console.log('here')
+    const token = this.props.auth
+    const payload = prepPayload(token, name, graduationYear)
 
     try {
       const serverResponse = await saveUserData(payload)
-      console.log('serverResponse', serverResponse)
 
       if (!serverResponse) {
         this.handleError()
@@ -114,7 +113,6 @@ class MoreInfo extends Component {
         Actions.home()
       }
     } catch (err) {
-      console.log('err', err)
       this.handleError()
     }
   }
@@ -197,9 +195,19 @@ class MoreInfo extends Component {
   }
 }
 
+function mapStateToProps({ auth }) {
+  return {
+    auth,
+  }
+}
+
+MoreInfo.propTypes = {
+  auth: PropTypes.string.isRequired,
+}
+
+const mapDispatchToProps = () => ({})
+
 export default connect(
-  null,
-  {
-    authUser: userAuthenticated,
-  },
+  mapStateToProps,
+  mapDispatchToProps,
 )(MoreInfo)
