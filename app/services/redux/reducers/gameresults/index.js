@@ -10,6 +10,11 @@ const initialState = {
   answers: [],
   finishedTime: [],
   ranks: [],
+  averagesByInterest: [],
+  interestsOverTime: {
+    time: '',
+    data: {},
+  },
 }
 
 const gameResultsReducer = (state = initialState, action) => {

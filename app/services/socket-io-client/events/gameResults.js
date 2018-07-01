@@ -10,11 +10,14 @@ const gameResults = (
     answers,
     finishedTime,
     ranks,
+    graphData,
   },
   callback,
   intervalID,
 ) => {
-  // socketGameResults
+  const averagesByInterest = graphData.averagesByInterest.data
+  const { interestsOverTime } = graphData
+
   callback(
     remainingTime,
     score,
@@ -24,6 +27,8 @@ const gameResults = (
     answers,
     finishedTime,
     ranks,
+    averagesByInterest,
+    interestsOverTime,
   )
 
   // clear setInterval

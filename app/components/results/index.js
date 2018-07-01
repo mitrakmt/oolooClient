@@ -4,7 +4,8 @@ import React, { Component } from 'react'
 import { Text, View, Image, Button, ScrollView } from 'react-native'
 import { Actions } from 'react-native-router-flux'
 import PropTypes from 'prop-types'
-// import { VictoryBar, VictoryChart } from 'victory-native'
+import InterestsAverageChart from './charts/InterestsAverageChart'
+import InterestsLineChart from './charts/InterestsLineChart'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
 
 import {
@@ -12,14 +13,9 @@ import {
   generateRandomKey,
   formatQuizAnswer,
   prepResultsFor,
+  prepAvgByInterestChartData,
 } from './utils'
 import styles from './styles'
-
-// const dummyData = [
-//   { subject: 'Medicine', percentage: 80 },
-//   { subject: 'Biology', percentage: 56 },
-//   { subject: 'Radiology', percentage: 20 },
-// ]
 
 class Results extends Component {
   constructor(props) {
@@ -38,31 +34,80 @@ class Results extends Component {
     tracker.trackScreenView('Results')
   }
 
-  renderPlayerColumn = (statsArray, baseString = 'Player') =>
-    statsArray.map(statObject => {
-      const randomKey = generateRandomKey(statObject.value, baseString)
+  checkBarChartData = () => {
+    const { gameResults } = this.props
 
+    let { averagesByInterest } = gameResults
+
+    const { interestsOverTime } = gameResults
+
+    averagesByInterest = prepAvgByInterestChartData(averagesByInterest)
+
+    // If we don't get both of the data charts from server, render the
+    // quiz result answers as backup
+    if (
+      averagesByInterest.length === 0 ||
+      Object.keys(interestsOverTime.data).length === 0
+    ) {
       return (
-        <AnimateNumber
-          countBy={5}
-          key={randomKey}
-          style={{ color: '#293f4e', fontSize: 15 }}
-          timing="linear"
-          value={statObject.value}
-          formatter={() => handleFormatting(statObject)}
-        />
+        <ScrollView
+          style={{
+            padding: '5%',
+            marginBottom: '5%',
+            height: '25%',
+          }}
+        >
+          <View
+            style={{
+              marginLeft: 'auto',
+              marginRight: 'auto',
+            }}
+          >
+            {this.renderQuizResults(gameResults.answers)}
+          </View>
+        </ScrollView>
       )
-    })
+    }
 
-  renderLabels = labelArray =>
-    labelArray.map(label => (
-      <Text
-        key={`${label}-label`}
-        style={{ color: '#293f4e', fontWeight: 'bold', fontSize: 20 }}
-      >
-        {label}
-      </Text>
-    ))
+    return (
+      <ScrollView>
+        <View style={{ height: 'auto' }}>
+          {this.renderBarCharts(averagesByInterest)}
+          {this.renderLineCharts(interestsOverTime)}
+        </View>
+      </ScrollView>
+    )
+  }
+
+  renderBarCharts = incomingData => {
+    if (incomingData.length === 0) {
+      return null
+    }
+
+    const results = incomingData.pop()
+
+    console.log('results to send to barChart ', results) // Leave for debugging
+
+    return (
+      <View>
+        <InterestsAverageChart results={results} />
+      </View>
+    )
+  }
+
+  renderLineCharts = incomingData => {
+    const dataKeys = Object.keys(incomingData.data)
+
+    if (dataKeys.length === 0) {
+      return null
+    }
+
+    return (
+      <View>
+        <InterestsLineChart results={incomingData} />
+      </View>
+    )
+  }
 
   renderQuizResults = answerResults => {
     const { playerIndex } = this.state
@@ -85,8 +130,34 @@ class Results extends Component {
     })
   }
 
+  renderLabels = labelArray =>
+    labelArray.map(label => (
+      <Text
+        key={`${label}-label`}
+        style={{ color: '#293f4e', fontWeight: 'bold', fontSize: 20 }}
+      >
+        {label}
+      </Text>
+    ))
+
+  renderPlayerColumn = (statsArray, baseString = 'Player') =>
+    statsArray.map(statObject => {
+      const randomKey = generateRandomKey(statObject.value, baseString)
+
+      return (
+        <AnimateNumber
+          countBy={5}
+          key={randomKey}
+          style={{ color: '#293f4e', fontSize: 15 }}
+          timing="linear"
+          value={statObject.value}
+          formatter={() => handleFormatting(statObject)}
+        />
+      )
+    })
+
   render() {
-    const { gameResults, playerIndex } = this.props
+    const { playerIndex, gameResults } = this.props
 
     const { usernames, numberOfQuestions } = this.state
 
@@ -117,93 +188,52 @@ class Results extends Component {
         </View>
 
         <View style={styles.ResultsContainer}>
-          <ScrollView>
-            <View style={styles.versusContainer}>
-              <View style={styles.avatarContainer}>
-                <Image
-                  style={styles.playerAvatar}
-                  source={{ url: 'https://placeimg.com/300/300/any' }}
-                />
-                <Text style={{ color: '#293f4e', textAlign: 'center' }}>
-                  {usernames.player}
-                </Text>
-              </View>
-
-              <View>
-                <Text
-                  style={{ color: '#293f4e', fontSize: 30, fontWeight: 'bold' }}
-                >
-                  vs.
-                </Text>
-              </View>
-
-              <View style={styles.avatarContainer}>
-                <Image
-                  style={styles.playerAvatar}
-                  source={{ url: 'https://placeimg.com/300/300/any' }}
-                />
-
-                <Text style={{ color: '#293f4e', textAlign: 'center' }}>
-                  {usernames.opponent}
-                </Text>
-              </View>
-            </View>
-            {/* end versusContainer  */}
-
-            <View style={styles.statContainer}>
-              <View style={styles.statColContainer}>
-                {this.renderPlayerColumn(playerResults, 'Player')}
-              </View>
-
-              <View style={styles.statColContainer}>
-                {this.renderLabels(['Overall', 'Time', 'Total Score', 'Rank'])}
-              </View>
-
-              <View style={styles.statColContainer}>
-                {this.renderPlayerColumn(opponentResults, 'Opponent')}
-              </View>
-            </View>
-            {/* end statContainer  */}
-          </ScrollView>
-
-          {/* <ScrollView
-            contentContainerStyles={{ width: 'auto' }}
-            style={{
-              height: '40%',
-              display: 'flex',
-              flexDirection: 'row',
-            }}
-          >
-            <VictoryChart
-              // domainPadding will add space to each side of VictoryBar to
-              // prevent it from overlapping the axis
-              domainPadding={20}
-            >
-              <VictoryBar
-                data={dummyData}
-                x="subject"
-                y="percentage"
-                style={{ data: { fill: '#01a38d' } }}
+          <View style={styles.versusContainer}>
+            <View style={styles.avatarContainer}>
+              <Image
+                style={styles.playerAvatar}
+                source={{ url: 'https://placeimg.com/300/300/any' }}
               />
-            </VictoryChart>
-          </ScrollView> */}
-
-          <ScrollView
-            style={{
-              padding: '5%',
-              marginBottom: '5%',
-              height: '25%',
-            }}
-          >
-            <View
-              style={{
-                marginLeft: 'auto',
-                marginRight: 'auto',
-              }}
-            >
-              {this.renderQuizResults(gameResults.answers)}
+              <Text style={{ color: '#293f4e', textAlign: 'center' }}>
+                {usernames.player}
+              </Text>
             </View>
-          </ScrollView>
+
+            <View>
+              <Text
+                style={{ color: '#293f4e', fontSize: 30, fontWeight: 'bold' }}
+              >
+                vs.
+              </Text>
+            </View>
+
+            <View style={styles.avatarContainer}>
+              <Image
+                style={styles.playerAvatar}
+                source={{ url: 'https://placeimg.com/300/300/any' }}
+              />
+
+              <Text style={{ color: '#293f4e', textAlign: 'center' }}>
+                {usernames.opponent}
+              </Text>
+            </View>
+          </View>
+
+          <View style={styles.statContainer}>
+            <View style={styles.statColContainer}>
+              {this.renderPlayerColumn(playerResults, 'Player')}
+            </View>
+
+            <View style={styles.statColContainer}>
+              {this.renderLabels(['Overall', 'Time', 'Total Score', 'Rank'])}
+            </View>
+
+            <View style={styles.statColContainer}>
+              {this.renderPlayerColumn(opponentResults, 'Opponent')}
+            </View>
+          </View>
+
+          {this.checkBarChartData()}
 
           <View style={styles.buttonContainer}>
             <View style={styles.buttonStyles}>
@@ -258,6 +288,11 @@ Results.propTypes = {
     answers: PropTypes.array,
     finishedTime: PropTypes.array,
     ranks: PropTypes.array,
+    averagesByInterest: PropTypes.array,
+    interestsOverTime: PropTypes.shape({
+      data: PropTypes.object,
+      time: PropTypes.string,
+    }),
   }).isRequired,
 }
 

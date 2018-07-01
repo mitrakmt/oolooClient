@@ -55,7 +55,7 @@ const convertMillisecToTime = millis => {
 }
 
 /*
- * Data Rendering Functions
+ * Results Data Rendering Functions
  */
 
 // If you're only getting the player's result, don't need a filterIdx
@@ -197,4 +197,52 @@ export const generateRandomKey = (value, baseString) => {
   }
 
   return `${value}-${baseString}-${randomKey}`
+}
+
+/*
+ * Chart Rendering Functions
+ */
+
+const extractAverageByInterest = dataArray => {
+  const results = {
+    data: [],
+    keys: [],
+  }
+
+  let averageByInterestValuesData = []
+
+  let averageByInterestKeys = []
+
+  for (let i = 0; i < dataArray.length; i += 1) {
+    const currentDataObj = dataArray[i]
+
+    const currentKey = Object.keys(currentDataObj).pop()
+
+    let currentValue = currentDataObj[currentKey]
+
+    currentValue = !(currentValue >= 0) ? 0 : currentValue
+
+    averageByInterestValuesData.push(currentValue)
+
+    averageByInterestKeys.push(currentKey)
+
+    // If the currentDataObj is the 3rd in a series or if we'v reached the last one
+    if ((i + 1) % 3 === 0 || i + 1 === dataArray.length) {
+      results.data.push(averageByInterestValuesData)
+      results.keys.push(averageByInterestKeys)
+
+      averageByInterestValuesData = []
+      averageByInterestKeys = []
+    }
+  }
+
+  return [results]
+}
+
+export const prepAvgByInterestChartData = (data = []) => {
+  if (data.length === 0) {
+    return []
+  }
+
+  return extractAverageByInterest(data)
 }
