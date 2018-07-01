@@ -13,11 +13,11 @@ const InterestsLineChart = ({ results }) => {
   const dataKeys = Object.keys(dataObj)
 
   const daysOfWeek = {
-    0: 'M',
-    1: 'T',
-    2: 'W',
-    3: 'Th',
-    4: 'F',
+    0: 'Mon',
+    1: 'Tue',
+    2: 'Wed',
+    3: 'Thur',
+    4: 'Fri',
     5: 'Sat',
     6: 'Sun',
   }

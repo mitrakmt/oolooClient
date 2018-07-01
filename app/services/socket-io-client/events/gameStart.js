@@ -19,6 +19,10 @@ const gameStart = (
     }
   })
 
+  if (usernameObj.opponent === 'Average Scores: ') {
+    usernameObj.opponent = 'Average Scores'
+  }
+
   payload.usernames = usernameObj
 
   // Send payload to Redux store

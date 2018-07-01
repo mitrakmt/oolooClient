@@ -65,21 +65,8 @@ export const prepResultsFor = (
   filteringIndex = null,
   resultsFor,
   numberOfQuestions,
-  waiting = false,
 ) => {
   const resultsArray = []
-
-  // If we don't want to show a player what an opponent's Overall %
-  // is while they wait for quiz to end, we can send the 'Await' payload
-  // for the Opponent Results column
-  if (waiting === true) {
-    return [
-      { value: 'n/a', resultKey: 'Waiting' },
-      { value: 'n/a', resultKey: 'Waiting' },
-      { value: 'n/a', resultKey: 'Waiting' },
-      { value: 'n/a', resultKey: 'Waiting' },
-    ]
-  }
 
   Object.keys(gameResults).forEach(key => {
     if (key === 'totalCorrect') {
@@ -156,9 +143,6 @@ export const handleFormatting = ({ value, resultKey }) => {
 
     case 'Rank':
       return `${value}`
-
-    case 'Waiting':
-      return `Awaiting...`
 
     default:
       return 'No result'

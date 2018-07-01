@@ -93,7 +93,13 @@ class MatchFound extends Component {
                     style={styles.playerAvatar}
                     source={{ url: 'https://placeimg.com/300/300/any' }}
                   />
-                  <Text style={{ color: '#293f4e', textAlign: 'center' }}>
+                  <Text
+                    style={{
+                      marginTop: '5%',
+                      color: '#293f4e',
+                      textAlign: 'center',
+                    }}
+                  >
                     {player}
                   </Text>
                 </View>
@@ -102,7 +108,13 @@ class MatchFound extends Component {
                     style={styles.playerAvatar}
                     source={{ url: 'https://placeimg.com/300/300/any' }}
                   />
-                  <Text style={{ color: '#293f4e', textAlign: 'center' }}>
+                  <Text
+                    style={{
+                      marginTop: '5%',
+                      color: '#293f4e',
+                      textAlign: 'center',
+                    }}
+                  >
                     {opponent}
                   </Text>
                 </View>
