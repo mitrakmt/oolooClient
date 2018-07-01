@@ -2,7 +2,7 @@ import AnimateNumber from 'react-native-animate-number'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
 import { Text, View, Image, Button, ScrollView } from 'react-native'
-import { BarChart, Grid, XAxis } from 'react-native-svg-charts'
+import { BarChart, LineChart, Grid, XAxis } from 'react-native-svg-charts'
 /* eslint-disable import/no-extraneous-dependencies */
 import * as scale from 'd3-scale' // DO NOT REMOVE eslint-disable comments!
 /* eslint-enable import/no-extraneous-dependencies */
@@ -37,12 +37,9 @@ const fill = 'rgb(173, 216, 216)'
 //     // { Toxicology: 0.2 },
 //   ],
 //   interestScoreOverTime: {
-//     timeInterval: 'week',
-//     data: {
-//       Medicine: [0.9, 0.55, 0.67, 0.54, 0.4],
-//       Biology: [0.8, 0.6, 0.4, 0.38, 0.3],
-//       Radiology: [0.7, 0.44, 0.35],
-//     },
+//     Medicine: [0.9, 0.55, 0.67, 0.54, 0.4],
+//     Biology: [0.8, 0.6, 0.4, 0.38, 0.3],
+//     Radiology: [0.7, 0.44, 0.35],
 //   },
 // }
 
@@ -110,8 +107,16 @@ class Results extends Component {
     })
   }
 
-  renderCharts = ({ data, keys }) =>
-    data.map((dataArray, idx) => {
+  renderBarCharts = incomingData => {
+    if (incomingData.length === 0) {
+      return null
+    }
+
+    const results = incomingData.pop()
+
+    const { data, keys } = results
+
+    return data.map((dataArray, idx) => {
       console.log('the data array is ', dataArray)
 
       console.log('the keys array is ', keys[idx])
@@ -119,7 +124,8 @@ class Results extends Component {
       const currentKeysArray = keys[idx]
 
       return (
-        <View style={{ marginTop: '10%', marginBottom: '10%' }}>
+        <View style={{ marginBottom: '15%' }}>
+          {/* <View style={{ marginTop: '10%', marginBottom: '10%' }}> */}
           <BarChart
             style={{ height: 200, width: 'auto' }}
             data={dataArray}
@@ -148,11 +154,55 @@ class Results extends Component {
         </View>
       )
     })
+  }
+
+  renderLineCharts = data => {
+    const dataObj = data.data
+    const dataKeys = Object.keys(dataObj)
+    const daysOfWeek = {
+      0: 'M',
+      1: 'T',
+      2: 'W',
+      3: 'Th',
+      4: 'F',
+      5: 'Sat',
+      6: 'Sun',
+    }
+
+    if (dataKeys.length === 0) {
+      return null
+    }
+
+    return dataKeys.map(key => (
+      <View style={{ marginBottom: '15%' }}>
+        {/* <View style={{ marginTop: '10%', marginBottom: '10%' }}> */}
+        <LineChart
+          style={{ height: 200, width: 'auto' }}
+          data={dataObj[key]}
+          svg={{ stroke: 'rgb(52,71,86)', width: 10 }}
+          contentInset={{ bottom: 30 }}
+          gridMin={0} // Secret Sauce: what enables showing all the bars
+          bandwidth={5}
+        >
+          <Grid />
+        </LineChart>
+        <XAxis
+          style={{ marginTop: '1.5%' }}
+          scale={scale.scaleBand}
+          data={dataObj[key]}
+          formatLabel={(value, index) => `${daysOfWeek[index]}`}
+          svg={{ fontSize: 12, fill: 'black' }}
+        />
+        <Text>{key}</Text>
+      </View>
+    ))
+  }
 
   render() {
     const { gameResults, playerIndex } = this.props
 
     let { averagesByInterest } = gameResults
+    const { interestsOverTime } = gameResults
 
     const { usernames, numberOfQuestions } = this.state
 
@@ -173,8 +223,6 @@ class Results extends Component {
     )
 
     averagesByInterest = prepAvgByInterestChartData(averagesByInterest)
-
-    // averagesByInterest = prepAvgByInterestChartData(dummyData1.averagesByInterest)
 
     return (
       <View style={styles.containerStyles}>
@@ -251,7 +299,8 @@ class Results extends Component {
 
           <ScrollView>
             <View style={{ height: 'auto' }}>
-              {this.renderCharts(averagesByInterest)}
+              {this.renderBarCharts(averagesByInterest)}
+              {this.renderLineCharts(interestsOverTime)}
             </View>
           </ScrollView>
 
@@ -309,7 +358,10 @@ Results.propTypes = {
     finishedTime: PropTypes.array,
     ranks: PropTypes.array,
     averagesByInterest: PropTypes.array,
-    interestsOverTime: PropTypes.object,
+    interestsOverTime: PropTypes.shape({
+      data: PropTypes.object,
+      time: PropTypes.string,
+    }),
   }).isRequired,
 }
 

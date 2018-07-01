@@ -210,6 +210,7 @@ const extractAverageByInterest = dataArray => {
   }
 
   let averageByInterestValuesData = []
+
   let averageByInterestKeys = []
 
   console.log('dataArray before loop ', dataArray)
@@ -237,17 +238,13 @@ const extractAverageByInterest = dataArray => {
     }
   }
 
-  console.log('results inside extractAverageByInterest ', results)
-
-  return results
+  return [results]
 }
 
 export const prepAvgByInterestChartData = (data = []) => {
   if (data.length === 0) {
     return []
   }
-
-  console.log('data inside prepAvgByInterests', data)
 
   return extractAverageByInterest(data)
 }

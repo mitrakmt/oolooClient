@@ -16,7 +16,7 @@ const gameResults = (
   intervalID,
 ) => {
   const averagesByInterest = graphData.averagesByInterest.data
-  const interestsOverTime = graphData.interestsOverTime.data
+  const { interestsOverTime } = graphData
 
   callback(
     remainingTime,
