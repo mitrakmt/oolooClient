@@ -2,13 +2,10 @@ import AnimateNumber from 'react-native-animate-number'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
 import { Text, View, Image, Button, ScrollView } from 'react-native'
-import { LineChart, Grid, XAxis } from 'react-native-svg-charts'
-/* eslint-disable import/no-extraneous-dependencies */
-import * as scale from 'd3-scale' // DO NOT REMOVE eslint-disable comments!
-/* eslint-enable import/no-extraneous-dependencies */
 import { Actions } from 'react-native-router-flux'
 import PropTypes from 'prop-types'
 import InterestsAverageChart from './charts/InterestsAverageChart'
+import InterestsLineChart from './charts/InterestsLineChart'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
 
 import {
@@ -100,6 +97,8 @@ class Results extends Component {
     )
   }
 
+  /*
+
   renderLineCharts = data => {
     const dataObj = data.data
     const dataKeys = Object.keys(dataObj)
@@ -155,6 +154,23 @@ class Results extends Component {
       )
     })
   }
+  */
+
+  renderLineCharts = incomingData => {
+    const dataKeys = Object.keys(incomingData.data)
+
+    if (dataKeys.length === 0) {
+      return null
+    }
+
+    console.log('incoming data for renderLineCharts ', incomingData)
+
+    return (
+      <View>
+        <InterestsLineChart results={incomingData} />
+      </View>
+    )
+  }
 
   render() {
     const { gameResults, playerIndex } = this.props
@@ -181,8 +197,6 @@ class Results extends Component {
     )
 
     averagesByInterest = prepAvgByInterestChartData(averagesByInterest)
-
-    console.log('averagesByInterest ', averagesByInterest)
 
     return (
       <View style={styles.containerStyles}>
