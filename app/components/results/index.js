@@ -194,7 +194,13 @@ class Results extends Component {
                 style={styles.playerAvatar}
                 source={{ url: 'https://placeimg.com/300/300/any' }}
               />
-              <Text style={{ color: '#293f4e', textAlign: 'center' }}>
+              <Text
+                style={{
+                  marginTop: '5%',
+                  color: '#293f4e',
+                  textAlign: 'center',
+                }}
+              >
                 {usernames.player}
               </Text>
             </View>
@@ -213,7 +219,13 @@ class Results extends Component {
                 source={{ url: 'https://placeimg.com/300/300/any' }}
               />
 
-              <Text style={{ color: '#293f4e', textAlign: 'center' }}>
+              <Text
+                style={{
+                  marginTop: '5%',
+                  color: '#293f4e',
+                  textAlign: 'center',
+                }}
+              >
                 {usernames.opponent}
               </Text>
             </View>
