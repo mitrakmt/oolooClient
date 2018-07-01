@@ -18,6 +18,7 @@ class MoreInfo extends Component {
       name: '',
       onFocusName: false,
       onFocusGraduationYear: false,
+      image: '',
       nameInput: {
         BorderColor: new Animated.Value(0),
         Height: new Animated.Value(0),
@@ -43,6 +44,14 @@ class MoreInfo extends Component {
     )
 
     Animated.sequence(animationsArray).start()
+  }
+
+  uploadImage = base64 => {
+    this.setState({
+      image: base64,
+    })
+    console.log('image', this.state.image)
+    // TODO: Upload photo to wasabi functionality
   }
 
   handleNameInput = text => {
