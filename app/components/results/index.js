@@ -21,28 +21,6 @@ import styles from './styles'
 
 const fill = 'rgb(173, 216, 216)'
 
-// const dummyData1 = {
-//   averagesByInterest: [
-//     { Anatomy: 0.99 },
-//     { Biology: 0.41 },
-//     { Radiology: 0.3 },
-//     { Immunology: 0.56 },
-//     { Medicine: 0.8 },
-//     { Genetics: 1 },
-//     { Histology: 0.8 },
-//     { Microbiology: 0.2 },
-//     { Neuroscience: 0.79 },
-//     { Cytology: 0.56 },
-//     { Pathology: 0.56 },
-//     // { Toxicology: 0.2 },
-//   ],
-//   interestScoreOverTime: {
-//     Medicine: [0.9, 0.55, 0.67, 0.54, 0.4],
-//     Biology: [0.8, 0.6, 0.4, 0.38, 0.3],
-//     Radiology: [0.7, 0.44, 0.35],
-//   },
-// }
-
 class Results extends Component {
   constructor(props) {
     super(props)
@@ -117,15 +95,12 @@ class Results extends Component {
     const { data, keys } = results
 
     return data.map((dataArray, idx) => {
-      console.log('the data array is ', dataArray)
-
-      console.log('the keys array is ', keys[idx])
-
       const currentKeysArray = keys[idx]
 
+      const randomKey = generateRandomKey(idx, 'BarChart')
+
       return (
-        <View style={{ marginBottom: '15%' }}>
-          {/* <View style={{ marginTop: '10%', marginBottom: '10%' }}> */}
+        <View key={randomKey} style={{ marginBottom: '15%' }}>
           <BarChart
             style={{ height: 200, width: 'auto' }}
             data={dataArray}
@@ -173,38 +148,41 @@ class Results extends Component {
       return null
     }
 
-    return dataKeys.map(key => (
-      <View style={{ marginBottom: '15%' }}>
-        {/* <View style={{ marginTop: '10%', marginBottom: '10%' }}> */}
-        <LineChart
-          style={{ height: 200, width: 'auto' }}
-          data={dataObj[key]}
-          svg={{ stroke: 'rgb(52,71,86)', width: 10 }}
-          contentInset={{ bottom: 30 }}
-          gridMin={0} // Secret Sauce: what enables showing all the bars
-          bandwidth={5}
-        >
-          <Grid />
-        </LineChart>
-        <XAxis
-          style={{ marginTop: '1.5%' }}
-          scale={scale.scaleBand}
-          data={dataObj[key]}
-          formatLabel={(value, index) =>
-            `${Math.round(dataObj[key][index] * 100)}%`
-          }
-          svg={{ fontSize: 12, fill: 'black' }}
-        />
-        <XAxis
-          style={{ marginTop: '1.5%' }}
-          scale={scale.scaleBand}
-          data={dataObj[key]}
-          formatLabel={(value, index) => `${daysOfWeek[index]}`}
-          svg={{ fontSize: 12, fill: 'black' }}
-        />
-        <Text>{key}</Text>
-      </View>
-    ))
+    return dataKeys.map(key => {
+      const randomKey = generateRandomKey(key, 'LineChart')
+
+      return (
+        <View key={randomKey} style={{ marginBottom: '15%' }}>
+          <Text style={{ textAlign: 'center', fontWeight: '800' }}>{key}</Text>
+          <LineChart
+            style={{ height: 200, width: 'auto' }}
+            data={dataObj[key]}
+            svg={{ stroke: 'rgb(52,71,86)', width: 10 }}
+            contentInset={{ bottom: 30 }}
+            gridMin={0} // Secret Sauce: what enables showing all the bars
+            bandwidth={5}
+          >
+            <Grid />
+          </LineChart>
+          <XAxis
+            style={{ marginTop: '1.5%' }}
+            scale={scale.scaleBand}
+            data={dataObj[key]}
+            formatLabel={(value, index) =>
+              `${Math.round(dataObj[key][index] * 100)}%`
+            }
+            svg={{ fontSize: 12, fill: 'black' }}
+          />
+          <XAxis
+            style={{ marginTop: '1.5%' }}
+            scale={scale.scaleBand}
+            data={dataObj[key]}
+            formatLabel={(value, index) => `${daysOfWeek[index]}`}
+            svg={{ fontSize: 12, fill: 'black' }}
+          />
+        </View>
+      )
+    })
   }
 
   render() {
