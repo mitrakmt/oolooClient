@@ -28,7 +28,7 @@ class Leaderboard extends Component {
 
   yourSchoolTab = () => {
     this.setState({
-      activeTab: 'your school',
+      activeTab: 'top schools',
     })
   }
 
@@ -74,18 +74,18 @@ class Leaderboard extends Component {
           </View>
           <View
             style={
-              this.state.activeTab === 'your school'
+              this.state.activeTab === 'top schools'
                 ? styles.selectedButtonStyles
                 : styles.buttonStyles
             }
           >
             <Button
               onPress={this.yourSchoolTab}
-              title="Your School"
+              title="Top schools"
               color={
-                this.state.activeTab === 'your school' ? 'white' : '#2f5658'
+                this.state.activeTab === 'top schools' ? 'white' : '#2f5658'
               }
-              accessibilityLabel="Your School"
+              accessibilityLabel="Top schools"
             />
           </View>
         </View>
@@ -107,7 +107,7 @@ class Leaderboard extends Component {
               ))}
             </View>
           )}
-          {this.state.activeTab === 'your school' && (
+          {this.state.activeTab === 'top schools' && (
             <View style={styles.schoolLeaderboardStyles}>
               {this.state.schools.map(school => (
                 <Text
@@ -125,19 +125,6 @@ class Leaderboard extends Component {
               ))}
             </View>
           )}
-        </View>
-
-        <View style={styles.bottomContainerStyles}>
-          <View style={styles.buttonContainerStyle}>
-            <View style={styles.resultsButtonStyles}>
-              <Button
-                onPress={this.handleResultsPress}
-                title="Results"
-                color="white"
-                accessibilityLabel="Home button for OOLOO Quiz App"
-              />
-            </View>
-          </View>
         </View>
       </View>
     </View>

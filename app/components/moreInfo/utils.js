@@ -1,16 +1,16 @@
 const API_URL = `https://ooloo-api-dev.herokuapp.com/api`
 
-export const prepPayload = (email, password) => {
-  // change values in prod, only for testing
+export const prepPayload = (name, graduationYear) => {
   const body = JSON.stringify({
-    email,
-    password,
+    name,
+    graduationYear,
   })
 
   const payload = {
-    method: 'post',
     mode: 'cors',
+    method: 'PUT',
     headers: {
+      Accept: 'application/json',
       'Content-Type': 'application/json',
     },
     body,
@@ -19,14 +19,14 @@ export const prepPayload = (email, password) => {
   return payload
 }
 
-export const fetchUser = async payload => {
-  const serverResponse = await fetch(`${API_URL}/user/login`, payload)
+export const saveUserData = async payload => {
+  const serverResponse = await fetch(`${API_URL}/user`, payload)
     .then(response => {
       console.log('serverResponse inside fetch ', response)
 
       return response.json()
     })
-    .then(token => token.Authorization)
+    .then(user => user)
 
   return serverResponse
 }

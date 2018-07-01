@@ -4,24 +4,32 @@ import * as EmailValidator from 'email-validator'
 import * as Keychain from 'react-native-keychain'
 import { connect } from 'react-redux'
 import { Actions } from 'react-native-router-flux'
+import SearchableDropDown from 'react-native-searchable-dropdown'
 import styles from './styles'
-import { prepPayload, fetchUser, createAnimatedStyles } from './utils'
+import {
+  prepPayload,
+  prepGetPayload,
+  fetchUser,
+  getAvailableSchools,
+  createAnimatedStyles,
+} from './utils'
 import { userAuthenticated } from '../../services/redux/actions/auth'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
 
 import LoginAvatar from './img/ooloo-login-avatar.png'
 
-class Login extends Component {
+class Signup extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      errorMessage: '',
-      isError: false,
-      password: 'Password',
-      togglePassword: false,
-      username: 'Username',
+      password: '',
+      username: '',
+      school: '',
+      email: '',
+      availableSchools: [],
       onFocusUsername: false,
       onFocusPassword: false,
+      onFocusEmail: false,
       usernameInput: {
         BorderColor: new Animated.Value(0),
         Height: new Animated.Value(0),
@@ -32,21 +40,28 @@ class Login extends Component {
         Height: new Animated.Value(0),
         Margin: new Animated.Value(0),
       },
+      emailInput: {
+        BorderColor: new Animated.Value(0),
+        Height: new Animated.Value(0),
+        Margin: new Animated.Value(0),
+      },
     }
   }
 
   componentWillMount() {
-    tracker.trackScreenView('Login')
+    const payload = prepGetPayload()
+    getAvailableSchools(payload).then(availableSchools => {
+      this.setState({
+        availableSchools: availableSchools.schools,
+      })
+    })
+    tracker.trackScreenView('Signup')
   }
 
-  startAnimation = (toValue, { BorderColor, Height, Margin }) => {
-    let animationsArray = [BorderColor, Height, Margin]
-
-    animationsArray = animationsArray.map(animation =>
-      Animated.timing(animation, { toValue, duration: 200 }),
-    )
-
-    Animated.sequence(animationsArray).start()
+  onSelect = val => {
+    this.setState({
+      school: val.name,
+    })
   }
 
   handleUsernameInput = text => {
@@ -61,17 +76,27 @@ class Login extends Component {
     })
   }
 
+  handleEmailInput = text => {
+    this.setState({
+      email: text,
+    })
+  }
+
+  startAnimation = (toValue, { BorderColor, Height, Margin }) => {
+    let animationsArray = [BorderColor, Height, Margin]
+
+    animationsArray = animationsArray.map(animation =>
+      Animated.timing(animation, { toValue, duration: 200 }),
+    )
+
+    Animated.sequence(animationsArray).start()
+  }
+
   toggleField = field => {
     // removes placeholder text when user focuses on a field
     // add placeholder text back if length of field is zero after editing is finished
     if (field === 'username') {
-      const { username, onFocusUsername, usernameInput } = this.state
-
-      if (username.length === 0) {
-        this.setState({ username: 'Username' })
-      } else if (username.match(/Username/i)) {
-        this.setState({ username: '' })
-      }
+      const { onFocusUsername, usernameInput } = this.state
 
       // toggle onFocus styling for username
       if (onFocusUsername === false) {
@@ -86,13 +111,7 @@ class Login extends Component {
     }
 
     if (field === 'password') {
-      const { password, onFocusPassword, passwordInput } = this.state
-
-      if (password.length === 0) {
-        this.setState({ password: 'Password', togglePassword: false })
-      } else if (password.match(/Password/i)) {
-        this.setState({ password: '', togglePassword: true })
-      }
+      const { onFocusPassword, passwordInput } = this.state
 
       // toggle onFocus styling for password
       if (onFocusPassword === false) {
@@ -115,38 +134,43 @@ class Login extends Component {
         )
       }
     }
+
+    if (field === 'email') {
+      const { onFocusEmail, emailInput } = this.state
+
+      // toggle onFocus styling for email
+      if (onFocusEmail === false) {
+        this.setState({ onFocusEmail: true }, () => {
+          this.startAnimation(1, emailInput)
+        })
+      } else {
+        this.setState({ onFocusEmail: false }, () => {
+          this.startAnimation(0, emailInput)
+        })
+      }
+    }
   }
 
   handleSubmit = () => {
-    const { username, password } = this.state
-    const haveUser = EmailValidator.validate(username)
+    const { username, password, email, school } = this.state
+    const haveUser = EmailValidator.validate(email)
 
     if (haveUser) {
-      this.setState(
-        {
-          password: 'Password',
-        },
-        () => this.loginUser(username, password),
-      )
+      this.signupUser(username, password, email, school)
     } else {
       this.handleError()
     }
   }
 
   handleError = () => {
-    this.setState({
-      errorMessage:
-        'There was an error processing your request. Please try again.',
-      isError: true,
-    })
+    console.log('error')
   }
 
-  loginUser = async (username, password) => {
-    const payload = prepPayload(username, password)
+  signupUser = async (username, password, email, school) => {
+    const payload = prepPayload(username, password, email, school)
 
     try {
       const serverResponse = await fetchUser(payload)
-
       if (!serverResponse) {
         this.handleError()
       } else {
@@ -167,14 +191,13 @@ class Login extends Component {
     authUser(Authorization)
 
     // Navigate to Home/Let's Play
-    Actions.home()
+    Actions.moreInfo()
     // Actions.home()
   }
 
   render() {
-    const { errorMessage, isError, togglePassword } = this.state
-
     const animatedUserStyles = createAnimatedStyles(this.state.usernameInput)
+    const animatedEmailStyles = createAnimatedStyles(this.state.emailInput)
     const animatedPasswordStyles = createAnimatedStyles(
       this.state.passwordInput,
     )
@@ -192,8 +215,8 @@ class Login extends Component {
             </View>
             <View style={{ width: '60%' }}>
               <Text>
-                Welcome back to OOLOO! Now that you&#39;ve rested up, let&#39;s
-                see what you&#39;ve got!
+                Welcome to OOLOO! Show off your knowledge to put your school in
+                the top rankings!
               </Text>
             </View>
           </View>
@@ -206,7 +229,7 @@ class Login extends Component {
             >
               <TextInput
                 style={styles.textInputStyles}
-                placeholder={this.state.username}
+                placeholder="Username"
                 fontSize={17}
                 autoCapitalize="none"
                 value={this.state.username}
@@ -223,37 +246,87 @@ class Login extends Component {
                 style={styles.textInputStyles}
                 fontSize={17}
                 autoCapitalize="none"
-                secureTextEntry={togglePassword}
+                placeholder="Password"
+                secureTextEntry
                 value={this.state.password}
                 onFocus={() => this.toggleField('password')}
                 onChangeText={this.handlePasswordInput}
                 onEndEditing={() => this.toggleField('password')}
               />
             </Animated.View>
-          </View>
 
-          <View style={styles.errorContainerStyle}>
-            <Text style={{ textAlign: 'center', color: '#f14169' }}>
-              {isError ? errorMessage : null}
-            </Text>
+            <Animated.View
+              style={[styles.emailContainerStyle, animatedEmailStyles]}
+            >
+              <TextInput
+                style={styles.textInputStyles}
+                fontSize={17}
+                placeholder="Email"
+                autoCapitalize="none"
+                value={this.state.email}
+                onFocus={() => this.toggleField('email')}
+                onChangeText={this.handleEmailInput}
+                onEndEditing={() => this.toggleField('email')}
+              />
+            </Animated.View>
+
+            <SearchableDropDown
+              onItemSelect={school => this.onSelect(school)}
+              containerStyle={{
+                padding: 5,
+                width: '80%',
+                marginTop: 15,
+                marginLeft: 'auto',
+                marginRight: 'auto',
+              }}
+              textInputStyle={{
+                padding: 12,
+                borderWidth: 1,
+                borderColor: '#ccc',
+                zIndex: 1000,
+                borderRadius: 5,
+              }}
+              itemStyle={{
+                padding: 10,
+                marginTop: 2,
+                zIndex: 1000,
+                backgroundColor: '#ddd',
+                borderColor: '#bbb',
+                borderWidth: 1,
+                borderRadius: 5,
+              }}
+              itemTextStyle={{
+                color: '#222',
+              }}
+              itemsContainerStyle={{
+                maxHeight: 90,
+                backgroundColor: 'white',
+              }}
+              items={this.state.availableSchools}
+              defaultIndex={2}
+              placeholder="Select School"
+              resetValue={false}
+              underlineColorAndroid="transparent"
+            />
           </View>
 
           <View style={styles.buttonContainerStyle}>
             <View style={styles.buttonStyles}>
               <Button
                 onPress={this.handleSubmit}
-                title="Log in!"
+                title="Get Started"
                 color="white"
                 accessibilityLabel="Log in button for OOLOO Quiz App"
               />
             </View>
 
             <View>
-              <Button
+              <Text
                 style={styles.signUpTextStyles}
-                onPress={() => Actions.signup()}
-                title="Or Sign Up"
-              />
+                onClick={() => Actions.login()}
+              >
+                Or Login
+              </Text>
             </View>
           </View>
         </View>
@@ -267,4 +340,4 @@ export default connect(
   {
     authUser: userAuthenticated,
   },
-)(Login)
+)(Signup)

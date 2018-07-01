@@ -6,6 +6,8 @@ import { Router, Scene } from 'react-native-router-flux'
 import GamePlay from './components/gameplay'
 import Home from './components/home'
 import Login from './components/login'
+import Signup from './components/signup/signup'
+import MoreInfo from './components/moreInfo/moreInfo'
 import Leaderboard from './components/leaderboard/leaderboard'
 import Results from './components/results'
 import Profile from './components/profile/profile'
@@ -33,6 +35,18 @@ const App = () => (
           key="login"
           component={Login}
           title="Login"
+          hideNavBar="true"
+        />
+        <Scene
+          key="signup"
+          component={Signup}
+          title="Signup"
+          hideNavBar="true"
+        />
+        <Scene
+          key="moreInfo"
+          component={MoreInfo}
+          title="More Info"
           hideNavBar="true"
         />
         <Scene
