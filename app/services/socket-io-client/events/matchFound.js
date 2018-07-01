@@ -14,6 +14,10 @@ const matchFound = ({ interests, playerIndex, usernames }, callback) => {
     }
   })
 
+  if (matchFoundObj.opponent === 'Average Scores: ') {
+    matchFoundObj.opponent = 'Average Scores'
+  }
+
   callback(matchFoundObj) // Send matchFoundObj to Redux store
 
   Actions.matchFound()
