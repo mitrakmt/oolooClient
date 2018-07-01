@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { TextInput, Text, View, Button, Image, Animated } from 'react-native'
 import { connect } from 'react-redux'
+import PhotoUpload from 'react-native-photo-upload'
 import { Actions } from 'react-native-router-flux'
 import styles from './styles'
 import { prepPayload, saveUserData, createAnimatedStyles } from './utils'
@@ -177,6 +178,29 @@ class MoreInfo extends Component {
                 onEndEditing={() => this.toggleField('graduationYear')}
               />
             </Animated.View>
+
+            <PhotoUpload
+              onPhotoSelect={avatar => {
+                if (avatar) {
+                  console.log('Image base64 string: ', avatar)
+                }
+              }}
+            >
+              <Image
+                style={{
+                  paddingVertical: 30,
+                  width: 100,
+                  height: 100,
+                  borderRadius: 50,
+                  marginTop: 50,
+                }}
+                resizeMode="cover"
+                source={{
+                  uri:
+                    'https://www.sparklabs.com/forum/styles/comboot/theme/images/default_avatar.jpg',
+                }}
+              />
+            </PhotoUpload>
           </View>
 
           <View style={styles.buttonContainerStyle}>
