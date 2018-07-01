@@ -34,31 +34,80 @@ class Results extends Component {
     tracker.trackScreenView('Results')
   }
 
-  renderPlayerColumn = (statsArray, baseString = 'Player') =>
-    statsArray.map(statObject => {
-      const randomKey = generateRandomKey(statObject.value, baseString)
+  checkBarChartData = () => {
+    const { gameResults } = this.props
 
+    let { averagesByInterest } = gameResults
+
+    const { interestsOverTime } = gameResults
+
+    averagesByInterest = prepAvgByInterestChartData(averagesByInterest)
+
+    // If we don't get both of the data charts from server, render the
+    // quiz result answers as backup
+    if (
+      averagesByInterest.length === 0 ||
+      Object.keys(interestsOverTime.data).length === 0
+    ) {
       return (
-        <AnimateNumber
-          countBy={5}
-          key={randomKey}
-          style={{ color: '#293f4e', fontSize: 15 }}
-          timing="linear"
-          value={statObject.value}
-          formatter={() => handleFormatting(statObject)}
-        />
+        <ScrollView
+          style={{
+            padding: '5%',
+            marginBottom: '5%',
+            height: '25%',
+          }}
+        >
+          <View
+            style={{
+              marginLeft: 'auto',
+              marginRight: 'auto',
+            }}
+          >
+            {this.renderQuizResults(gameResults.answers)}
+          </View>
+        </ScrollView>
       )
-    })
+    }
 
-  renderLabels = labelArray =>
-    labelArray.map(label => (
-      <Text
-        key={`${label}-label`}
-        style={{ color: '#293f4e', fontWeight: 'bold', fontSize: 20 }}
-      >
-        {label}
-      </Text>
-    ))
+    return (
+      <ScrollView>
+        <View style={{ height: 'auto' }}>
+          {this.renderBarCharts(averagesByInterest)}
+          {this.renderLineCharts(interestsOverTime)}
+        </View>
+      </ScrollView>
+    )
+  }
+
+  renderBarCharts = incomingData => {
+    if (incomingData.length === 0) {
+      return null
+    }
+
+    const results = incomingData.pop()
+
+    console.log('results to send to barChart ', results) // Leave for debugging
+
+    return (
+      <View>
+        <InterestsAverageChart results={results} />
+      </View>
+    )
+  }
+
+  renderLineCharts = incomingData => {
+    const dataKeys = Object.keys(incomingData.data)
+
+    if (dataKeys.length === 0) {
+      return null
+    }
+
+    return (
+      <View>
+        <InterestsLineChart results={incomingData} />
+      </View>
+    )
+  }
 
   renderQuizResults = answerResults => {
     const { playerIndex } = this.state
@@ -81,102 +130,34 @@ class Results extends Component {
     })
   }
 
-  renderBarCharts = incomingData => {
-    if (incomingData.length === 0) {
-      return null
-    }
+  renderLabels = labelArray =>
+    labelArray.map(label => (
+      <Text
+        key={`${label}-label`}
+        style={{ color: '#293f4e', fontWeight: 'bold', fontSize: 20 }}
+      >
+        {label}
+      </Text>
+    ))
 
-    const results = incomingData.pop()
-
-    console.log('results to send to barChart ', results) // Leave for debugging
-
-    return (
-      <View>
-        <InterestsAverageChart results={results} />
-      </View>
-    )
-  }
-
-  /*
-
-  renderLineCharts = data => {
-    const dataObj = data.data
-    const dataKeys = Object.keys(dataObj)
-    const daysOfWeek = {
-      0: 'M',
-      1: 'T',
-      2: 'W',
-      3: 'Th',
-      4: 'F',
-      5: 'Sat',
-      6: 'Sun',
-    }
-
-    if (dataKeys.length === 0) {
-      return null
-    }
-
-    console.log('incoming data for renderLineCharts ', data)
-
-    return dataKeys.map(key => {
-      const randomKey = generateRandomKey(key, 'LineChart')
+  renderPlayerColumn = (statsArray, baseString = 'Player') =>
+    statsArray.map(statObject => {
+      const randomKey = generateRandomKey(statObject.value, baseString)
 
       return (
-        <View key={randomKey} style={{ marginBottom: '15%' }}>
-          <Text style={{ textAlign: 'center', fontWeight: '800' }}>{key}</Text>
-          <LineChart
-            style={{ height: 200, width: 'auto' }}
-            data={dataObj[key]}
-            svg={{ stroke: 'rgb(52,71,86)', width: 10 }}
-            contentInset={{ bottom: 30 }}
-            gridMin={0} // Secret Sauce: what enables showing all the bars
-            bandwidth={5}
-          >
-            <Grid />
-          </LineChart>
-          <XAxis
-            style={{ marginTop: '1.5%' }}
-            scale={scale.scaleBand}
-            data={dataObj[key]}
-            formatLabel={(value, index) =>
-              `${Math.round(dataObj[key][index] * 100)}%`
-            }
-            svg={{ fontSize: 12, fill: 'black' }}
-          />
-          <XAxis
-            style={{ marginTop: '1.5%' }}
-            scale={scale.scaleBand}
-            data={dataObj[key]}
-            formatLabel={(value, index) => `${daysOfWeek[index]}`}
-            svg={{ fontSize: 12, fill: 'black' }}
-          />
-        </View>
+        <AnimateNumber
+          countBy={5}
+          key={randomKey}
+          style={{ color: '#293f4e', fontSize: 15 }}
+          timing="linear"
+          value={statObject.value}
+          formatter={() => handleFormatting(statObject)}
+        />
       )
     })
-  }
-  */
-
-  renderLineCharts = incomingData => {
-    const dataKeys = Object.keys(incomingData.data)
-
-    if (dataKeys.length === 0) {
-      return null
-    }
-
-    console.log('incoming data for renderLineCharts ', incomingData)
-
-    return (
-      <View>
-        <InterestsLineChart results={incomingData} />
-      </View>
-    )
-  }
 
   render() {
-    const { gameResults, playerIndex } = this.props
-
-    let { averagesByInterest } = gameResults
-    const { interestsOverTime } = gameResults
+    const { playerIndex, gameResults } = this.props
 
     const { usernames, numberOfQuestions } = this.state
 
@@ -195,8 +176,6 @@ class Results extends Component {
       numberOfQuestions,
       false,
     )
-
-    averagesByInterest = prepAvgByInterestChartData(averagesByInterest)
 
     return (
       <View style={styles.containerStyles}>
@@ -254,29 +233,7 @@ class Results extends Component {
             </View>
           </View>
 
-          {/* <ScrollView
-            style={{
-              padding: '5%',
-              marginBottom: '5%',
-              height: '25%',
-            }}
-          >
-            <View
-              style={{
-                marginLeft: 'auto',
-                marginRight: 'auto',
-              }}
-            >
-              {this.renderQuizResults(gameResults.answers)}
-            </View>
-          </ScrollView> */}
-
-          <ScrollView>
-            <View style={{ height: 'auto' }}>
-              {this.renderBarCharts(averagesByInterest)}
-              {this.renderLineCharts(interestsOverTime)}
-            </View>
-          </ScrollView>
+          {this.checkBarChartData()}
 
           <View style={styles.buttonContainer}>
             <View style={styles.buttonStyles}>
