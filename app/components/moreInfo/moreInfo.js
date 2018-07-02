@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+// import ProfileImage from '../../shared-components/profile-image/profileImage'
 import { TextInput, Text, View, Button, Image, Animated } from 'react-native'
 import { connect } from 'react-redux'
-import PhotoUpload from 'react-native-photo-upload'
 import { Actions } from 'react-native-router-flux'
 import styles from './styles'
 import { prepPayload, saveUserData, createAnimatedStyles } from './utils'
@@ -18,7 +18,6 @@ class MoreInfo extends Component {
       name: '',
       onFocusName: false,
       onFocusGraduationYear: false,
-      image: '',
       nameInput: {
         BorderColor: new Animated.Value(0),
         Height: new Animated.Value(0),
@@ -44,14 +43,6 @@ class MoreInfo extends Component {
     )
 
     Animated.sequence(animationsArray).start()
-  }
-
-  uploadImage = base64 => {
-    this.setState({
-      image: base64,
-    })
-    console.log('image', this.state.image)
-    // TODO: Upload photo to wasabi functionality
   }
 
   handleNameInput = text => {
@@ -188,30 +179,7 @@ class MoreInfo extends Component {
               />
             </Animated.View>
 
-            <PhotoUpload
-              onPhotoSelect={avatar => {
-                if (avatar) {
-                  console.log('Image base64 string: ', avatar)
-                }
-              }}
-            >
-              <Image
-                style={{
-                  paddingVertical: 30,
-                  width: 100,
-                  height: 100,
-                  borderRadius: 50,
-                  marginTop: 70,
-                }}
-                photoPickerTitle="Upload Profile Image"
-                resizeMode="cover"
-                source={{
-                  uri:
-                    'https://www.sparklabs.com/forum/styles/comboot/theme/images/default_avatar.jpg',
-                }}
-                onPhotoSelect={base64 => this.uploadImage(base64)}
-              />
-            </PhotoUpload>
+            {/* <ProfileImage /> */}
           </View>
 
           <View style={styles.buttonContainerStyle}>
