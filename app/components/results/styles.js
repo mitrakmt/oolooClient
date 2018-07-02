@@ -78,6 +78,14 @@ const playerAvatar = {
   borderRadius: 37,
 }
 
+const avatarViewPlaceholder = {
+  width: 75,
+  height: 75,
+  borderWidth: 1,
+  borderRadius: 37,
+  backgroundColor: 'rgba(1, 163, 141, .1)',
+}
+
 const statContainer = {
   display: 'flex',
   flexDirection: 'row',
@@ -114,6 +122,7 @@ export default {
   versusContainer,
   avatarContainer,
   playerAvatar,
+  avatarViewPlaceholder,
   statContainer,
   statColContainer,
   buttonContainer,

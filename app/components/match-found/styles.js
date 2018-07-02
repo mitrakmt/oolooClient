@@ -83,6 +83,14 @@ const avatarContainer = {
   alignItems: 'center',
 }
 
+const avatarViewPlaceholder = {
+  width: 75,
+  height: 75,
+  borderWidth: 1,
+  borderRadius: 37,
+  backgroundColor: 'rgba(1, 163, 141, .1)',
+}
+
 const playerAvatar = {
   width: 75,
   height: 75,
@@ -128,6 +136,7 @@ export default {
   headerStyling,
   avatarFoundContainer,
   avatarContainer,
+  avatarViewPlaceholder,
   playerAvatar,
   bottomContainer,
   buttonStyles,

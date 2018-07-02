@@ -59,6 +59,14 @@ const playerAvatar = {
   borderRadius: 25,
 }
 
+const avatarViewPlaceholder = {
+  width: 50,
+  height: 50,
+  borderWidth: 1,
+  borderRadius: 25,
+  backgroundColor: 'rgba(1, 163, 141, .1)',
+}
+
 const singleNewsItemText = {
   marginLeft: '3%',
   color: '#344856',
@@ -99,6 +107,7 @@ export default {
   singleNewsItem,
   newsItemsContainerStyles,
   playerAvatar,
+  avatarViewPlaceholder,
   singleNewsItemText,
   bottomContainerStyles,
   buttonContainerStyle,
