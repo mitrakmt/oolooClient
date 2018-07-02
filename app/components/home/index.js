@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { TabBarIOS, Text, View, Button } from 'react-native'
+import { TabBarIOS, Text, View, Button, Image } from 'react-native'
 import { Actions } from 'react-native-router-flux'
 import Icon from 'react-native-vector-icons/Ionicons'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
