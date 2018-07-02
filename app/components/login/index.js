@@ -6,6 +6,7 @@ import {
   Button,
   Animated,
   Keyboard,
+  Image,
   TouchableWithoutFeedback,
 } from 'react-native'
 import PropTypes from 'prop-types'
@@ -16,6 +17,7 @@ import { Actions } from 'react-native-router-flux'
 import styles from './styles'
 import { prepPayload, fetchUser, createAnimatedStyles } from './utils'
 import { userAuthenticated } from '../../services/redux/actions/auth'
+import AvatarIcon from '../assets/images/avatar_icon.png'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
 
 const DismissKeyboard = ({ children }) => (
@@ -202,8 +204,11 @@ class Login extends Component {
             </View>
 
             <View style={styles.imageVerbiageStyles}>
-              <View style={{ width: '70%' }}>
-                <Text style={{ textAlign: 'center' }}>
+              <View style={{ width: '40%' }}>
+                <Image style={{ width: 90, height: 90 }} source={AvatarIcon} />
+              </View>
+              <View style={{ width: '60%' }}>
+                <Text>
                   Welcome back to OOLOO! Now that you&#39;ve rested up,
                   let&#39;s see what you&#39;ve got!
                 </Text>

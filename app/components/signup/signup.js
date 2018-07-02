@@ -1,5 +1,14 @@
 import React, { Component } from 'react'
-import { TextInput, Text, View, Button, Image, Animated } from 'react-native'
+import {
+  TextInput,
+  Text,
+  View,
+  Button,
+  Image,
+  Animated,
+  Keyboard,
+  TouchableWithoutFeedback,
+} from 'react-native'
 import * as EmailValidator from 'email-validator'
 import * as Keychain from 'react-native-keychain'
 import { connect } from 'react-redux'
@@ -17,6 +26,12 @@ import { userAuthenticated } from '../../services/redux/actions/auth'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
 
 import LoginAvatar from './img/ooloo-login-avatar.png'
+
+const DismissKeyboard = ({ children }) => (
+  <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+    {children}
+  </TouchableWithoutFeedback>
+)
 
 class Signup extends Component {
   constructor(props) {
@@ -203,135 +218,141 @@ class Signup extends Component {
     )
 
     return (
-      <View style={styles.containerStyles}>
-        <View style={styles.headerStyles}>
-          <View>
-            <Text style={styles.titleStyles}>OOLOO</Text>
-          </View>
-
-          <View style={styles.imageVerbiageStyles}>
-            <View style={{ width: '40%' }}>
-              <Image style={{ width: 90, height: 90 }} source={LoginAvatar} />
-            </View>
-            <View style={{ width: '60%' }}>
-              <Text>
-                Welcome to OOLOO! Show off your knowledge to put your school in
-                the top rankings!
-              </Text>
-            </View>
-          </View>
-        </View>
-
-        <View style={styles.formStyles}>
-          <View style={styles.inputFieldsContainerStyle}>
-            <Animated.View
-              style={[styles.usernameContainerStyle, animatedUserStyles]}
-            >
-              <TextInput
-                style={styles.textInputStyles}
-                placeholder="Username"
-                fontSize={17}
-                autoCapitalize="none"
-                value={this.state.username}
-                onFocus={() => this.toggleField('username')}
-                onChangeText={this.handleUsernameInput}
-                onEndEditing={() => this.toggleField('username')}
-              />
-            </Animated.View>
-
-            <Animated.View
-              style={[styles.passwordContainerStyle, animatedPasswordStyles]}
-            >
-              <TextInput
-                style={styles.textInputStyles}
-                fontSize={17}
-                autoCapitalize="none"
-                placeholder="Password"
-                secureTextEntry
-                value={this.state.password}
-                onFocus={() => this.toggleField('password')}
-                onChangeText={this.handlePasswordInput}
-                onEndEditing={() => this.toggleField('password')}
-              />
-            </Animated.View>
-
-            <Animated.View
-              style={[styles.emailContainerStyle, animatedEmailStyles]}
-            >
-              <TextInput
-                style={styles.textInputStyles}
-                fontSize={17}
-                placeholder="Email"
-                autoCapitalize="none"
-                value={this.state.email}
-                onFocus={() => this.toggleField('email')}
-                onChangeText={this.handleEmailInput}
-                onEndEditing={() => this.toggleField('email')}
-              />
-            </Animated.View>
-
-            <SearchableDropDown
-              onItemSelect={school => this.onSelect(school)}
-              containerStyle={{
-                padding: 5,
-                width: '80%',
-                marginTop: 15,
-                marginLeft: 'auto',
-                marginRight: 'auto',
-              }}
-              textInputStyle={{
-                padding: 12,
-                borderWidth: 1,
-                borderColor: '#ccc',
-                zIndex: 1000,
-                borderRadius: 5,
-              }}
-              itemStyle={{
-                padding: 10,
-                marginTop: 2,
-                zIndex: 1000,
-                backgroundColor: '#ddd',
-                borderColor: '#bbb',
-                borderWidth: 1,
-                borderRadius: 5,
-              }}
-              itemTextStyle={{
-                color: '#222',
-              }}
-              itemsContainerStyle={{
-                maxHeight: 90,
-                backgroundColor: 'white',
-              }}
-              items={this.state.availableSchools}
-              defaultIndex={2}
-              placeholder="Select School"
-              resetValue={false}
-              underlineColorAndroid="transparent"
-            />
-          </View>
-
-          <View style={styles.buttonContainerStyle}>
-            <View style={styles.buttonStyles}>
-              <Button
-                onPress={this.handleSubmit}
-                title="Get Started"
-                color="white"
-                accessibilityLabel="Signup Button for OOLOO Quiz App"
-              />
-            </View>
-
+      <DismissKeyboard>
+        <View style={styles.containerStyles}>
+          <View style={styles.headerStyles}>
             <View>
-              <Button
-                style={styles.signUpTextStyles}
-                onPress={() => Actions.login()}
-                title="Or Login"
+              <Text style={styles.titleStyles}>OOLOO</Text>
+            </View>
+
+            <View style={styles.imageVerbiageStyles}>
+              <View style={{ width: '40%' }}>
+                <Image style={{ width: 90, height: 90 }} source={LoginAvatar} />
+              </View>
+              <View style={{ width: '60%' }}>
+                <Text>
+                  Welcome to OOLOO! Show off your knowledge to put your school
+                  in the top rankings!
+                </Text>
+              </View>
+            </View>
+          </View>
+
+          <View style={styles.formStyles}>
+            <View style={styles.inputFieldsContainerStyle}>
+              <Animated.View
+                style={[styles.usernameContainerStyle, animatedUserStyles]}
+              >
+                <TextInput
+                  style={styles.textInputStyles}
+                  placeholder="Username"
+                  fontSize={17}
+                  autoCapitalize="none"
+                  value={this.state.username}
+                  onFocus={() => this.toggleField('username')}
+                  onChangeText={this.handleUsernameInput}
+                  onEndEditing={() => this.toggleField('username')}
+                />
+              </Animated.View>
+
+              <Animated.View
+                style={[styles.passwordContainerStyle, animatedPasswordStyles]}
+              >
+                <TextInput
+                  style={styles.textInputStyles}
+                  fontSize={17}
+                  autoCapitalize="none"
+                  placeholder="Password"
+                  secureTextEntry
+                  value={this.state.password}
+                  onFocus={() => this.toggleField('password')}
+                  onChangeText={this.handlePasswordInput}
+                  onEndEditing={() => this.toggleField('password')}
+                />
+              </Animated.View>
+
+              <Animated.View
+                style={[styles.emailContainerStyle, animatedEmailStyles]}
+              >
+                <TextInput
+                  style={styles.textInputStyles}
+                  fontSize={17}
+                  placeholder="Email"
+                  autoCapitalize="none"
+                  value={this.state.email}
+                  onFocus={() => this.toggleField('email')}
+                  onChangeText={this.handleEmailInput}
+                  onEndEditing={() => this.toggleField('email')}
+                />
+              </Animated.View>
+
+              <SearchableDropDown
+                onItemSelect={school => this.onSelect(school)}
+                containerStyle={{
+                  padding: 5,
+                  width: '80%',
+                  marginTop: 15,
+                  marginLeft: 'auto',
+                  marginRight: 'auto',
+                }}
+                textInputStyle={{
+                  padding: 12,
+                  borderWidth: 1,
+                  borderColor: '#ccc',
+                  zIndex: 1000,
+                  borderRadius: 5,
+                }}
+                itemStyle={{
+                  padding: 10,
+                  marginTop: 2,
+                  zIndex: 1000,
+                  backgroundColor: '#ddd',
+                  borderColor: '#bbb',
+                  borderWidth: 1,
+                  borderRadius: 5,
+                }}
+                itemTextStyle={{
+                  color: '#222',
+                }}
+                itemsContainerStyle={{
+                  maxHeight: 90,
+                  backgroundColor: 'white',
+                }}
+                items={this.state.availableSchools}
+                defaultIndex={2}
+                placeholder="Select School"
+                resetValue={false}
+                underlineColorAndroid="transparent"
               />
+            </View>
+
+            <View style={styles.buttonContainerStyle}>
+              <View style={styles.buttonStyles}>
+                <Button
+                  onPress={this.handleSubmit}
+                  title="Get Started"
+                  color="white"
+                  accessibilityLabel="Signup Button for OOLOO Quiz App"
+                />
+              </View>
+
+              <View>
+                <Button
+                  style={styles.signUpTextStyles}
+                  onPress={() => Actions.login()}
+                  title="Or Login"
+                />
+              </View>
             </View>
           </View>
         </View>
-      </View>
+      </DismissKeyboard>
     )
   }
+}
+
+DismissKeyboard.propTypes = {
+  children: PropTypes.element.isRequired,
 }
 
 export default connect(

@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { TabBarIOS, Text, View, Button, Image } from 'react-native'
+import { TabBarIOS, Text, View, Button } from 'react-native'
 import { Actions } from 'react-native-router-flux'
 import Icon from 'react-native-vector-icons/Ionicons'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
+import AvatarIcon from '../assets/images/avatar_icon.png'
 import styles from './styles'
 
 class Home extends Component {
@@ -16,9 +17,6 @@ class Home extends Component {
   }
 
   handlePlayPress = () => {
-    // Refactor Home component when MatchSearch Complete
-    // Actions.gameplay()
-
     Actions.matchSearch()
   }
 
@@ -41,30 +39,22 @@ class Home extends Component {
 
           <View style={styles.newsItemsContainerStyles}>
             <View style={styles.singleNewsItem}>
-              <Image
-                style={styles.playerAvatar}
-                source={{ url: 'https://placeimg.com/150/150/any' }}
-              />
+              <Image style={styles.playerAvatar} source={AvatarIcon} />
               <Text style={styles.singleNewsItemText}>
                 NYU just took over Top School!
               </Text>
             </View>
 
             <View style={styles.singleNewsItem}>
-              <Image
-                style={styles.playerAvatar}
-                source={{ url: 'https://placeimg.com/150/150/any' }}
-              />
+              <Image style={styles.playerAvatar} source={AvatarIcon} />
               <Text style={styles.singleNewsItemText}>
                 Sammers00 just scored a 90% on the EKG Challenge!
               </Text>
             </View>
 
             <View style={styles.singleNewsItem}>
-              <Image
-                style={styles.playerAvatar}
-                source={{ url: 'https://placeimg.com/150/150/any' }}
-              />
+              <Image style={styles.playerAvatar} source={AvatarIcon} />
+
               <Text style={styles.singleNewsItemText}>
                 waynescrew12 just took 2nd place on the leaderboard!
               </Text>

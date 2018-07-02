@@ -1,7 +1,16 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 // import ProfileImage from '../../shared-components/profile-image/profileImage'
-import { TextInput, Text, View, Button, Image, Animated } from 'react-native'
+import {
+  TextInput,
+  Text,
+  View,
+  Button,
+  Image,
+  Animated,
+  Keyboard,
+  TouchableWithoutFeedback,
+} from 'react-native'
 import { connect } from 'react-redux'
 import { Actions } from 'react-native-router-flux'
 import styles from './styles'
@@ -9,6 +18,12 @@ import { prepPayload, saveUserData, createAnimatedStyles } from './utils'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
 
 import LoginAvatar from './img/ooloo-login-avatar.png'
+
+const DismissKeyboard = ({ children }) => (
+  <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+    {children}
+  </TouchableWithoutFeedback>
+)
 
 class MoreInfo extends Component {
   constructor(props) {
@@ -125,75 +140,77 @@ class MoreInfo extends Component {
     )
 
     return (
-      <View style={styles.containerStyles}>
-        <View style={styles.headerStyles}>
-          <View>
-            <Text style={styles.titleStyles}>OOLOO</Text>
+      <DismissKeyboard>
+        <View style={styles.containerStyles}>
+          <View style={styles.headerStyles}>
+            <View>
+              <Text style={styles.titleStyles}>OOLOO</Text>
+            </View>
+
+            <View style={styles.imageVerbiageStyles}>
+              <View style={{ width: '40%' }}>
+                <Image style={{ width: 90, height: 90 }} source={LoginAvatar} />
+              </View>
+              <View style={{ width: '60%' }}>
+                <Text>
+                  Thanks for signing up! Almost there, just a bit more info
+                  needed please!
+                </Text>
+              </View>
+            </View>
           </View>
 
-          <View style={styles.imageVerbiageStyles}>
-            <View style={{ width: '40%' }}>
-              <Image style={{ width: 90, height: 90 }} source={LoginAvatar} />
+          <View style={styles.formStyles}>
+            <View style={styles.inputFieldsContainerStyle}>
+              <Animated.View
+                style={[styles.nameContainerStyle, animatedNameStyles]}
+              >
+                <TextInput
+                  style={styles.textInputStyles}
+                  placeholder="Name"
+                  fontSize={17}
+                  autoCapitalize="none"
+                  value={this.state.name}
+                  onFocus={() => this.toggleField('name')}
+                  onChangeText={this.handleNameInput}
+                  onEndEditing={() => this.toggleField('name')}
+                />
+              </Animated.View>
+
+              <Animated.View
+                style={[
+                  styles.graduationYearContainerStyle,
+                  animatedGraduationYearStyles,
+                ]}
+              >
+                <TextInput
+                  style={styles.textInputStyles}
+                  fontSize={17}
+                  placeholder="Graduation Year"
+                  autoCapitalize="none"
+                  value={this.state.email}
+                  onFocus={() => this.toggleField('graduationYear')}
+                  onChangeText={this.handleGraduationYearInput}
+                  onEndEditing={() => this.toggleField('graduationYear')}
+                />
+              </Animated.View>
+
+              {/* <ProfileImage /> */}
             </View>
-            <View style={{ width: '60%' }}>
-              <Text>
-                Thanks for signing up! Almost there, just a bit more info needed
-                please!
-              </Text>
+
+            <View style={styles.buttonContainerStyle}>
+              <View style={styles.buttonStyles}>
+                <Button
+                  onPress={this.handleSubmit}
+                  title="Done!"
+                  color="white"
+                  accessibilityLabel="Log in button for OOLOO Quiz App"
+                />
+              </View>
             </View>
           </View>
         </View>
-
-        <View style={styles.formStyles}>
-          <View style={styles.inputFieldsContainerStyle}>
-            <Animated.View
-              style={[styles.nameContainerStyle, animatedNameStyles]}
-            >
-              <TextInput
-                style={styles.textInputStyles}
-                placeholder="Name"
-                fontSize={17}
-                autoCapitalize="none"
-                value={this.state.name}
-                onFocus={() => this.toggleField('name')}
-                onChangeText={this.handleNameInput}
-                onEndEditing={() => this.toggleField('name')}
-              />
-            </Animated.View>
-
-            <Animated.View
-              style={[
-                styles.graduationYearContainerStyle,
-                animatedGraduationYearStyles,
-              ]}
-            >
-              <TextInput
-                style={styles.textInputStyles}
-                fontSize={17}
-                placeholder="Graduation Year"
-                autoCapitalize="none"
-                value={this.state.email}
-                onFocus={() => this.toggleField('graduationYear')}
-                onChangeText={this.handleGraduationYearInput}
-                onEndEditing={() => this.toggleField('graduationYear')}
-              />
-            </Animated.View>
-
-            {/* <ProfileImage /> */}
-          </View>
-
-          <View style={styles.buttonContainerStyle}>
-            <View style={styles.buttonStyles}>
-              <Button
-                onPress={this.handleSubmit}
-                title="Done!"
-                color="white"
-                accessibilityLabel="Log in button for OOLOO Quiz App"
-              />
-            </View>
-          </View>
-        </View>
-      </View>
+      </DismissKeyboard>
     )
   }
 }
@@ -206,6 +223,10 @@ function mapStateToProps({ auth }) {
 
 MoreInfo.propTypes = {
   auth: PropTypes.string.isRequired,
+}
+
+DismissKeyboard.propTypes = {
+  children: PropTypes.element.isRequired,
 }
 
 const mapDispatchToProps = () => ({})
