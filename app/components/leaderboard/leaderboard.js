@@ -38,10 +38,6 @@ class Leaderboard extends Component {
     })
   }
 
-  handleResultsPress = () => {
-    Actions.results()
-  }
-
   renderLeaderboardView = () => (
     <View style={styles.containerStyles}>
       <Text
