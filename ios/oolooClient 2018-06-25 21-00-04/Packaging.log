@@ -1,0 +1,191 @@
+2018-06-26 03:59:49 +0000  Initial pipeline context: <IDEDistributionProcessingPipelineContext: 0x7f8c24383c40; archive(resolved)='<IDEArchive: 0x7f8c0843ec70>', distributionTask(resolved)='1', distributionMethod(resolved)='<IDEDistributionMethodiOSAppStoreDistribution: 0x7f8c05f10bd0>', team(resolved)='<IDEProvisioningBasicTeam: 0x7f8c09894550; teamID='MXZYJ5LUJG', teamName='DoubleTap Consulting LLC'>'>
+	Chain (11, self inclusive):
+	<IDEDistributionProcessingPipelineContext: 0x7f8c24383c40; archive = '<IDEArchive: 0x7f8c0843ec70>', distributionMethod='<IDEDistributionMethodiOSAppStoreDistribution: 0x7f8c05f10bd0>', team='<IDEProvisioningBasicTeam: 0x7f8c09894550; teamID='MXZYJ5LUJG', teamName='DoubleTap Consulting LLC'>'>
+	<IDEDistributionProcessingPipelineContext: 0x7f8c07095ab0; archive = '<IDEArchive: 0x7f8c0843ec70>', distributionMethod='<IDEDistributionMethodiOSAppStoreDistribution: 0x7f8c05f10bd0>', team='<IDEProvisioningBasicTeam: 0x7f8c09894550; teamID='MXZYJ5LUJG', teamName='DoubleTap Consulting LLC'>'>
+	<IDEDistributionContext: 0x7f8c070dc2c0; archive = '<IDEArchive: 0x7f8c0843ec70>', distributionMethod='<IDEDistributionMethodiOSAppStoreDistribution: 0x7f8c05f10bd0>', team='<IDEProvisioningBasicTeam: 0x7f8c09894550; teamID='MXZYJ5LUJG', teamName='DoubleTap Consulting LLC'>'>
+	<IDEDistributionContext: 0x7f8c238c1e10; archive = '<IDEArchive: 0x7f8c0843ec70>', distributionMethod='<IDEDistributionMethodiOSAppStoreDistribution: 0x7f8c05f10bd0>', team='<IDEProvisioningBasicTeam: 0x7f8c09894550; teamID='MXZYJ5LUJG', teamName='DoubleTap Consulting LLC'>'>
+	<IDEDistributionContext: 0x7f8c23e39570; archive = '<IDEArchive: 0x7f8c0843ec70>', distributionMethod='<IDEDistributionMethodiOSAppStoreDistribution: 0x7f8c05f10bd0>', team='<IDEProvisioningBasicTeam: 0x7f8c09894550; teamID='MXZYJ5LUJG', teamName='DoubleTap Consulting LLC'>'>
+	<IDEDistributionContext: 0x7f8c09908e20; archive = '<IDEArchive: 0x7f8c0843ec70>', distributionMethod='<IDEDistributionMethodiOSAppStoreDistribution: 0x7f8c05f10bd0>', team='<IDEProvisioningBasicTeam: 0x7f8c09894550; teamID='MXZYJ5LUJG', teamName='DoubleTap Consulting LLC'>'>
+	<IDEDistributionContext: 0x7f8c08554510; archive = '<IDEArchive: 0x7f8c0843ec70>', distributionMethod='<IDEDistributionMethodiOSAppStoreDistribution: 0x7f8c05f10bd0>', team='<IDEProvisioningBasicTeam: 0x7f8c09894550; teamID='MXZYJ5LUJG', teamName='DoubleTap Consulting LLC'>'>
+	<IDEDistributionContext: 0x7f8c24960c00; archive = '<IDEArchive: 0x7f8c0843ec70>', distributionMethod='<IDEDistributionMethodiOSAppStoreDistribution: 0x7f8c05f10bd0>', team='<IDEProvisioningBasicTeam: 0x7f8c09894550; teamID='MXZYJ5LUJG', teamName='DoubleTap Consulting LLC'>'>
+	<IDEDistributionContext: 0x7f8c235a5590; archive = '<IDEArchive: 0x7f8c0843ec70>', distributionMethod='<IDEDistributionMethodiOSAppStoreDistribution: 0x7f8c05f10bd0>', team='<IDEProvisioningBasicTeam: 0x7f8c09894550; teamID='MXZYJ5LUJG', teamName='DoubleTap Consulting LLC'>'>
+	<IDEDistributionContext: 0x7f8c085ec2f0; archive = '<IDEArchive: 0x7f8c0843ec70>', distributionMethod='<IDEDistributionMethodiOSAppStoreDistribution: 0x7f8c05f10bd0>', team='<IDEProvisioningBasicTeam: 0x7f8c09894550; teamID='MXZYJ5LUJG', teamName='DoubleTap Consulting LLC'>'>
+	<IDEDistributionContext: 0x7f8c24b71750; archive = '<IDEArchive: 0x7f8c0843ec70>', distributionMethod='(null)', team='(null)'>
+</IDEDistributionProcessingPipelineContext: 0x7f8c24383c40>
+2018-06-26 03:59:49 +0000  Processing step: IDEDistributionCreateDestRootStep
+2018-06-26 03:59:49 +0000  Processing step: IDEDistributionCopyItemStep
+2018-06-26 03:59:49 +0000  Running /usr/bin/ditto '-V' '/Users/michaelflores/Library/Developer/Xcode/Archives/2018-06-25/oolooClient 6-25-18, 8.56 PM.xcarchive/Products/Applications/oolooClient.app' '/var/folders/49/q_lnn8kj7jqdcl71pt03zqx40000gn/T/XcodeDistPipeline.cVW/Root/Payload/oolooClient.app'
+2018-06-26 03:59:49 +0000  >>> Copying /Users/michaelflores/Library/Developer/Xcode/Archives/2018-06-25/oolooClient 6-25-18, 8.56 PM.xcarchive/Products/Applications/oolooClient.app 
+2018-06-26 03:59:49 +0000  copying file ./_CodeSignature/CodeResources ... 
+2018-06-26 03:59:49 +0000  9375 bytes for ./_CodeSignature/CodeResources
+copying file ./assets/app/components/login/img/ooloo-login-avatar.png ... 
+2018-06-26 03:59:49 +0000  31299 bytes for ./assets/app/components/login/img/ooloo-login-avatar.png
+2018-06-26 03:59:49 +0000  copying file ./assets/node_modules/react-native-router-flux/images/back_chevron.png ... 
+2018-06-26 03:59:49 +0000  575 bytes for ./assets/node_modules/react-native-router-flux/images/back_chevron.png
+copying file ./assets/node_modules/react-native-router-flux/images/menu_burger.png ... 
+2018-06-26 03:59:49 +0000  706 bytes for ./assets/node_modules/react-native-router-flux/images/menu_burger.png
+2018-06-26 03:59:49 +0000  copying file ./assets/node_modules/react-navigation/src/views/assets/back-icon-mask.png ... 
+2018-06-26 03:59:49 +0000  1887 bytes for ./assets/node_modules/react-navigation/src/views/assets/back-icon-mask.png
+copying file ./assets/node_modules/react-navigation/src/views/assets/back-icon.png ... 
+491 bytes for ./assets/node_modules/react-navigation/src/views/assets/back-icon.png
+copying file ./assets/node_modules/react-navigation/src/views/assets/back-icon@2x.png ... 
+2018-06-26 03:59:49 +0000  966 bytes for ./assets/node_modules/react-navigation/src/views/assets/back-icon@2x.png
+copying file ./assets/node_modules/react-navigation/src/views/assets/back-icon@3x.png ... 
+2018-06-26 03:59:49 +0000  1848 bytes for ./assets/node_modules/react-navigation/src/views/assets/back-icon@3x.png
+2018-06-26 03:59:49 +0000  copying file ./Base.lproj/LaunchScreen.nib ... 
+3110 bytes for ./Base.lproj/LaunchScreen.nib
+2018-06-26 03:59:49 +0000  copying file ./embedded.mobileprovision ... 
+7581 bytes for ./embedded.mobileprovision
+copying file ./Entypo.ttf ... 
+2018-06-26 03:59:49 +0000  65584 bytes for ./Entypo.ttf
+copying file ./EvilIcons.ttf ... 
+2018-06-26 03:59:49 +0000  13128 bytes for ./EvilIcons.ttf
+copying file ./Feather.ttf ... 
+55288 bytes for ./Feather.ttf
+copying file ./FontAwesome.ttf ... 
+2018-06-26 03:59:49 +0000  165548 bytes for ./FontAwesome.ttf
+copying file ./Foundation.ttf ... 
+2018-06-26 03:59:49 +0000  56976 bytes for ./Foundation.ttf
+copying file ./Info.plist ... 
+2018-06-26 03:59:49 +0000  1417 bytes for ./Info.plist
+copying file ./Ionicons.ttf ... 
+2018-06-26 03:59:49 +0000  143936 bytes for ./Ionicons.ttf
+copying file ./main.jsbundle ... 
+2018-06-26 03:59:49 +0000  1010942 bytes for ./main.jsbundle
+2018-06-26 03:59:49 +0000  copying file ./main.jsbundle.meta ... 
+21 bytes for ./main.jsbundle.meta
+copying file ./MaterialCommunityIcons.ttf ... 
+2018-06-26 03:59:49 +0000  322456 bytes for ./MaterialCommunityIcons.ttf
+copying file ./MaterialIcons.ttf ... 
+2018-06-26 03:59:49 +0000  128180 bytes for ./MaterialIcons.ttf
+copying file ./Octicons.ttf ... 
+2018-06-26 03:59:49 +0000  27520 bytes for ./Octicons.ttf
+copying file ./oolooClient ... 
+2018-06-26 03:59:49 +0000  36054720 bytes for ./oolooClient
+copying file ./PkgInfo ... 
+2018-06-26 03:59:49 +0000  8 bytes for ./PkgInfo
+copying file ./SimpleLineIcons.ttf ... 
+54056 bytes for ./SimpleLineIcons.ttf
+copying file ./Zocial.ttf ... 
+25552 bytes for ./Zocial.ttf
+2018-06-26 03:59:49 +0000  
+2018-06-26 03:59:49 +0000  2018-06-26 03:59:49 +0000  /usr/bin/ditto exited with 0
+
+2018-06-26 03:59:49 +0000  
+2018-06-26 03:59:49 +0000  Processing step: IDEDistributionEmbedProfileStep
+2018-06-26 03:59:49 +0000  Processing step: IDEDistributionItemRemovalStep
+2018-06-26 03:59:49 +0000  Processing step: IDEDistributionAppThinningPlistStep
+2018-06-26 03:59:49 +0000  Skipping step: IDEDistributionAppThinningPlistStep because it said so
+2018-06-26 03:59:49 +0000  Processing step: IDEDistributionCompileBitcodeStep
+2018-06-26 03:59:49 +0000  Skipping step: IDEDistributionCompileBitcodeStep because it said so
+2018-06-26 03:59:49 +0000  Processing step: IDEDistributionCodeSlimmingStep
+2018-06-26 03:59:49 +0000  Processing step: IDEDistributionCopyBCSymbolMapsStep
+2018-06-26 03:59:49 +0000  Running /usr/bin/ditto '-V' '/Users/michaelflores/Library/Developer/Xcode/Archives/2018-06-25/oolooClient 6-25-18, 8.56 PM.xcarchive/BCSymbolMaps/83AFABBF-FF08-3E9C-94AF-285AC6D4D2B9.bcsymbolmap' '/var/folders/49/q_lnn8kj7jqdcl71pt03zqx40000gn/T/XcodeDistPipeline.cVW/Root/BCSymbolMaps/83AFABBF-FF08-3E9C-94AF-285AC6D4D2B9.bcsymbolmap'
+2018-06-26 03:59:49 +0000  >>> Copying /Users/michaelflores/Library/Developer/Xcode/Archives/2018-06-25/oolooClient 6-25-18, 8.56 PM.xcarchive/BCSymbolMaps/83AFABBF-FF08-3E9C-94AF-285AC6D4D2B9.bcsymbolmap 
+2018-06-26 03:59:49 +0000  copying file ./83AFABBF-FF08-3E9C-94AF-285AC6D4D2B9.bcsymbolmap ... 
+2018-06-26 03:59:49 +0000  928604 bytes for ./83AFABBF-FF08-3E9C-94AF-285AC6D4D2B9.bcsymbolmap
+2018-06-26 03:59:49 +0000  2018-06-26 03:59:49 +0000  /usr/bin/ditto exited with 0
+
+2018-06-26 03:59:49 +0000  
+2018-06-26 03:59:49 +0000  Running /usr/bin/ditto '-V' '/Users/michaelflores/Library/Developer/Xcode/Archives/2018-06-25/oolooClient 6-25-18, 8.56 PM.xcarchive/BCSymbolMaps/7B1A1C35-18BA-35D9-9B23-C97C109701A6.bcsymbolmap' '/var/folders/49/q_lnn8kj7jqdcl71pt03zqx40000gn/T/XcodeDistPipeline.cVW/Root/BCSymbolMaps/7B1A1C35-18BA-35D9-9B23-C97C109701A6.bcsymbolmap'
+2018-06-26 03:59:49 +0000  >>> Copying /Users/michaelflores/Library/Developer/Xcode/Archives/2018-06-25/oolooClient 6-25-18, 8.56 PM.xcarchive/BCSymbolMaps/7B1A1C35-18BA-35D9-9B23-C97C109701A6.bcsymbolmap 
+2018-06-26 03:59:49 +0000  copying file ./7B1A1C35-18BA-35D9-9B23-C97C109701A6.bcsymbolmap ... 
+2018-06-26 03:59:49 +0000  935304 bytes for ./7B1A1C35-18BA-35D9-9B23-C97C109701A6.bcsymbolmap
+2018-06-26 03:59:49 +0000  2018-06-26 03:59:49 +0000  /usr/bin/ditto exited with 0
+
+2018-06-26 03:59:49 +0000  
+2018-06-26 03:59:49 +0000  Processing step: IDEDistributionSymbolsStep
+2018-06-26 03:59:49 +0000  Excluding symbols for oolooClient.app
+2018-06-26 03:59:49 +0000  Processing step: IDEDistributionCopyAppleProvidedContentStep
+2018-06-26 03:59:49 +0000  Processing step: IDEDistributionAppThinningStep
+2018-06-26 03:59:49 +0000  Skipping step: IDEDistributionAppThinningStep because it said so
+2018-06-26 03:59:49 +0000  Processing step: IDEDistributionODRStep
+2018-06-26 03:59:49 +0000  Processing step: IDEDistributionStripXattrsStep
+2018-06-26 03:59:49 +0000  Running /usr/bin/xattr '-crs' '/var/folders/49/q_lnn8kj7jqdcl71pt03zqx40000gn/T/XcodeDistPipeline.cVW/Root/Payload/oolooClient.app'
+2018-06-26 03:59:50 +0000  2018-06-26 03:59:50 +0000  
+
+2018-06-26 03:59:50 +0000  /usr/bin/xattr exited with 0
+2018-06-26 03:59:50 +0000  2018-06-26 03:59:50 +0000  
+
+2018-06-26 03:59:50 +0000  Processing step: IDEDistributionCodesignStep
+2018-06-26 03:59:50 +0000  Entitlements for <IDEDistributionItem: 0x7f8c24c496b0 'org.reactjs.native.example.oolooClient' '<DVTFilePath:0x7f8c24c2eb60:'/Users/michaelflores/Library/Developer/Xcode/Archives/2018-06-25/oolooClient 6-25-18, 8.56 PM.xcarchive/Products/Applications/oolooClient.app'>'>: {
+    "application-identifier" = "MXZYJ5LUJG.org.reactjs.native.example.oolooClient";
+    "beta-reports-active" = 1;
+    "com.apple.developer.team-identifier" = MXZYJ5LUJG;
+    "get-task-allow" = 0;
+    "keychain-access-groups" =     (
+        "MXZYJ5LUJG.org.reactjs.native.example.oolooClient"
+    );
+}
+2018-06-26 03:59:50 +0000  Writing entitlements for <IDEDistributionItem: 0x7f8c24c496b0 'org.reactjs.native.example.oolooClient' '<DVTFilePath:0x7f8c24c2eb60:'/Users/michaelflores/Library/Developer/Xcode/Archives/2018-06-25/oolooClient 6-25-18, 8.56 PM.xcarchive/Products/Applications/oolooClient.app'>'> to: /var/folders/49/q_lnn8kj7jqdcl71pt03zqx40000gn/T/XcodeDistPipeline.cVW/entitlementsIoTvhW
+2018-06-26 03:59:50 +0000  Running /usr/bin/codesign '-vvv' '--force' '--sign' '20428451EE748184EA747A7F8D629A128F815CC6' '--preserve-metadata=identifier,flags' '--entitlements' '/var/folders/49/q_lnn8kj7jqdcl71pt03zqx40000gn/T/XcodeDistPipeline.cVW/entitlementsIoTvhW' '/var/folders/49/q_lnn8kj7jqdcl71pt03zqx40000gn/T/XcodeDistPipeline.cVW/Root/Payload/oolooClient.app'
+2018-06-26 03:59:53 +0000  /var/folders/49/q_lnn8kj7jqdcl71pt03zqx40000gn/T/XcodeDistPipeline.cVW/Root/Payload/oolooClient.app: signed app bundle with Mach-O universal (armv7 arm64) [org.reactjs.native.example.oolooClient]
+2018-06-26 03:59:53 +0000  
+2018-06-26 03:59:53 +0000  2018-06-26 03:59:53 +0000  /usr/bin/codesign exited with 0
+
+2018-06-26 03:59:53 +0000  
+2018-06-26 03:59:53 +0000  Processing step: IDEDistributionStreamingZipItemStep
+2018-06-26 03:59:53 +0000  Skipping step: IDEDistributionStreamingZipItemStep because it said so
+2018-06-26 03:59:53 +0000  Processing step: IDEDistributionCreateIPAStep
+2018-06-26 03:59:53 +0000  Running /usr/bin/ditto '-V' '-c' '-k' '--norsrc' '/var/folders/49/q_lnn8kj7jqdcl71pt03zqx40000gn/T/XcodeDistPipeline.cVW/Root' '/var/folders/49/q_lnn8kj7jqdcl71pt03zqx40000gn/T/XcodeDistPipeline.cVW/Packages/oolooClient.ipa'
+2018-06-26 03:59:53 +0000  >>> Copying /var/folders/49/q_lnn8kj7jqdcl71pt03zqx40000gn/T/XcodeDistPipeline.cVW/Root 
+2018-06-26 03:59:53 +0000  copying file ./BCSymbolMaps/7B1A1C35-18BA-35D9-9B23-C97C109701A6.bcsymbolmap ... 
+2018-06-26 03:59:53 +0000  935304 bytes for ./BCSymbolMaps/7B1A1C35-18BA-35D9-9B23-C97C109701A6.bcsymbolmap
+copying file ./BCSymbolMaps/83AFABBF-FF08-3E9C-94AF-285AC6D4D2B9.bcsymbolmap ... 
+2018-06-26 03:59:53 +0000  928604 bytes for ./BCSymbolMaps/83AFABBF-FF08-3E9C-94AF-285AC6D4D2B9.bcsymbolmap
+2018-06-26 03:59:53 +0000  copying file ./Payload/oolooClient.app/_CodeSignature/CodeResources ... 
+2018-06-26 03:59:53 +0000  9375 bytes for ./Payload/oolooClient.app/_CodeSignature/CodeResources
+2018-06-26 03:59:53 +0000  copying file ./Payload/oolooClient.app/assets/app/components/login/img/ooloo-login-avatar.png ... 
+2018-06-26 03:59:53 +0000  31299 bytes for ./Payload/oolooClient.app/assets/app/components/login/img/ooloo-login-avatar.png
+2018-06-26 03:59:53 +0000  copying file ./Payload/oolooClient.app/assets/node_modules/react-native-router-flux/images/back_chevron.png ... 
+575 bytes for ./Payload/oolooClient.app/assets/node_modules/react-native-router-flux/images/back_chevron.png
+copying file ./Payload/oolooClient.app/assets/node_modules/react-native-router-flux/images/menu_burger.png ... 
+2018-06-26 03:59:53 +0000  706 bytes for ./Payload/oolooClient.app/assets/node_modules/react-native-router-flux/images/menu_burger.png
+copying file ./Payload/oolooClient.app/assets/node_modules/react-navigation/src/views/assets/back-icon-mask.png ... 
+2018-06-26 03:59:53 +0000  1887 bytes for ./Payload/oolooClient.app/assets/node_modules/react-navigation/src/views/assets/back-icon-mask.png
+copying file ./Payload/oolooClient.app/assets/node_modules/react-navigation/src/views/assets/back-icon.png ... 
+2018-06-26 03:59:53 +0000  491 bytes for ./Payload/oolooClient.app/assets/node_modules/react-navigation/src/views/assets/back-icon.png
+copying file ./Payload/oolooClient.app/assets/node_modules/react-navigation/src/views/assets/back-icon@2x.png ... 
+966 bytes for ./Payload/oolooClient.app/assets/node_modules/react-navigation/src/views/assets/back-icon@2x.png
+copying file ./Payload/oolooClient.app/assets/node_modules/react-navigation/src/views/assets/back-icon@3x.png ... 
+1848 bytes for ./Payload/oolooClient.app/assets/node_modules/react-navigation/src/views/assets/back-icon@3x.png
+2018-06-26 03:59:53 +0000  copying file ./Payload/oolooClient.app/Base.lproj/LaunchScreen.nib ... 
+2018-06-26 03:59:53 +0000  3110 bytes for ./Payload/oolooClient.app/Base.lproj/LaunchScreen.nib
+copying file ./Payload/oolooClient.app/embedded.mobileprovision ... 
+2018-06-26 03:59:53 +0000  7537 bytes for ./Payload/oolooClient.app/embedded.mobileprovision
+copying file ./Payload/oolooClient.app/Entypo.ttf ... 
+2018-06-26 03:59:53 +0000  65584 bytes for ./Payload/oolooClient.app/Entypo.ttf
+copying file ./Payload/oolooClient.app/EvilIcons.ttf ... 
+2018-06-26 03:59:53 +0000  13128 bytes for ./Payload/oolooClient.app/EvilIcons.ttf
+copying file ./Payload/oolooClient.app/Feather.ttf ... 
+2018-06-26 03:59:53 +0000  55288 bytes for ./Payload/oolooClient.app/Feather.ttf
+copying file ./Payload/oolooClient.app/FontAwesome.ttf ... 
+2018-06-26 03:59:53 +0000  165548 bytes for ./Payload/oolooClient.app/FontAwesome.ttf
+copying file ./Payload/oolooClient.app/Foundation.ttf ... 
+2018-06-26 03:59:53 +0000  56976 bytes for ./Payload/oolooClient.app/Foundation.ttf
+copying file ./Payload/oolooClient.app/Info.plist ... 
+2018-06-26 03:59:53 +0000  1417 bytes for ./Payload/oolooClient.app/Info.plist
+copying file ./Payload/oolooClient.app/Ionicons.ttf ... 
+2018-06-26 03:59:53 +0000  143936 bytes for ./Payload/oolooClient.app/Ionicons.ttf
+copying file ./Payload/oolooClient.app/main.jsbundle ... 
+2018-06-26 03:59:54 +0000  1010942 bytes for ./Payload/oolooClient.app/main.jsbundle
+copying file ./Payload/oolooClient.app/main.jsbundle.meta ... 
+2018-06-26 03:59:54 +0000  21 bytes for ./Payload/oolooClient.app/main.jsbundle.meta
+copying file ./Payload/oolooClient.app/MaterialCommunityIcons.ttf ... 
+2018-06-26 03:59:54 +0000  322456 bytes for ./Payload/oolooClient.app/MaterialCommunityIcons.ttf
+copying file ./Payload/oolooClient.app/MaterialIcons.ttf ... 
+2018-06-26 03:59:54 +0000  128180 bytes for ./Payload/oolooClient.app/MaterialIcons.ttf
+copying file ./Payload/oolooClient.app/Octicons.ttf ... 
+2018-06-26 03:59:54 +0000  27520 bytes for ./Payload/oolooClient.app/Octicons.ttf
+copying file ./Payload/oolooClient.app/oolooClient ... 
+2018-06-26 03:59:54 +0000  30910672 bytes for ./Payload/oolooClient.app/oolooClient
+copying file ./Payload/oolooClient.app/PkgInfo ... 
+2018-06-26 03:59:54 +0000  2018-06-26 03:59:54 +0000  /usr/bin/ditto exited with 0
+
+2018-06-26 03:59:54 +0000  8 bytes for ./Payload/oolooClient.app/PkgInfo
+copying file ./Payload/oolooClient.app/SimpleLineIcons.ttf ... 
+54056 bytes for ./Payload/oolooClient.app/SimpleLineIcons.ttf
+copying file ./Payload/oolooClient.app/Zocial.ttf ... 
+25552 bytes for ./Payload/oolooClient.app/Zocial.ttf
+2018-06-26 03:59:54 +0000  Processing step: IDEDistributionCreateManifestStep
+2018-06-26 03:59:54 +0000  Skipping step: IDEDistributionCreateManifestStep because it said so

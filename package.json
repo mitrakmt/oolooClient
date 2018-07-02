@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
+    "clear-cache": "watchman watch-del-all && rm -rf $TMPDIR/react-native-packager-cache-* && rm -rf $TMPDIR/metro-bundler-cache-* && rm -rf node_modules/ && yarn cache clean && yarn install",
     "lint": "./node_modules/.bin/eslint App.js",
     "precommit": "lint-staged",
     "test": "jest"
@@ -15,20 +16,22 @@
     "react": "16.3.1",
     "react-native": "0.55.4",
     "react-native-animate-number": "^0.1.2",
+    "react-native-countdown-circle": "^3.0.0",
     "react-native-google-analytics-bridge": "^5.7.1",
     "react-native-keychain": "^3.0.0-rc.3",
     "react-native-material-dropdown": "^0.11.1",
     "react-native-photo-upload": "^1.2.0",
     "react-native-router-flux": "^4.0.0-beta.31",
     "react-native-searchable-dropdown": "^1.0.4",
+    "react-native-slot-machine": "^0.3.1",
     "react-native-svg": "^6.3.1",
+    "react-native-svg-charts": "^5.2.0",
     "react-native-vector-icons": "^4.6.0",
     "react-redux": "^5.0.7",
     "redux": "^4.0.0",
     "redux-logger": "^3.0.6",
     "rxjs": "^6.2.0",
-    "socket.io-client": "^2.1.1",
-    "victory-native": "^0.18.2"
+    "socket.io-client": "^2.1.1"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.3",

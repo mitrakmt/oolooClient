@@ -123,17 +123,15 @@ class Profile extends Component {
   }
 
   renderProfileView = () => {
-    const data = [
-      {
-        value: 'Biology',
-      },
-      {
-        value: 'Radiology',
-      },
-      {
-        value: 'Psychology',
-      },
-    ]
+    const data =
+      this.props.interests.length > 0
+        ? this.props.interests.map(interestObject => ({
+            value: interestObject.name,
+          }))
+        : []
+    const userInterests = Object.keys(this.props.userInterests).map(
+      interest => interest,
+    )
 
     return (
       <View style={styles.containerStyles}>
@@ -181,7 +179,7 @@ class Profile extends Component {
                 width: '80%',
               }}
             >
-              {this.props.userInterests.map(interest => (
+              {userInterests.map(interest => (
                 <View
                   style={{ display: 'flex', flexDirection: 'row' }}
                   key={`userInterestsMap${interest.id}`}
@@ -273,6 +271,7 @@ function mapStateToProps({ auth, user, interests, userInterests }) {
 
 Profile.propTypes = {
   auth: PropTypes.string.isRequired,
+  interests: PropTypes.arrayOf(PropTypes.object).isRequired,
   setInterests: PropTypes.func.isRequired,
   setUser: PropTypes.func.isRequired,
   setUserInterests: PropTypes.func.isRequired,

@@ -37,8 +37,11 @@ const filterForOpponent = (filteringIndex, gameResults, key) => {
   return result
 }
 
-const calculateOverall = (totalCorrect, totalPossible) =>
-  Math.round((totalCorrect / totalPossible) * 100)
+const calculateOverall = (totalCorrect, totalPossible) => {
+  const result = Math.round((totalCorrect / totalPossible) * 100)
+
+  return !(result >= 0) ? 0 : result
+}
 
 const convertMillisecToTime = millis => {
   const minutes = Math.floor(millis / 60000)
@@ -52,7 +55,7 @@ const convertMillisecToTime = millis => {
 }
 
 /*
- * Data Rendering Functions
+ * Results Data Rendering Functions
  */
 
 // If you're only getting the player's result, don't need a filterIdx
@@ -62,21 +65,8 @@ export const prepResultsFor = (
   filteringIndex = null,
   resultsFor,
   numberOfQuestions,
-  waiting = false,
 ) => {
   const resultsArray = []
-
-  // If we don't want to show a player what an opponent's Overall %
-  // is while they wait for quiz to end, we can send the 'Await' payload
-  // for the Opponent Results column
-  if (waiting === true) {
-    return [
-      { value: 'n/a', resultKey: 'Waiting' },
-      { value: 'n/a', resultKey: 'Waiting' },
-      { value: 'n/a', resultKey: 'Waiting' },
-      { value: 'n/a', resultKey: 'Waiting' },
-    ]
-  }
 
   Object.keys(gameResults).forEach(key => {
     if (key === 'totalCorrect') {
@@ -154,9 +144,6 @@ export const handleFormatting = ({ value, resultKey }) => {
     case 'Rank':
       return `${value}`
 
-    case 'Waiting':
-      return `Awaiting...`
-
     default:
       return 'No result'
   }
@@ -194,4 +181,52 @@ export const generateRandomKey = (value, baseString) => {
   }
 
   return `${value}-${baseString}-${randomKey}`
+}
+
+/*
+ * Chart Rendering Functions
+ */
+
+const extractAverageByInterest = dataArray => {
+  const results = {
+    data: [],
+    keys: [],
+  }
+
+  let averageByInterestValuesData = []
+
+  let averageByInterestKeys = []
+
+  for (let i = 0; i < dataArray.length; i += 1) {
+    const currentDataObj = dataArray[i]
+
+    const currentKey = Object.keys(currentDataObj).pop()
+
+    let currentValue = currentDataObj[currentKey]
+
+    currentValue = !(currentValue >= 0) ? 0 : currentValue
+
+    averageByInterestValuesData.push(currentValue)
+
+    averageByInterestKeys.push(currentKey)
+
+    // If the currentDataObj is the 3rd in a series or if we'v reached the last one
+    if ((i + 1) % 3 === 0 || i + 1 === dataArray.length) {
+      results.data.push(averageByInterestValuesData)
+      results.keys.push(averageByInterestKeys)
+
+      averageByInterestValuesData = []
+      averageByInterestKeys = []
+    }
+  }
+
+  return [results]
+}
+
+export const prepAvgByInterestChartData = (data = []) => {
+  if (data.length === 0) {
+    return []
+  }
+
+  return extractAverageByInterest(data)
 }
