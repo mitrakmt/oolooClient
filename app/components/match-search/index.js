@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, Button, Image } from 'react-native'
+import { Text, View, Button } from 'react-native'
 import { Actions } from 'react-native-router-flux'
 import CountdownCircle from 'react-native-countdown-circle'
 import * as Keychain from 'react-native-keychain'
@@ -112,7 +112,6 @@ class MatchSearch extends Component {
 
             <View style={styles.countdownContainer}>
               <Image style={styles.playerAvatar} source={AvatarIcon} />
-
               <CountdownCircle
                 seconds={!isError ? 15 : 1}
                 radius={37}
