@@ -5,11 +5,9 @@ import {
   View,
   Button,
   Animated,
-  Keyboard,
   Image,
-  TouchableWithoutFeedback,
+  KeyboardAvoidingView,
 } from 'react-native'
-import PropTypes from 'prop-types'
 import * as EmailValidator from 'email-validator'
 import * as Keychain from 'react-native-keychain'
 import { connect } from 'react-redux'
@@ -19,12 +17,6 @@ import { prepPayload, fetchUser, createAnimatedStyles } from './utils'
 import { userAuthenticated } from '../../services/redux/actions/auth'
 import AvatarIcon from '../assets/images/avatar_icon.png'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
-
-const DismissKeyboard = ({ children }) => (
-  <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-    {children}
-  </TouchableWithoutFeedback>
-)
 
 class Login extends Component {
   constructor(props) {
@@ -196,7 +188,7 @@ class Login extends Component {
     )
 
     return (
-      <DismissKeyboard>
+      <KeyboardAvoidingView style={styles.container} behavior="position">
         <View style={styles.containerStyles}>
           <View style={styles.headerStyles}>
             <View>
@@ -275,13 +267,9 @@ class Login extends Component {
             </View>
           </View>
         </View>
-      </DismissKeyboard>
+      </KeyboardAvoidingView>
     )
   }
-}
-
-DismissKeyboard.propTypes = {
-  children: PropTypes.element.isRequired,
 }
 
 export default connect(
