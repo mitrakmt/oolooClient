@@ -38,10 +38,6 @@ class Leaderboard extends Component {
     })
   }
 
-  handleResultsPress = () => {
-    Actions.results()
-  }
-
   renderLeaderboardView = () => (
     <View style={styles.containerStyles}>
       <Text
@@ -129,19 +125,6 @@ class Leaderboard extends Component {
               ))}
             </View>
           )}
-        </View>
-
-        <View style={styles.bottomContainerStyles}>
-          <View style={styles.buttonContainerStyle}>
-            <View style={styles.resultsButtonStyles}>
-              <Button
-                onPress={this.handleResultsPress}
-                title="Results"
-                color="white"
-                accessibilityLabel="Home button for OOLOO Quiz App"
-              />
-            </View>
-          </View>
         </View>
       </View>
     </View>
