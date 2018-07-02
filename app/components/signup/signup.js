@@ -316,17 +316,16 @@ class Signup extends Component {
                 onPress={this.handleSubmit}
                 title="Get Started"
                 color="white"
-                accessibilityLabel="Log in button for OOLOO Quiz App"
+                accessibilityLabel="Signup Button for OOLOO Quiz App"
               />
             </View>
 
             <View>
-              <Text
+              <Button
                 style={styles.signUpTextStyles}
-                onClick={() => Actions.login()}
-              >
-                Or Login
-              </Text>
+                onPress={() => Actions.login()}
+                title="Or Login"
+              />
             </View>
           </View>
         </View>

@@ -204,8 +204,8 @@ class Login extends Component {
             <View style={styles.imageVerbiageStyles}>
               <View style={{ width: '70%' }}>
                 <Text style={{ textAlign: 'center' }}>
-                  Welcome to OOLOO! Show off your knowledge to put your school
-                  in the top rankings!
+                  Welcome back to OOLOO! Now that you&#39;ve rested up,
+                  let&#39;s see what you&#39;ve got!
                 </Text>
               </View>
             </View>
