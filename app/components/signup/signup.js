@@ -1,20 +1,11 @@
 import React, { Component } from 'react'
-import {
-  TextInput,
-  Text,
-  View,
-  Button,
-  Image,
-  Animated,
-  Keyboard,
-  TouchableWithoutFeedback,
-} from 'react-native'
-import PropTypes from 'prop-types'
+import { TextInput, Text, View, Button, Image, Animated } from 'react-native'
 import * as EmailValidator from 'email-validator'
 import * as Keychain from 'react-native-keychain'
 import { connect } from 'react-redux'
 import { Actions } from 'react-native-router-flux'
 import SearchableDropDown from 'react-native-searchable-dropdown'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import styles from './styles'
 import {
   prepPayload,
@@ -25,14 +16,7 @@ import {
 } from './utils'
 import { userAuthenticated } from '../../services/redux/actions/auth'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
-
-import LoginAvatar from './img/ooloo-login-avatar.png'
-
-const DismissKeyboard = ({ children }) => (
-  <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-    {children}
-  </TouchableWithoutFeedback>
-)
+import AvatarIcon from '../assets/images/avatar_icon.png'
 
 class Signup extends Component {
   constructor(props) {
@@ -219,7 +203,10 @@ class Signup extends Component {
     )
 
     return (
-      <DismissKeyboard>
+      <KeyboardAwareScrollView
+        resetScrollToCoords={{ x: 0, y: 0 }}
+        scrollEnabled
+      >
         <View style={styles.containerStyles}>
           <View style={styles.headerStyles}>
             <View>
@@ -228,7 +215,7 @@ class Signup extends Component {
 
             <View style={styles.imageVerbiageStyles}>
               <View style={{ width: '40%' }}>
-                <Image style={{ width: 90, height: 90 }} source={LoginAvatar} />
+                <Image style={{ width: 90, height: 90 }} source={AvatarIcon} />
               </View>
               <View style={{ width: '60%' }}>
                 <Text>
@@ -347,13 +334,9 @@ class Signup extends Component {
             </View>
           </View>
         </View>
-      </DismissKeyboard>
+      </KeyboardAwareScrollView>
     )
   }
-}
-
-DismissKeyboard.propTypes = {
-  children: PropTypes.element.isRequired,
 }
 
 export default connect(
