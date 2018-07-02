@@ -217,19 +217,6 @@ class Profile extends Component {
               </View>
             </View>
           </View>
-
-          {/* <View style={styles.bottomContainerStyles}>
-            <View style={styles.buttonContainerStyle}>
-              <View style={styles.buttonStyles}>
-                <Button
-                  onPress={this.handleHomePress}
-                  title="Homepage"
-                  color="white"
-                  accessibilityLabel="Home button for OOLOO Quiz App"
-                />
-              </View>
-            </View>
-          </View> */}
         </View>
       </View>
     )
