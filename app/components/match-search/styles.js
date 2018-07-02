@@ -81,6 +81,14 @@ const playerAvatar = {
   borderRadius: 37,
 }
 
+const avatarViewPlaceholder = {
+  width: 75,
+  height: 75,
+  borderWidth: 1,
+  borderRadius: 37,
+  backgroundColor: 'rgba(1, 163, 141, .1)',
+}
+
 const buttonContainerStyle = {
   display: 'flex',
   alignItems: 'center',
@@ -106,6 +114,7 @@ export default {
   countdownContainer,
   errorContainerStyle,
   playerAvatar,
+  avatarViewPlaceholder,
   buttonContainerStyle,
   buttonStyles,
 }

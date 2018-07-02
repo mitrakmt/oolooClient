@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, Image } from 'react-native'
+import { Text, View } from 'react-native'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import SlotMachine from 'react-native-slot-machine'
@@ -89,10 +89,13 @@ class MatchFound extends Component {
 
               <View style={styles.avatarFoundContainer}>
                 <View style={styles.avatarContainer}>
-                  <Image
+                  {/* <Image
                     style={styles.playerAvatar}
                     source={{ url: 'https://placeimg.com/300/300/any' }}
-                  />
+                  /> */}
+
+                  <View style={styles.avatarViewPlaceholder} />
+
                   <Text
                     style={{
                       marginTop: '5%',
@@ -104,10 +107,8 @@ class MatchFound extends Component {
                   </Text>
                 </View>
                 <View style={styles.avatarContainer}>
-                  <Image
-                    style={styles.playerAvatar}
-                    source={{ url: 'https://placeimg.com/300/300/any' }}
-                  />
+                  <View style={styles.avatarViewPlaceholder} />
+
                   <Text
                     style={{
                       marginTop: '5%',
