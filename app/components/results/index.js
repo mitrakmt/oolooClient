@@ -6,6 +6,7 @@ import { Actions } from 'react-native-router-flux'
 import PropTypes from 'prop-types'
 import InterestsAverageChart from './charts/InterestsAverageChart'
 import InterestsLineChart from './charts/InterestsLineChart'
+import AvatarIcon from '../assets/images/avatar_icon.png'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
 
 import {
@@ -188,10 +189,7 @@ class Results extends Component {
         <View style={styles.ResultsContainer}>
           <View style={styles.versusContainer}>
             <View style={styles.avatarContainer}>
-              <Image
-                style={styles.playerAvatar}
-                source={{ url: 'https://placeimg.com/300/300/any' }}
-              />
+              <Image style={styles.playerAvatar} source={AvatarIcon} />
               <Text
                 style={{
                   marginTop: '5%',
@@ -212,10 +210,7 @@ class Results extends Component {
             </View>
 
             <View style={styles.avatarContainer}>
-              <Image
-                style={styles.playerAvatar}
-                source={{ url: 'https://placeimg.com/300/300/any' }}
-              />
+              <Image style={styles.playerAvatar} source={AvatarIcon} />
 
               <Text
                 style={{
