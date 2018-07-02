@@ -6,6 +6,7 @@ import SlotMachine from 'react-native-slot-machine'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import events from '../../services/socket-io-client/'
 import { startTheGame } from '../../services/redux/actions/gameplay'
+import AvatarIcon from '../assets/images/avatar_icon.png'
 import styles from './styles'
 
 const MedicalIcons = ['stethoscope', 'heartbeat', 'ambulance', 'flask']
@@ -89,13 +90,7 @@ class MatchFound extends Component {
 
               <View style={styles.avatarFoundContainer}>
                 <View style={styles.avatarContainer}>
-                  {/* <Image
-                    style={styles.playerAvatar}
-                    source={{ url: 'https://placeimg.com/300/300/any' }}
-                  /> */}
-
-                  <View style={styles.avatarViewPlaceholder} />
-
+                  <Image style={styles.playerAvatar} source={AvatarIcon} />
                   <Text
                     style={{
                       marginTop: '5%',
@@ -107,8 +102,7 @@ class MatchFound extends Component {
                   </Text>
                 </View>
                 <View style={styles.avatarContainer}>
-                  <View style={styles.avatarViewPlaceholder} />
-
+                  <Image style={styles.playerAvatar} source={AvatarIcon} />
                   <Text
                     style={{
                       marginTop: '5%',
