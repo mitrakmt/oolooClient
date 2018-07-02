@@ -86,7 +86,7 @@ class Signup extends Component {
     let animationsArray = [BorderColor, Height, Margin]
 
     animationsArray = animationsArray.map(animation =>
-      Animated.timing(animation, { toValue, duration: 200 }),
+      Animated.timing(animation, { toValue, duration: 90 }),
     )
 
     Animated.sequence(animationsArray).start()
