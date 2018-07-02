@@ -9,6 +9,7 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
 } from 'react-native'
+import PropTypes from 'prop-types'
 import * as EmailValidator from 'email-validator'
 import * as Keychain from 'react-native-keychain'
 import { connect } from 'react-redux'
