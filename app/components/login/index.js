@@ -1,5 +1,14 @@
 import React, { Component } from 'react'
-import { TextInput, Text, View, Button, Animated } from 'react-native'
+import {
+  TextInput,
+  Text,
+  View,
+  Button,
+  Animated,
+  Keyboard,
+  TouchableWithoutFeedback,
+} from 'react-native'
+import PropTypes from 'prop-types'
 import * as EmailValidator from 'email-validator'
 import * as Keychain from 'react-native-keychain'
 import { connect } from 'react-redux'
@@ -9,7 +18,11 @@ import { prepPayload, fetchUser, createAnimatedStyles } from './utils'
 import { userAuthenticated } from '../../services/redux/actions/auth'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
 
-// import LoginAvatar from './img/ooloo-login-avatar.png'
+const DismissKeyboard = ({ children }) => (
+  <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+    {children}
+  </TouchableWithoutFeedback>
+)
 
 class Login extends Component {
   constructor(props) {
@@ -64,6 +77,7 @@ class Login extends Component {
   toggleField = field => {
     // removes placeholder text when user focuses on a field
     // add placeholder text back if length of field is zero after editing is finished
+
     if (field === 'username') {
       const { username, onFocusUsername, usernameInput } = this.state
 
@@ -180,79 +194,85 @@ class Login extends Component {
     )
 
     return (
-      <View style={styles.containerStyles}>
-        <View style={styles.headerStyles}>
-          <View>
-            <Text style={styles.titleStyles}>OOLOO</Text>
+      <DismissKeyboard>
+        <View style={styles.containerStyles}>
+          <View style={styles.headerStyles}>
+            <View>
+              <Text style={styles.titleStyles}>OOLOO</Text>
+            </View>
+
+            <View style={styles.imageVerbiageStyles}>
+              <View style={{ width: '70%' }}>
+                <Text style={{ textAlign: 'center' }}>
+                  Welcome to OOLOO! Show off your knowledge to put your school
+                  in the top rankings!
+                </Text>
+              </View>
+            </View>
           </View>
 
-          <View style={styles.imageVerbiageStyles}>
-            <View style={{ width: '70%' }}>
-              <Text style={{ textAlign: 'center' }}>
-                Welcome to OOLOO! Show off your knowledge to put your school in
-                the top rankings!
+          <View style={styles.formStyles}>
+            <View style={styles.inputFieldsContainerStyle}>
+              <Animated.View
+                style={[styles.usernameContainerStyle, animatedUserStyles]}
+              >
+                <TextInput
+                  style={styles.textInputStyles}
+                  placeholder={this.state.username}
+                  fontSize={17}
+                  autoCapitalize="none"
+                  value={this.state.username}
+                  onFocus={() => this.toggleField('username')}
+                  onChangeText={this.handleUsernameInput}
+                  onEndEditing={() => this.toggleField('username')}
+                />
+              </Animated.View>
+
+              <Animated.View
+                style={[styles.passwordContainerStyle, animatedPasswordStyles]}
+              >
+                <TextInput
+                  style={styles.textInputStyles}
+                  fontSize={17}
+                  autoCapitalize="none"
+                  secureTextEntry={togglePassword}
+                  value={this.state.password}
+                  onFocus={() => this.toggleField('password')}
+                  onChangeText={this.handlePasswordInput}
+                  onEndEditing={() => this.toggleField('password')}
+                />
+              </Animated.View>
+            </View>
+
+            <View style={styles.errorContainerStyle}>
+              <Text style={{ textAlign: 'center', color: '#f14169' }}>
+                {isError ? errorMessage : null}
               </Text>
             </View>
-          </View>
-        </View>
 
-        <View style={styles.formStyles}>
-          <View style={styles.inputFieldsContainerStyle}>
-            <Animated.View
-              style={[styles.usernameContainerStyle, animatedUserStyles]}
-            >
-              <TextInput
-                style={styles.textInputStyles}
-                placeholder={this.state.username}
-                fontSize={17}
-                autoCapitalize="none"
-                value={this.state.username}
-                onFocus={() => this.toggleField('username')}
-                onChangeText={this.handleUsernameInput}
-                onEndEditing={() => this.toggleField('username')}
-              />
-            </Animated.View>
+            <View style={styles.buttonContainerStyle}>
+              <View style={styles.buttonStyles}>
+                <Button
+                  onPress={this.handleSubmit}
+                  title="Log in!"
+                  color="white"
+                  accessibilityLabel="Log in button for OOLOO Quiz App"
+                />
+              </View>
 
-            <Animated.View
-              style={[styles.passwordContainerStyle, animatedPasswordStyles]}
-            >
-              <TextInput
-                style={styles.textInputStyles}
-                fontSize={17}
-                autoCapitalize="none"
-                secureTextEntry={togglePassword}
-                value={this.state.password}
-                onFocus={() => this.toggleField('password')}
-                onChangeText={this.handlePasswordInput}
-                onEndEditing={() => this.toggleField('password')}
-              />
-            </Animated.View>
-          </View>
-
-          <View style={styles.errorContainerStyle}>
-            <Text style={{ textAlign: 'center', color: '#f14169' }}>
-              {isError ? errorMessage : null}
-            </Text>
-          </View>
-
-          <View style={styles.buttonContainerStyle}>
-            <View style={styles.buttonStyles}>
-              <Button
-                onPress={this.handleSubmit}
-                title="Log in!"
-                color="white"
-                accessibilityLabel="Log in button for OOLOO Quiz App"
-              />
-            </View>
-
-            <View>
-              <Text style={styles.signUpTextStyles}>Or Sign Up</Text>
+              <View>
+                <Text style={styles.signUpTextStyles}>Or Sign Up</Text>
+              </View>
             </View>
           </View>
         </View>
-      </View>
+      </DismissKeyboard>
     )
   }
+}
+
+DismissKeyboard.propTypes = {
+  children: PropTypes.element.isRequired,
 }
 
 export default connect(
