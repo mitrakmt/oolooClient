@@ -97,8 +97,13 @@ class Profile extends Component {
       if (!addUserInterestResponse) {
         this.handleError()
       } else {
-        // console.log('got user interest response ', addUserInterestResponse)
-        // this.props.setUserInterests(addUserInterestResponse)
+        this.getUserInterests().then(() => {
+          setTimeout(() => {
+            this.setState({
+              addInterestText: '',
+            })
+          }, 1000)
+        })
       }
     } catch (err) {
       this.handleError()
@@ -116,7 +121,8 @@ class Profile extends Component {
         this.handleError()
       } else {
         // make sure backend now returns fill list of interests after deletion
-        this.props.setUserInterests(deleteInterestResponse)
+        this.props.postUserInterests(deleteInterestResponse)
+        this.getUserInterests()
       }
     } catch (err) {
       this.handleError()
@@ -136,9 +142,9 @@ class Profile extends Component {
             value: interestObject.name,
           }))
         : []
-    const userInterests = this.props.userInterests.map(
-      interest => interest.name,
-    )
+    const userInterests = this.props.userInterests
+      ? this.props.userInterests.map(interest => interest.name)
+      : []
 
     return (
       <View style={styles.containerStyles}>
@@ -210,7 +216,7 @@ class Profile extends Component {
                 }}
               >
                 <Dropdown
-                  label="Select"
+                  label="Add an interest"
                   data={data}
                   containerStyle={{
                     height: 50,
@@ -292,6 +298,7 @@ function mapStateToProps({ auth, user, interests, userInterests }) {
 Profile.propTypes = {
   auth: PropTypes.string.isRequired,
   interests: PropTypes.arrayOf(PropTypes.object).isRequired,
+  postUserInterests: PropTypes.func.isRequired,
   setInterests: PropTypes.func.isRequired,
   setUser: PropTypes.func.isRequired,
   setUserInterests: PropTypes.func.isRequired,
