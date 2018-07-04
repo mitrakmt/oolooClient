@@ -136,8 +136,8 @@ class Profile extends Component {
             value: interestObject.name,
           }))
         : []
-    const userInterests = Object.keys(this.props.userInterests).map(
-      interest => interest,
+    const userInterests = this.props.userInterests.map(
+      interest => interest.name,
     )
 
     return (
@@ -189,9 +189,9 @@ class Profile extends Component {
               {userInterests.map(interest => (
                 <View
                   style={{ display: 'flex', flexDirection: 'row' }}
-                  key={`userInterestsMap${interest.id}`}
+                  key={`userInterestsMap${interest}`}
                 >
-                  <Text>{interest.name}</Text>
+                  <Text>{interest}</Text>
                   <Text
                     style={{
                       marginLeft: 'auto',
