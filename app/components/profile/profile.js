@@ -12,6 +12,7 @@ import {
   getInterests,
   getUser,
   deleteInterest,
+  setUserInterests,
 } from './utils'
 import styles from './styles'
 
@@ -81,17 +82,28 @@ class Profile extends Component {
     }
   }
 
-  addInterest = async () => {
+  addInterest = async userInterest => {
     const token = this.props.auth
     const payload = prepPayload(token)
 
     try {
-      const getUserInterestsResponse = await getUserInterests(payload)
+      const addUserInterestResponse = await setUserInterests(payload, {
+        interests: [
+          this.props.interests.find(element => element.name === userInterest)
+            .id,
+        ],
+      })
 
-      if (!getUserInterestsResponse) {
+      if (!addUserInterestResponse) {
         this.handleError()
       } else {
-        this.props.setUserInterests(getUserInterestsResponse)
+        this.getUserInterests().then(() => {
+          setTimeout(() => {
+            this.setState({
+              addInterestText: '',
+            })
+          }, 1000)
+        })
       }
     } catch (err) {
       this.handleError()
@@ -109,7 +121,8 @@ class Profile extends Component {
         this.handleError()
       } else {
         // make sure backend now returns fill list of interests after deletion
-        this.props.setUserInterests(deleteInterestResponse)
+        this.props.postUserInterests(deleteInterestResponse)
+        this.getUserInterests()
       }
     } catch (err) {
       this.handleError()
@@ -129,9 +142,9 @@ class Profile extends Component {
             value: interestObject.name,
           }))
         : []
-    const userInterests = Object.keys(this.props.userInterests).map(
-      interest => interest,
-    )
+    const userInterests = this.props.userInterests
+      ? this.props.userInterests.map(interest => interest.name)
+      : []
 
     return (
       <View style={styles.containerStyles}>
@@ -182,9 +195,9 @@ class Profile extends Component {
               {userInterests.map(interest => (
                 <View
                   style={{ display: 'flex', flexDirection: 'row' }}
-                  key={`userInterestsMap${interest.id}`}
+                  key={`userInterestsMap${interest}`}
                 >
-                  <Text>{interest.name}</Text>
+                  <Text>{interest}</Text>
                   <Text
                     style={{
                       marginLeft: 'auto',
@@ -203,14 +216,14 @@ class Profile extends Component {
                 }}
               >
                 <Dropdown
-                  label="Select"
+                  label="Add an interest"
                   data={data}
                   containerStyle={{
                     height: 50,
                     width: '100%',
                   }}
                   onChangeText={addInterestText =>
-                    this.setState({ addInterestText })
+                    this.addInterest(addInterestText)
                   }
                   value={this.state.addInterestText}
                 />
@@ -272,6 +285,7 @@ function mapStateToProps({ auth, user, interests, userInterests }) {
 Profile.propTypes = {
   auth: PropTypes.string.isRequired,
   interests: PropTypes.arrayOf(PropTypes.object).isRequired,
+  postUserInterests: PropTypes.func.isRequired,
   setInterests: PropTypes.func.isRequired,
   setUser: PropTypes.func.isRequired,
   setUserInterests: PropTypes.func.isRequired,
@@ -290,6 +304,9 @@ Profile.defaultProps = {
 }
 
 const mapDispatchToProps = dispatch => ({
+  postUserInterests: payload => {
+    dispatch({ type: 'POST_USER_INTERESTS', payload })
+  },
   setInterests: payload => {
     dispatch({ type: 'SET_INTERESTS', payload })
   },
