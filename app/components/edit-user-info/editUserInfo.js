@@ -1,22 +1,26 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-// import ProfileImage from '../../shared-components/profile-image/profileImage'
 import {
   TextInput,
   Text,
   View,
   Button,
-  Image,
   Animated,
   KeyboardAvoidingView,
 } from 'react-native'
+import SearchableDropDown from 'react-native-searchable-dropdown'
 import { connect } from 'react-redux'
 import { Actions } from 'react-native-router-flux'
 import styles from './styles'
-import { prepPayload, saveUserData, createAnimatedStyles } from './utils'
+import {
+  prepPayload,
+  saveUserData,
+  createAnimatedStyles,
+  prepGetPayload,
+  getUser,
+  getAvailableSchools,
+} from './utils'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
-
-import LoginAvatar from './img/ooloo-login-avatar.png'
 
 class MoreInfo extends Component {
   constructor(props) {
@@ -24,6 +28,8 @@ class MoreInfo extends Component {
     this.state = {
       graduationYear: '',
       name: '',
+      university: '',
+      availableSchools: [],
       onFocusName: false,
       onFocusGraduationYear: false,
       nameInput: {
@@ -40,7 +46,34 @@ class MoreInfo extends Component {
   }
 
   componentWillMount() {
-    tracker.trackScreenView('More Info - Signup')
+    const payload = prepGetPayload()
+    this.getUserInfo()
+    getAvailableSchools(payload).then(availableSchools => {
+      this.setState({
+        availableSchools: availableSchools.schools,
+        name: this.props.user.name,
+        university: this.props.user.university,
+        graduationYear: this.props.user.graduationYear,
+      })
+    })
+    tracker.trackScreenView('Edit user Info')
+  }
+
+  getUserInfo = async () => {
+    const token = this.props.auth
+    const payload = prepPayload(token)
+
+    try {
+      const getUserResponse = await getUser(payload)
+
+      if (!getUserResponse) {
+        this.handleError()
+      } else {
+        this.props.setUser(getUserResponse)
+      }
+    } catch (err) {
+      this.handleError()
+    }
   }
 
   startAnimation = (toValue, { BorderColor, Height, Margin }) => {
@@ -56,6 +89,12 @@ class MoreInfo extends Component {
   handleNameInput = text => {
     this.setState({
       name: text,
+    })
+  }
+
+  handleSchoolInput = school => {
+    this.setState({
+      university: school.name,
     })
   }
 
@@ -100,18 +139,18 @@ class MoreInfo extends Component {
   }
 
   handleSubmit = () => {
-    const { name, graduationYear } = this.state
+    const { name, graduationYear, university } = this.state
 
-    this.saveUser(name, graduationYear)
+    this.saveUser(name, graduationYear, university)
   }
 
   handleError = () => {
     console.log('error')
   }
 
-  saveUser = async (name, graduationYear) => {
+  saveUser = async (name, graduationYear, university) => {
     const token = this.props.auth
-    const payload = prepPayload(token, name, graduationYear)
+    const payload = prepPayload(token, name, graduationYear, university)
 
     try {
       const serverResponse = await saveUserData(payload)
@@ -119,7 +158,7 @@ class MoreInfo extends Component {
       if (!serverResponse) {
         this.handleError()
       } else {
-        Actions.home()
+        Actions.profile()
       }
     } catch (err) {
       this.handleError()
@@ -135,24 +174,19 @@ class MoreInfo extends Component {
     return (
       <KeyboardAvoidingView style={styles.container} behavior="position">
         <View style={styles.containerStyles}>
-          <View style={styles.headerStyles}>
-            <View>
-              <Text style={styles.titleStyles}>OOLOO</Text>
-            </View>
-
-            <View style={styles.imageVerbiageStyles}>
-              <View style={{ width: '40%' }}>
-                <Image style={{ width: 90, height: 90 }} source={LoginAvatar} />
-              </View>
-              <View style={{ width: '60%' }}>
-                <Text>
-                  Thanks for signing up! Almost there, just a bit more info
-                  needed please!
-                </Text>
-              </View>
-            </View>
+          <Text
+            style={{
+              fontSize: 15,
+              color: '#01a38d',
+              marginBottom: '3%',
+            }}
+          >
+            {' '}
+            OOLOO
+          </Text>
+          <View style={styles.textContainerStyles}>
+            <Text style={styles.headerTextStyles}>EDIT INFO</Text>
           </View>
-
           <View style={styles.formStyles}>
             <View style={styles.inputFieldsContainerStyle}>
               <Animated.View
@@ -181,23 +215,60 @@ class MoreInfo extends Component {
                   fontSize={17}
                   placeholder="Graduation Year"
                   autoCapitalize="none"
-                  value={this.state.email}
+                  value={this.state.graduationYear.toString()}
                   onFocus={() => this.toggleField('graduationYear')}
                   onChangeText={this.handleGraduationYearInput}
                   onEndEditing={() => this.toggleField('graduationYear')}
                 />
               </Animated.View>
 
-              {/* <ProfileImage /> */}
+              <SearchableDropDown
+                onItemSelect={university => this.handleSchoolInput(university)}
+                containerStyle={{
+                  padding: 5,
+                  width: '80%',
+                  marginTop: 15,
+                  marginLeft: 'auto',
+                  marginRight: 'auto',
+                }}
+                textInputStyle={{
+                  padding: 12,
+                  borderWidth: 1,
+                  borderColor: '#ccc',
+                  zIndex: 1000,
+                  borderRadius: 5,
+                }}
+                itemStyle={{
+                  padding: 10,
+                  marginTop: 2,
+                  zIndex: 1000,
+                  backgroundColor: '#ddd',
+                  borderColor: '#bbb',
+                  borderWidth: 1,
+                  borderRadius: 5,
+                }}
+                itemTextStyle={{
+                  color: '#222',
+                }}
+                itemsContainerStyle={{
+                  maxHeight: 90,
+                  backgroundColor: 'white',
+                }}
+                items={this.state.availableSchools}
+                defaultIndex={2}
+                placeholder={this.props.user.university || 'Select university'}
+                resetValue={false}
+                underlineColorAndroid="transparent"
+              />
             </View>
 
             <View style={styles.buttonContainerStyle}>
               <View style={styles.buttonStyles}>
                 <Button
                   onPress={this.handleSubmit}
-                  title="Done!"
+                  title="Save"
                   color="white"
-                  accessibilityLabel="Log in button for OOLOO Quiz App"
+                  accessibilityLabel="Save user info"
                 />
               </View>
             </View>
@@ -208,14 +279,29 @@ class MoreInfo extends Component {
   }
 }
 
-function mapStateToProps({ auth }) {
+function mapStateToProps({ auth, user }) {
   return {
     auth,
+    user,
   }
 }
 
 MoreInfo.propTypes = {
   auth: PropTypes.string.isRequired,
+  user: PropTypes.shape({
+    graduationYear: PropTypes.number,
+    name: PropTypes.string,
+    university: PropTypes.string,
+  }),
+  setUser: PropTypes.func.isRequired,
+}
+
+MoreInfo.defaultProps = {
+  user: {
+    graduationYear: '',
+    name: '',
+    university: '',
+  },
 }
 
 const mapDispatchToProps = () => ({})

@@ -29,7 +29,8 @@ const textContainerStyles = {
 
 const newsContainerStyles = {
   height: '40%',
-  width: '90%',
+  width: '60%',
+  maxWidth: '60%',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
