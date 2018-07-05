@@ -73,6 +73,14 @@ const interestsContainer = {
   paddingTop: 40,
 }
 
+const playerAvatar = {
+  width: 75,
+  height: 75,
+  borderWidth: 1,
+  borderRadius: 37,
+  marginRight: 15,
+}
+
 const bottomContainerStyles = {
   height: '40%',
   width: '90%',
@@ -109,4 +117,5 @@ export default {
   bottomContainerStyles,
   buttonContainerStyle,
   buttonStyles,
+  playerAvatar,
 }

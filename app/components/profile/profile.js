@@ -3,8 +3,10 @@ import { TabBarIOS, Text, View, Image } from 'react-native'
 import { connect } from 'react-redux'
 import { Actions } from 'react-native-router-flux'
 import Icon from 'react-native-vector-icons/Ionicons'
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import PropTypes from 'prop-types'
 import { Dropdown } from 'react-native-material-dropdown'
+import AvatarIcon from '../assets/images/avatar_icon.png'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
 import {
   prepPayload,
@@ -110,6 +112,10 @@ class Profile extends Component {
     }
   }
 
+  editUserInfo = () => {
+    Actions.editUserInfo()
+  }
+
   deleteInterest = async interestId => {
     const token = this.props.auth
     const payload = prepPayload(token)
@@ -163,25 +169,32 @@ class Profile extends Component {
         </View>
 
         <View style={styles.profileContainer}>
+          <FontAwesome.Button
+            name="pencil"
+            onPress={this.editUserInfo}
+            color="black"
+            backgroundColor="white"
+            style={{ marginLeft: 'auto' }}
+          />
           <View style={styles.userInfoContainer}>
-            <Image
-              style={styles.profileImage}
-              source={{
-                uri:
-                  'https://facebook.github.io/react-native/docs/assets/favicon.png',
-              }}
-            />
+            <Image style={styles.playerAvatar} source={AvatarIcon} />
             <View style={styles.profileContainerText}>
               <Text style={styles.userInfoText}>
                 {this.props.user.username}
               </Text>
-              <Text style={styles.userInfoText}>Title</Text>
+              {this.props.user.name && (
+                <Text style={styles.userInfoText}>{this.props.user.name}</Text>
+              )}
               {this.props.user.university && (
                 <Text style={styles.userInfoText}>
                   {this.props.user.university}
                 </Text>
               )}
-              <Text style={styles.userInfoText}>Class of 2020</Text>
+              {this.props.user.graduationYear && (
+                <Text style={styles.userInfoText}>
+                  Class of {this.props.user.graduationYear}
+                </Text>
+              )}
             </View>
           </View>
 
@@ -292,6 +305,8 @@ Profile.propTypes = {
   user: PropTypes.shape({
     username: PropTypes.string,
     university: PropTypes.string,
+    name: PropTypes.string,
+    graduationYear: PropTypes.number,
   }),
   userInterests: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 }
@@ -299,7 +314,9 @@ Profile.propTypes = {
 Profile.defaultProps = {
   user: {
     university: '',
+    name: '',
     username: '',
+    graduationYear: '',
   },
 }
 

@@ -1,18 +1,30 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import { TabBarIOS, Text, View, Button, Image } from 'react-native'
 import { Actions } from 'react-native-router-flux'
 import Icon from 'react-native-vector-icons/Ionicons'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
 import AvatarIcon from '../assets/images/avatar_icon.png'
+import { getNews, prepGetPayload } from './utils'
 import styles from './styles'
 
 class Home extends Component {
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      news: [],
+    }
   }
 
   componentWillMount() {
+    const token = this.props.auth
+    const payload = prepGetPayload(token)
+    getNews(payload).then(news => {
+      this.setState({
+        news,
+      })
+    })
     tracker.trackScreenView('Home')
   }
 
@@ -38,27 +50,17 @@ class Home extends Component {
           </View>
 
           <View style={styles.newsItemsContainerStyles}>
-            <View style={styles.singleNewsItem}>
-              <Image style={styles.playerAvatar} source={AvatarIcon} />
-              <Text style={styles.singleNewsItemText}>
-                NYU just took over Top School!
-              </Text>
-            </View>
-
-            <View style={styles.singleNewsItem}>
-              <Image style={styles.playerAvatar} source={AvatarIcon} />
-              <Text style={styles.singleNewsItemText}>
-                Sammers00 just scored a 90% on the EKG Challenge!
-              </Text>
-            </View>
-
-            <View style={styles.singleNewsItem}>
-              <Image style={styles.playerAvatar} source={AvatarIcon} />
-
-              <Text style={styles.singleNewsItemText}>
-                waynescrew12 just took 2nd place on the leaderboard!
-              </Text>
-            </View>
+            {this.state.news.map(newsItem => (
+              <View
+                style={styles.singleNewsItem}
+                key={`newsItem-homeScreen-${newsItem.content}`}
+              >
+                <Image style={styles.playerAvatar} source={AvatarIcon} />
+                <Text style={styles.singleNewsItemText}>
+                  {newsItem.content}
+                </Text>
+              </View>
+            ))}
           </View>
         </View>
 
@@ -116,4 +118,14 @@ class Home extends Component {
   }
 }
 
-export default Home
+function mapStateToProps({ auth }) {
+  return {
+    auth,
+  }
+}
+
+Home.propTypes = {
+  auth: PropTypes.string.isRequired,
+}
+
+export default connect(mapStateToProps)(Home)

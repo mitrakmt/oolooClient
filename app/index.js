@@ -13,6 +13,7 @@ import MoreInfo from './components/moreInfo/moreInfo'
 import Leaderboard from './components/leaderboard/leaderboard'
 import Results from './components/results'
 import Profile from './components/profile/profile'
+import EditUserInfo from './components/edit-user-info/editUserInfo'
 
 import rootReducer from './services/redux/reducers'
 
@@ -50,6 +51,12 @@ const App = () => (
           key="moreInfo"
           component={MoreInfo}
           title="More Info"
+          hideNavBar="true"
+        />
+        <Scene
+          key="editUserInfo"
+          component={EditUserInfo}
+          title="Edit Info"
           hideNavBar="true"
         />
         <Scene
