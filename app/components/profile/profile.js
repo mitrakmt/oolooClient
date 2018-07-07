@@ -141,13 +141,26 @@ class Profile extends Component {
     Actions.home()
   }
 
+  checkIfInterestAdded = name => {
+    let flag = true
+    for (let i = 0; i < this.props.userInterests.length; i += 1) {
+      if (name === this.props.userInterests[i].name) {
+        flag = false
+      }
+    }
+    return flag
+  }
+
   renderProfileView = () => {
     const data =
       this.props.interests.length > 0
-        ? this.props.interests.map(interestObject => ({
-            value: interestObject.name,
-          }))
+        ? this.props.interests
+            .filter(interest => this.checkIfInterestAdded(interest.name))
+            .map(interestObject => ({
+              value: interestObject.name,
+            }))
         : []
+
     const userInterests = this.props.userInterests
       ? this.props.userInterests.map(interest => interest.name)
       : []
@@ -304,7 +317,11 @@ Profile.propTypes = {
     name: PropTypes.string,
     graduationYear: PropTypes.number,
   }),
-  userInterests: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  userInterests: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
 }
 
 Profile.defaultProps = {
