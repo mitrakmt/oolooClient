@@ -13,7 +13,7 @@ const containerStyles = {
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'space-around',
-  height: '100%',
+  height: '90%',
   marginTop: '3%',
 }
 
@@ -28,7 +28,7 @@ const textContainerStyles = {
 const profileContainer = {
   backgroundColor: colors.white,
 
-  height: '75%',
+  height: '70%',
   width: '85%',
 
   borderRadius: 10,
@@ -66,6 +66,10 @@ const userInfoText = {
   fontSize: 14,
   fontWeight: '600',
   marginBottom: '3%',
+}
+
+const headerContainer = {
+  height: '20%',
 }
 
 const interestsContainer = {
@@ -111,6 +115,7 @@ export default {
   userInfoContainer,
   profileImage,
   profileContainer,
+  headerContainer,
   userInfoText,
   profileContainerText,
   interestsContainer,

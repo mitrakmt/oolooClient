@@ -154,18 +154,14 @@ class Profile extends Component {
 
     return (
       <View style={styles.containerStyles}>
-        <Text
-          style={{
-            fontSize: 18,
-            color: '#01a38d',
-            marginBottom: '3%',
-          }}
-        >
+        <Text style={{ fontSize: 15, color: '#01a38d', marginTop: '6%' }}>
           {' '}
           OOLOO
         </Text>
-        <View style={styles.textContainerStyles}>
-          <Text style={styles.headerTextStyles}>PROFILE</Text>
+        <View style={styles.headerContainer}>
+          <Text style={{ fontSize: 35, color: '#344856', fontWeight: '300' }}>
+            Profile
+          </Text>
         </View>
 
         <View style={styles.profileContainer}>
