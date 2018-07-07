@@ -24,7 +24,7 @@ const containerStyles = {
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'space-around',
-  height: '100%',
+  height: '98%',
 }
 
 const headerStyles = {
@@ -109,6 +109,7 @@ const buttonStyles = {
   backgroundColor: colors.buttonColor,
   width: '50%',
   padding: '3%',
+  marginTop: '3%',
   marginLeft: 'auto',
   marginRight: 'auto',
 }

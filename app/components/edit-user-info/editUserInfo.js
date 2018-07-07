@@ -22,7 +22,7 @@ import {
 } from './utils'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
 
-class MoreInfo extends Component {
+class EditUser extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -178,17 +178,11 @@ class MoreInfo extends Component {
     return (
       <KeyboardAvoidingView style={styles.container} behavior="position">
         <View style={styles.containerStyles}>
-          <Text
-            style={{
-              fontSize: 15,
-              color: '#01a38d',
-              marginBottom: '3%',
-            }}
-          >
+          <Text style={{ fontSize: 15, color: '#01a38d', marginTop: '6%' }}>
             {' '}
             OOLOO
           </Text>
-          <View style={styles.newsHeaderContainer}>
+          <View style={styles.headerContainer}>
             <Text style={{ fontSize: 35, color: '#344856', fontWeight: '300' }}>
               Edit Info
             </Text>
@@ -300,7 +294,7 @@ function mapStateToProps({ auth, user }) {
   }
 }
 
-MoreInfo.propTypes = {
+EditUser.propTypes = {
   auth: PropTypes.string.isRequired,
   user: PropTypes.shape({
     graduationYear: PropTypes.number,
@@ -310,7 +304,7 @@ MoreInfo.propTypes = {
   setUser: PropTypes.func.isRequired,
 }
 
-MoreInfo.defaultProps = {
+EditUser.defaultProps = {
   user: {
     graduationYear: '',
     name: '',
@@ -318,9 +312,13 @@ MoreInfo.defaultProps = {
   },
 }
 
-const mapDispatchToProps = () => ({})
+const mapDispatchToProps = dispatch => ({
+  setUser: payload => {
+    dispatch({ type: 'SET_USER', payload })
+  },
+})
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(MoreInfo)
+)(EditUser)
