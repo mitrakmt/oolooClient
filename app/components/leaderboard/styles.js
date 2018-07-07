@@ -17,12 +17,16 @@ const colors = {
   answerSelection: '#18a28d',
 }
 
+const headerContainer = {
+  height: '20%',
+}
+
 const containerStyles = {
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'space-around',
-  height: '100%',
+  height: '90%',
   marginTop: '3%',
 }
 
@@ -44,7 +48,7 @@ const headerTextStyles = {
 const leaderboardContainer = {
   backgroundColor: colors.white,
 
-  height: '75%',
+  height: '70%',
   width: '85%',
 
   borderRadius: 10,
@@ -168,6 +172,7 @@ export default {
   headerTextStyles,
   selectedButtonStyles,
   myPlayersLeaderboardEntry,
+  headerContainer,
   mySchoolsLeaderboardEntry,
   bottomContainerStyles,
   buttonContainerStyle,

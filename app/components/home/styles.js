@@ -16,7 +16,7 @@ const containerStyles = {
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'flex-start',
-  height: '100%',
+  height: '90%',
 }
 
 const textContainerStyles = {
@@ -29,8 +29,8 @@ const textContainerStyles = {
 
 const newsContainerStyles = {
   height: '40%',
-  width: '60%',
-  maxWidth: '60%',
+  width: '55%',
+  maxWidth: '55%',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
