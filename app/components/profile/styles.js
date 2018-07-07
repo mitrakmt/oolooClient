@@ -69,7 +69,7 @@ const userInfoText = {
 }
 
 const headerContainer = {
-  height: '20%',
+  height: '10%',
 }
 
 const interestsContainer = {
