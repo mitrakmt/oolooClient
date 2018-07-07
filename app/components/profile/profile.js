@@ -1,11 +1,18 @@
 import React, { Component } from 'react'
-import { TabBarIOS, Text, View, Image } from 'react-native'
+import {
+  Dimensions,
+  StyleSheet,
+  TabBarIOS,
+  Text,
+  View,
+  Image,
+} from 'react-native'
 import { connect } from 'react-redux'
 import { Actions } from 'react-native-router-flux'
 import Icon from 'react-native-vector-icons/Ionicons'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import PropTypes from 'prop-types'
-import { Dropdown } from 'react-native-material-dropdown'
+import SelectInput from 'react-native-select-input-ios'
 import AvatarIcon from '../assets/images/avatar_icon.png'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
 import {
@@ -18,11 +25,31 @@ import {
 } from './utils'
 import styles from './styles'
 
+const SCREEN_WIDTH = Dimensions.get('window').width
+const MARGIN_SMALL = 8
+const MARGIN_LARGE = 16
+
+const selectStyles = StyleSheet.create({
+  selectInput: {
+    flexDirection: 'row',
+    height: 36,
+    borderColor: '#007aff',
+    borderWidth: 0.5,
+    borderRadius: 4,
+    padding: MARGIN_SMALL,
+    marginTop: MARGIN_LARGE,
+    backgroundColor: '#fff',
+  },
+  selectInputSmall: {
+    width: SCREEN_WIDTH * 0.5 - MARGIN_LARGE * 2,
+  },
+})
+
 class Profile extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      addInterestText: '',
+      addInterestValue: 100,
     }
   }
 
@@ -90,10 +117,7 @@ class Profile extends Component {
 
     try {
       const addUserInterestResponse = await setUserInterests(payload, {
-        interests: [
-          this.props.interests.find(element => element.name === userInterest)
-            .id,
-        ],
+        interests: [userInterest],
       })
 
       if (!addUserInterestResponse) {
@@ -102,7 +126,7 @@ class Profile extends Component {
         this.getUserInterests().then(() => {
           setTimeout(() => {
             this.setState({
-              addInterestText: '',
+              addInterestValue: 100,
             })
           }, 1000)
         })
@@ -158,14 +182,21 @@ class Profile extends Component {
   }
 
   renderProfileView = () => {
+    const placeholderObject = {
+      label: 'Tap to add an interest',
+      value: 100,
+    }
     const data =
       this.props.interests.length > 0
         ? this.props.interests
             .filter(interest => this.checkIfInterestAdded(interest.name))
             .map(interestObject => ({
-              value: interestObject.name,
+              label: interestObject.name,
+              value: interestObject.id,
             }))
         : []
+    // Display a placeholder value
+    data.push(placeholderObject)
 
     const userInterests = this.props.userInterests
       ? this.props.userInterests.map(interest => interest.name)
@@ -240,23 +271,37 @@ class Profile extends Component {
               ))}
               <View
                 style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent: 'flex-start',
-                  alignItems: 'center',
+                  width: '80%',
                 }}
               >
-                <Dropdown
-                  label="Add an interest"
-                  data={data}
-                  containerStyle={{
-                    height: 50,
-                    width: '100%',
+                <SelectInput
+                  buttonsTextSize={14}
+                  options={data}
+                  onBeginEditing={() => {
+                    data.pop()
                   }}
-                  onChangeText={addInterestText =>
-                    this.addInterest(addInterestText)
-                  }
-                  value={this.state.addInterestText}
+                  onEndEditing={() => {
+                    data.push({ placeholderObject })
+                    this.setState({ addInterestValue: 100 })
+                  }}
+                  onSubmitEditing={value => {
+                    this.setState({ addInterestValue: 100 })
+                    // When the user hasn't scrolled the input, a bug in react-native-select-input-ios
+                    // causes the placeholder's value to be passed to onSubmitEditing despite
+                    // being removed from the data array. If that happens, we can instead pass
+                    // the value of the current first element in the array, if the array isn't empty.
+                    if (value === 100) {
+                      if (data[0]) this.addInterest(data[0].value)
+                    } else {
+                      this.addInterest(value)
+                    }
+                  }}
+                  style={[
+                    selectStyles.selectInput,
+                    selectStyles.selectInputSmall,
+                  ]}
+                  submitKeyText="Add interest"
+                  value={this.state.addInterestValue}
                 />
               </View>
             </View>
