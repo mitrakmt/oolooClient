@@ -8,6 +8,10 @@ const colors = {
   buttonColor: '#01a38d',
 }
 
+const headerContainer = {
+  height: '20%',
+}
+
 const baseInputField = {
   borderTopWidth: 0,
   borderRightWidth: 0,
@@ -117,11 +121,17 @@ const signUpTextStyles = {
   fontWeight: '800',
 }
 
+const backButton = {
+  marginTop: 20,
+}
+
 const styles = {
   containerStyles,
   headerStyles,
+  backButton,
   titleStyles,
   imageVerbiageStyles,
+  headerContainer,
   formStyles,
   inputFieldsContainerStyle,
   nameContainerStyle,

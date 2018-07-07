@@ -144,6 +144,10 @@ class MoreInfo extends Component {
     this.saveUser(name, graduationYear, university)
   }
 
+  goToPreviousView = () => {
+    Actions.profile()
+  }
+
   handleError = () => {
     console.log('error')
   }
@@ -184,8 +188,10 @@ class MoreInfo extends Component {
             {' '}
             OOLOO
           </Text>
-          <View style={styles.textContainerStyles}>
-            <Text style={styles.headerTextStyles}>EDIT INFO</Text>
+          <View style={styles.newsHeaderContainer}>
+            <Text style={{ fontSize: 35, color: '#344856', fontWeight: '300' }}>
+              Edit Info
+            </Text>
           </View>
           <View style={styles.formStyles}>
             <View style={styles.inputFieldsContainerStyle}>
@@ -269,6 +275,14 @@ class MoreInfo extends Component {
                   title="Save"
                   color="white"
                   accessibilityLabel="Save user info"
+                />
+              </View>
+              <View style={styles.buttonStyles}>
+                <Button
+                  onPress={this.goToPreviousView}
+                  title="Back"
+                  color="white"
+                  accessibilityLabel="Back"
                 />
               </View>
             </View>
