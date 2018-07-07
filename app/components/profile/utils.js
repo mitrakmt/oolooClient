@@ -46,9 +46,7 @@ export const getUserInterests = async payload => {
 export const deleteInterest = async (payload, interestId) => {
   const apiPayload = payload
   apiPayload.method = 'DELETE'
-  apiPayload.body = {
-    interestId,
-  }
+  apiPayload.body = JSON.stringify({ interestId })
   const serverResponse = await fetch(`${API_URL}/interest`, apiPayload)
     .then(response => response.json())
     .then(interests => interests)

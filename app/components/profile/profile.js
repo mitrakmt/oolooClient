@@ -116,7 +116,7 @@ class Profile extends Component {
     Actions.editUserInfo()
   }
 
-  deleteInterest = async interestId => {
+  deleteUserInterest = async interestId => {
     const token = this.props.auth
     const payload = prepPayload(token)
 
@@ -139,6 +139,12 @@ class Profile extends Component {
 
   handleHomePress = () => {
     Actions.home()
+  }
+
+  removeInterest = interest => {
+    this.deleteUserInterest(
+      this.props.interests.find(element => element.name === interest).id,
+    )
   }
 
   renderProfileView = () => {
@@ -208,6 +214,9 @@ class Profile extends Component {
                 >
                   <Text>{interest}</Text>
                   <Text
+                    onPress={() => {
+                      this.removeInterest(interest)
+                    }}
                     style={{
                       marginLeft: 'auto',
                     }}
