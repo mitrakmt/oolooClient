@@ -48,6 +48,8 @@ const newsItemsContainerStyles = {
 
 const singleNewsItem = {
   display: 'flex',
+  marginLeft: -20,
+  marginRight: 10,
   flexDirection: 'row',
   justifyContent: 'flex-start',
   alignItems: 'center',
