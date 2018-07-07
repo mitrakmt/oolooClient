@@ -8,6 +8,10 @@ const colors = {
   buttonColor: '#01a38d',
 }
 
+const headerContainer = {
+  height: '20%',
+}
+
 const baseInputField = {
   borderTopWidth: 0,
   borderRightWidth: 0,
@@ -20,7 +24,7 @@ const containerStyles = {
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'space-around',
-  height: '100%',
+  height: '98%',
 }
 
 const headerStyles = {
@@ -105,6 +109,7 @@ const buttonStyles = {
   backgroundColor: colors.buttonColor,
   width: '50%',
   padding: '3%',
+  marginTop: '3%',
   marginLeft: 'auto',
   marginRight: 'auto',
 }
@@ -117,11 +122,17 @@ const signUpTextStyles = {
   fontWeight: '800',
 }
 
+const backButton = {
+  marginTop: 20,
+}
+
 const styles = {
   containerStyles,
   headerStyles,
+  backButton,
   titleStyles,
   imageVerbiageStyles,
+  headerContainer,
   formStyles,
   inputFieldsContainerStyle,
   nameContainerStyle,
