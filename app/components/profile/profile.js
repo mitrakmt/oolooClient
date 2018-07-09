@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import {
+  AsyncStorage,
   Dimensions,
   StyleSheet,
   TabBarIOS,
   Text,
   View,
   Image,
+  Button,
 } from 'react-native'
 import { connect } from 'react-redux'
 import { Actions } from 'react-native-router-flux'
@@ -46,6 +48,11 @@ const selectStyles = StyleSheet.create({
 })
 
 class Profile extends Component {
+  static signOut() {
+    AsyncStorage.removeItem('userCredentials')
+    Actions.login()
+  }
+
   constructor(props) {
     super(props)
     this.state = {
@@ -215,13 +222,17 @@ class Profile extends Component {
         </View>
 
         <View style={styles.profileContainer}>
-          <FontAwesome.Button
-            name="pencil"
-            onPress={this.editUserInfo}
-            color="black"
-            backgroundColor="white"
-            style={{ marginLeft: 'auto' }}
-          />
+          <View
+            style={{ flexDirection: 'row', justifyContent: 'space-between' }}
+          >
+            <Button onPress={Profile.signOut} title="Sign out" />
+            <FontAwesome.Button
+              name="pencil"
+              onPress={this.editUserInfo}
+              color="black"
+              backgroundColor="white"
+            />
+          </View>
           <View style={styles.userInfoContainer}>
             <Image style={styles.playerAvatar} source={AvatarIcon} />
             <View style={styles.profileContainerText}>

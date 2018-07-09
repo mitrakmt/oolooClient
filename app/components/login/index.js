@@ -190,7 +190,6 @@ class Login extends Component {
 
     // Navigate to Home/Let's Play
     Actions.home()
-    // Actions.home()
   }
 
   render() {
