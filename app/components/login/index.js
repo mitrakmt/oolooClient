@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import {
+  AsyncStorage,
   TextInput,
   Text,
   View,
@@ -44,6 +45,12 @@ class Login extends Component {
 
   componentWillMount() {
     tracker.trackScreenView('Login')
+    AsyncStorage.getItem('userCredentials').then(credentialsJson => {
+      if (credentialsJson) {
+        const credentials = JSON.parse(credentialsJson)
+        this.loginUser(credentials.userName, credentials.userPassword)
+      }
+    })
   }
 
   startAnimation = (toValue, { BorderColor, Height, Margin }) => {
@@ -127,6 +134,13 @@ class Login extends Component {
 
   handleSubmit = () => {
     const { username, password } = this.state
+    AsyncStorage.setItem(
+      'userCredentials',
+      JSON.stringify({
+        userName: username,
+        userPassword: password,
+      }),
+    )
     const haveUser = EmailValidator.validate(username)
 
     if (haveUser) {
