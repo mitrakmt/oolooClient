@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 import authReducer from './auth'
 import gamePlayReducer from './gameplay'
-import gameResultsReducer from './gameresults'
+import gameResultsReducer from './gameResults'
 import interestsReducer from './interests/interests'
 import userInterestsReducer from './userinterests/userinterests'
 import userReducer from './user/user'

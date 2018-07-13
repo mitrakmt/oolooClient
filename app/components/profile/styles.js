@@ -32,7 +32,7 @@ const profileContainer = {
   width: '85%',
 
   borderRadius: 10,
-  padding: 20,
+  padding: 10,
 
   shadowColor: colors.softCyan,
   shadowOpacity: 900,

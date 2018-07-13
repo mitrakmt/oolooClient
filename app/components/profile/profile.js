@@ -9,13 +9,14 @@ import {
   Image,
   Button,
 } from 'react-native'
+import PhotoUpload from 'react-native-photo-upload'
 import { connect } from 'react-redux'
 import { Actions } from 'react-native-router-flux'
 import Icon from 'react-native-vector-icons/Ionicons'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import PropTypes from 'prop-types'
 import SelectInput from 'react-native-select-input-ios'
-import AvatarIcon from '../assets/images/avatar_icon.png'
+import AWS from 'aws-sdk'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
 import {
   prepPayload,
@@ -57,11 +58,13 @@ class Profile extends Component {
     super(props)
     this.state = {
       addInterestValue: 100,
+      profileImage: '',
     }
   }
 
   componentWillMount() {
     tracker.trackScreenView('Profile')
+    this.downloadPhoto()
     this.getUserInfo()
     this.getAllInterests()
     this.getUserInterests()
@@ -116,6 +119,102 @@ class Profile extends Component {
     } catch (err) {
       this.handleError()
     }
+  }
+
+  downloadPhoto = () => {
+    const wasabiEndpoint = new AWS.Endpoint('s3.wasabisys.com')
+    const s3 = new AWS.S3({
+      endpoint: wasabiEndpoint,
+      accessKeyId: 'TJ2AND80F9JYJ3TZEGS8',
+      secretAccessKey: 'zSo2XIrlTWAaYGFLkTAcw6A8d8BbciQJShPtV2Y7',
+    })
+    const params = {
+      Bucket: 'ooloo-profile-images',
+      Key: '3', // TODO: user real user id
+    }
+    const thisContext = this
+
+    s3.getObject(params, (err, data) => {
+      if (!err) {
+        console.log('data', data)
+        const encoded = this.arrayBufferToBase64(data.Body)
+        thisContext.setState(
+          {
+            profileImage: encoded,
+          },
+          () => {
+            console.log('after', this.state)
+          },
+        )
+      } else {
+        console.log('err', err)
+      }
+    })
+  }
+
+  arrayBufferToBase64 = buffer => {
+    let binary = ''
+    const bytes = new Uint8Array(buffer)
+    const len = bytes.byteLength
+    for (let i = 0; i < len; i += 1) {
+      binary += String.fromCharCode(bytes[i])
+    }
+    const bin = window.btoa(binary)
+    return bin
+  }
+
+  savePhoto = avatar => {
+    // Works!
+    const wasabiEndpoint = new AWS.Endpoint('s3.wasabisys.com')
+    const s3 = new AWS.S3({
+      endpoint: wasabiEndpoint,
+      accessKeyId: 'TJ2AND80F9JYJ3TZEGS8',
+      secretAccessKey: 'zSo2XIrlTWAaYGFLkTAcw6A8d8BbciQJShPtV2Y7',
+    })
+
+    const params = {
+      Bucket: 'ooloo-profile-images',
+      Key: '3', // todo: userid
+      Body: avatar,
+    }
+
+    const options = {
+      partSize: 10 * 1024 * 1024, // 10 MB
+      queueSize: 10,
+    }
+
+    s3.upload(params, options, (err, data) => {
+      if (err) {
+        console.log('err', err)
+      } else {
+        console.log('data', data)
+      }
+    })
+  }
+
+  deleteProfileImage = () => {
+    const wasabiEndpoint = new AWS.Endpoint('s3.wasabisys.com')
+    const s3 = new AWS.S3({
+      endpoint: wasabiEndpoint,
+      accessKeyId: 'TJ2AND80F9JYJ3TZEGS8',
+      secretAccessKey: 'zSo2XIrlTWAaYGFLkTAcw6A8d8BbciQJShPtV2Y7',
+    })
+    const params = {
+      Bucket: 'ooloo-profile-images',
+      Key: '3', // TODO: user real user id
+    }
+    const thisContext = this
+
+    s3.deleteObject(params, (err, data) => {
+      console.log('profile image base64 returned', data)
+      if (!err) {
+        thisContext.setState({
+          profileImage: '',
+        })
+      } else {
+        console.log(err) // an error ocurred
+      }
+    })
   }
 
   addInterest = async userInterest => {
@@ -222,10 +321,7 @@ class Profile extends Component {
         </View>
 
         <View style={styles.profileContainer}>
-          <View
-            style={{ flexDirection: 'row', justifyContent: 'space-between' }}
-          >
-            <Button onPress={Profile.signOut} title="Sign out" />
+          <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
             <FontAwesome.Button
               name="pencil"
               onPress={this.editUserInfo}
@@ -234,7 +330,40 @@ class Profile extends Component {
             />
           </View>
           <View style={styles.userInfoContainer}>
-            <Image style={styles.playerAvatar} source={AvatarIcon} />
+            <PhotoUpload
+              onPhotoSelect={avatar => {
+                if (avatar) {
+                  this.savePhoto(avatar)
+                  this.setState({
+                    profileImage: avatar,
+                  })
+                }
+              }}
+            >
+              <Image
+                style={{
+                  width: 100,
+                  height: 100,
+                  borderRadius: 50,
+                }}
+                containerStyle={{
+                  marginRight: 'auto',
+                  width: 100,
+                  left: 0,
+                }}
+                source={{
+                  uri: this.state.profileImage
+                    ? this.state.profileImage
+                    : 'https://www.sparklabs.com/forum/styles/comboot/theme/images/default_avatar.jpg',
+                }}
+              />
+              {this.state.profileImage && (
+                <Button
+                  onPress={this.deleteProfileImage}
+                  title="Delete Image"
+                />
+              )}
+            </PhotoUpload>
             <View style={styles.profileContainerText}>
               <Text style={styles.userInfoText}>
                 {this.props.user.username}
@@ -317,6 +446,7 @@ class Profile extends Component {
               </View>
             </View>
           </View>
+          <Button onPress={Profile.signOut} title="Sign out" />
         </View>
       </View>
     )
