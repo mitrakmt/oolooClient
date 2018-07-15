@@ -38,7 +38,6 @@ class GamePlay extends Component {
       chosenAnswer: null,
       buttonAnimation: new Animated.Value(0),
       timerIconAnimation: new Animated.Value(0),
-      // questionAnimation: new Animated.Value(0),
       buttonColor: '#344856',
     }
   }
@@ -106,11 +105,11 @@ class GamePlay extends Component {
       playerIndex,
     }
 
-    // Wait 800ms to allow Animation to finish, then send answer to server
+    // Wait to allow Animation to finish, then send answer to server
 
     setTimeout(() => {
       socket.emit('answer', payload)
-    }, 500)
+    }, 200)
   }
 
   resetButtonAnimation = () => {
