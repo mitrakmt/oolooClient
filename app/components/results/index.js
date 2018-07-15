@@ -35,7 +35,7 @@ class Results extends Component {
     tracker.trackScreenView('Results')
   }
 
-  checkBarChartData = () => {
+  renderBarChart = () => {
     const { gameResults } = this.props
 
     let { averagesByInterest } = gameResults
@@ -238,7 +238,7 @@ class Results extends Component {
             </View>
           </View>
 
-          {this.checkBarChartData()}
+          {this.renderBarChart()}
 
           <View style={styles.buttonContainer}>
             <View style={styles.buttonStyles}>
