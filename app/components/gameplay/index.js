@@ -224,6 +224,7 @@ class GamePlay extends Component {
   render() {
     const {
       gameStarted,
+      progress,
       questionNumber,
       tickTockProgress,
       timerIconAnimation,
@@ -267,7 +268,12 @@ class GamePlay extends Component {
 
           <View style={{ flexDirection: 'row', marginBottom: '3%' }}>
             {this.renderAnimatedIcon()}
-            <Timer progress={this.state.progress} />
+            <Timer progress={progress} />
+          </View>
+          <View>
+            <Text style={{ marginBottom: '3%', marginLeft: '7%' }}>
+              {parseFloat(progress / 1000)} seconds left
+            </Text>
           </View>
         </View>
       </View>
