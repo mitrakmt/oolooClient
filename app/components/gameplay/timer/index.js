@@ -28,9 +28,7 @@ class Timer extends Component {
   }
 
   render() {
-    // when component renders, interpolate
     // Add styles that need to be animated to Animated.View
-
     const widthInterpolated = this.timerWidthAnimation.interpolate({
       inputRange: [0, 300000], // hardcoded value is 5 minutes (300000ms)
       outputRange: ['0%', '100%'],
