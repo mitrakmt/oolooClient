@@ -6,7 +6,7 @@ import { Actions } from 'react-native-router-flux'
 import Icon from 'react-native-vector-icons/Ionicons'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
 import AvatarIcon from '../assets/images/avatar_icon.png'
-import { getNews, prepGetPayload } from './utils'
+import { getNews, prepGetPayload, getUser } from './utils'
 import styles from './styles'
 
 class Home extends Component {
@@ -25,7 +25,25 @@ class Home extends Component {
         news,
       })
     })
+    this.getUserInfo()
     tracker.trackScreenView('Home')
+  }
+
+  getUserInfo = async () => {
+    const token = this.props.auth
+    const payload = prepGetPayload(token)
+
+    try {
+      const getUserResponse = await getUser(payload)
+
+      if (!getUserResponse) {
+        this.handleError()
+      } else {
+        this.props.setUser(getUserResponse)
+      }
+    } catch (err) {
+      this.handleError()
+    }
   }
 
   handlePlayPress = () => {
@@ -124,8 +142,18 @@ function mapStateToProps({ auth }) {
   }
 }
 
+const mapDispatchToProps = dispatch => ({
+  setUser: payload => {
+    dispatch({ type: 'SET_USER', payload })
+  },
+})
+
 Home.propTypes = {
   auth: PropTypes.string.isRequired,
+  setUser: PropTypes.func.isRequired,
 }
 
-export default connect(mapStateToProps)(Home)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Home)

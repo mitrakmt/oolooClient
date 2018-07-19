@@ -130,41 +130,23 @@ class Profile extends Component {
     })
     const params = {
       Bucket: 'ooloo-profile-images',
-      Key: '3', // TODO: user real user id
+      Key: this.props.user.id.toString(),
     }
     const thisContext = this
 
     s3.getObject(params, (err, data) => {
       if (!err) {
-        console.log('data', data)
-        const encoded = this.arrayBufferToBase64(data.Body)
-        thisContext.setState(
-          {
-            profileImage: encoded,
-          },
-          () => {
-            console.log('after', this.state)
-          },
-        )
+        const encoded = `data:image/gif;base64,${data.Body}`
+        thisContext.setState({
+          profileImage: encoded,
+        })
       } else {
-        console.log('err', err)
+        // console.log('err', err)
       }
     })
   }
 
-  arrayBufferToBase64 = buffer => {
-    let binary = ''
-    const bytes = new Uint8Array(buffer)
-    const len = bytes.byteLength
-    for (let i = 0; i < len; i += 1) {
-      binary += String.fromCharCode(bytes[i])
-    }
-    const bin = window.btoa(binary)
-    return bin
-  }
-
   savePhoto = avatar => {
-    // Works!
     const wasabiEndpoint = new AWS.Endpoint('s3.wasabisys.com')
     const s3 = new AWS.S3({
       endpoint: wasabiEndpoint,
@@ -174,7 +156,7 @@ class Profile extends Component {
 
     const params = {
       Bucket: 'ooloo-profile-images',
-      Key: '3', // todo: userid
+      Key: this.props.user.id.toString(),
       Body: avatar,
     }
 
@@ -185,9 +167,9 @@ class Profile extends Component {
 
     s3.upload(params, options, (err, data) => {
       if (err) {
-        console.log('err', err)
-      } else {
-        console.log('data', data)
+        // console.log('err', err)
+      } else if (data) {
+        // console.log('data', data)
       }
     })
   }
@@ -201,18 +183,17 @@ class Profile extends Component {
     })
     const params = {
       Bucket: 'ooloo-profile-images',
-      Key: '3', // TODO: user real user id
+      Key: this.props.user.id.toString(),
     }
     const thisContext = this
 
     s3.deleteObject(params, (err, data) => {
-      console.log('profile image base64 returned', data)
       if (!err) {
         thisContext.setState({
           profileImage: '',
         })
-      } else {
-        console.log(err) // an error ocurred
+      } else if (data) {
+        // console.log(err) // an error ocurred
       }
     })
   }
@@ -491,6 +472,7 @@ class Profile extends Component {
 }
 
 function mapStateToProps({ auth, user, interests, userInterests }) {
+  console.log('user', user.id)
   return {
     auth,
     user,
@@ -507,6 +489,7 @@ Profile.propTypes = {
   setUser: PropTypes.func.isRequired,
   setUserInterests: PropTypes.func.isRequired,
   user: PropTypes.shape({
+    id: PropTypes.any,
     username: PropTypes.string,
     university: PropTypes.string,
     name: PropTypes.string,
@@ -521,6 +504,7 @@ Profile.propTypes = {
 
 Profile.defaultProps = {
   user: {
+    id: null,
     university: '',
     name: '',
     username: '',
