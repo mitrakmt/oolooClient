@@ -8,6 +8,7 @@ import {
   View,
   Image,
   Button,
+  ScrollView,
 } from 'react-native'
 import PhotoUpload from 'react-native-photo-upload'
 import { connect } from 'react-redux'
@@ -302,132 +303,131 @@ class Profile extends Component {
         </View>
 
         <View style={styles.profileContainer}>
-          <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
-            <FontAwesome.Button
-              name="pencil"
-              onPress={this.editUserInfo}
-              color="black"
-              backgroundColor="white"
-            />
-          </View>
-          <View style={styles.userInfoContainer}>
-            <PhotoUpload
-              onPhotoSelect={avatar => {
-                if (avatar) {
-                  this.savePhoto(avatar)
-                  this.setState({
-                    profileImage: avatar,
-                  })
-                }
-              }}
-            >
-              <Image
-                style={{
-                  width: 100,
-                  height: 100,
-                  borderRadius: 50,
-                }}
-                containerStyle={{
-                  marginRight: 'auto',
-                  width: 100,
-                  left: 0,
-                }}
-                source={{
-                  uri: this.state.profileImage
-                    ? this.state.profileImage
-                    : 'https://www.sparklabs.com/forum/styles/comboot/theme/images/default_avatar.jpg',
-                }}
+          <ScrollView>
+            <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+              <FontAwesome.Button
+                name="pencil"
+                onPress={this.editUserInfo}
+                color="black"
+                backgroundColor="white"
               />
-              {this.state.profileImage && (
-                <Button
-                  onPress={this.deleteProfileImage}
-                  title="Delete Image"
-                />
-              )}
-            </PhotoUpload>
-            <View style={styles.profileContainerText}>
-              <Text style={styles.userInfoText}>
-                {this.props.user.username}
-              </Text>
-              {this.props.user.name && (
-                <Text style={styles.userInfoText}>{this.props.user.name}</Text>
-              )}
-              {this.props.user.university && (
-                <Text style={styles.userInfoText}>
-                  {this.props.user.university}
-                </Text>
-              )}
-              {this.props.user.graduationYear && (
-                <Text style={styles.userInfoText}>
-                  Class of {this.props.user.graduationYear}
-                </Text>
-              )}
             </View>
-          </View>
-
-          <View style={styles.interestsContainer}>
-            <Text style={styles.userInfoText}>Interests</Text>
-            <View
-              style={{
-                width: '80%',
-              }}
-            >
-              {userInterests.map(interest => (
-                <View
-                  style={{ display: 'flex', flexDirection: 'row' }}
-                  key={`userInterestsMap${interest}`}
-                >
-                  <Text>{interest}</Text>
-                  <Text
-                    onPress={() => {
-                      this.removeInterest(interest)
-                    }}
-                    style={{
-                      marginLeft: 'auto',
-                    }}
-                  >
-                    x
+            <View style={styles.userInfoContainer}>
+              <PhotoUpload
+                onPhotoSelect={avatar => {
+                  if (avatar) {
+                    this.savePhoto(avatar)
+                    this.setState({
+                      profileImage: avatar,
+                    })
+                  }
+                }}
+              >
+                <Image
+                  style={{
+                    width: 125,
+                    height: 125,
+                    borderRadius: 62.5,
+                  }}
+                  source={{
+                    uri: this.state.profileImage
+                      ? this.state.profileImage
+                      : 'https://www.sparklabs.com/forum/styles/comboot/theme/images/default_avatar.jpg',
+                  }}
+                />
+                {this.state.profileImage && (
+                  <Button
+                    onPress={this.deleteProfileImage}
+                    title="Delete Image"
+                  />
+                )}
+              </PhotoUpload>
+              <View style={styles.profileContainerText}>
+                <Text style={styles.userInfoText}>
+                  {this.props.user.username}
+                </Text>
+                {this.props.user.name && (
+                  <Text style={styles.userSubInfoText}>
+                    {this.props.user.name}
                   </Text>
-                </View>
-              ))}
+                )}
+                {this.props.user.university && (
+                  <Text style={styles.userSubInfoText}>
+                    {this.props.user.university}
+                  </Text>
+                )}
+                {this.props.user.graduationYear && (
+                  <Text style={styles.userSubInfoText}>
+                    Class of {this.props.user.graduationYear}
+                  </Text>
+                )}
+              </View>
+            </View>
+
+            <View style={styles.interestsContainer}>
+              <Text style={styles.userInfoText}>Interests</Text>
               <View
                 style={{
                   width: '80%',
                 }}
               >
-                <SelectInput
-                  buttonsTextSize={14}
-                  options={data}
-                  onBeginEditing={() => {
-                    data.pop()
+                {userInterests.map(interest => (
+                  <View
+                    style={{ display: 'flex', flexDirection: 'row' }}
+                    key={`userInterestsMap${interest}`}
+                  >
+                    <Text>{interest}</Text>
+                    <Text
+                      onPress={() => {
+                        this.removeInterest(interest)
+                      }}
+                      style={{
+                        marginLeft: 'auto',
+                      }}
+                    >
+                      x
+                    </Text>
+                  </View>
+                ))}
+                <View
+                  style={{
+                    width: '80%',
                   }}
-                  onEndEditing={() => {
-                    data.push({ placeholderObject })
-                    this.setState({ addInterestValue: 100 })
-                  }}
-                  onSubmitEditing={value => {
-                    this.setState({ addInterestValue: 100 })
-                    // When the user hasn't scrolled the input, a bug in react-native-select-input-ios
-                    // causes the placeholder's value to be passed to onSubmitEditing despite
-                    // being removed from the data array. If that happens, we can instead pass
-                    // the value of the current first element in the array, if the array isn't empty.
-                    if (value === 100) {
-                      if (data[0]) this.addInterest(data[0].value)
-                    } else {
-                      this.addInterest(value)
-                    }
-                  }}
-                  style={[
-                    selectStyles.selectInput,
-                    selectStyles.selectInputSmall,
-                  ]}
-                  submitKeyText="Add interest"
-                  value={this.state.addInterestValue}
-                />
+                >
+                  <SelectInput
+                    buttonsTextSize={14}
+                    options={data}
+                    onBeginEditing={() => {
+                      data.pop()
+                    }}
+                    onEndEditing={() => {
+                      data.push({ placeholderObject })
+                      this.setState({ addInterestValue: 100 })
+                    }}
+                    onSubmitEditing={value => {
+                      this.setState({ addInterestValue: 100 })
+                      // When the user hasn't scrolled the input, a bug in react-native-select-input-ios
+                      // causes the placeholder's value to be passed to onSubmitEditing despite
+                      // being removed from the data array. If that happens, we can instead pass
+                      // the value of the current first element in the array, if the array isn't empty.
+                      if (value === 100) {
+                        if (data[0]) this.addInterest(data[0].value)
+                      } else {
+                        this.addInterest(value)
+                      }
+                    }}
+                    style={[
+                      selectStyles.selectInput,
+                      selectStyles.selectInputSmall,
+                    ]}
+                    submitKeyText="Add interest"
+                    value={this.state.addInterestValue}
+                  />
+                </View>
               </View>
             </View>
-          </View>
-          <Button onPress={Profile.signOut} title="Sign out" />
+            <Button onPress={Profile.signOut} title="Sign out" />
+          </ScrollView>
         </View>
       </View>
     )
