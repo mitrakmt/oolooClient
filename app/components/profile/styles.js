@@ -28,7 +28,7 @@ const textContainerStyles = {
 
 const profileContainer = {
   backgroundColor: colors.white,
-  height: '70%',
+  height: '85%',
   width: '85%',
   borderRadius: 10,
   padding: 10,
