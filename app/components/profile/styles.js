@@ -15,6 +15,7 @@ const containerStyles = {
   justifyContent: 'space-around',
   height: '90%',
   marginTop: '3%',
+  overflow: 'scroll',
 }
 
 const textContainerStyles = {
@@ -27,13 +28,10 @@ const textContainerStyles = {
 
 const profileContainer = {
   backgroundColor: colors.white,
-
   height: '70%',
   width: '85%',
-
   borderRadius: 10,
   padding: 10,
-
   shadowColor: colors.softCyan,
   shadowOpacity: 900,
   shadowRadius: 20,
@@ -63,8 +61,13 @@ const profileImage = {
 }
 
 const userInfoText = {
-  fontSize: 14,
+  fontSize: 16,
   fontWeight: '600',
+  marginBottom: '3%',
+}
+
+const userSubInfoText = {
+  fontSize: 12,
   marginBottom: '3%',
 }
 
@@ -117,6 +120,7 @@ export default {
   profileContainer,
   headerContainer,
   userInfoText,
+  userSubInfoText,
   profileContainerText,
   interestsContainer,
   bottomContainerStyles,
