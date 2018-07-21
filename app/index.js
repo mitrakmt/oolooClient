@@ -33,7 +33,7 @@ const store = createStoreWithMiddleware(rootReducer)
 const App = () => (
   <Provider store={store}>
     <Router>
-      <Scene key="root">
+      <Scene key="root" duration={0}>
         <Scene
           initial
           key="login"

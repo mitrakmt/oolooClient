@@ -38,7 +38,6 @@ class GamePlay extends Component {
       chosenAnswer: null,
       buttonAnimation: new Animated.Value(0),
       timerIconAnimation: new Animated.Value(0),
-      // questionAnimation: new Animated.Value(0),
       buttonColor: '#344856',
     }
   }
@@ -106,11 +105,11 @@ class GamePlay extends Component {
       playerIndex,
     }
 
-    // Wait 800ms to allow Animation to finish, then send answer to server
+    // Wait to allow Animation to finish, then send answer to server
 
     setTimeout(() => {
       socket.emit('answer', payload)
-    }, 500)
+    }, 200)
   }
 
   resetButtonAnimation = () => {
@@ -225,6 +224,7 @@ class GamePlay extends Component {
   render() {
     const {
       gameStarted,
+      progress,
       questionNumber,
       tickTockProgress,
       timerIconAnimation,
@@ -268,7 +268,12 @@ class GamePlay extends Component {
 
           <View style={{ flexDirection: 'row', marginBottom: '3%' }}>
             {this.renderAnimatedIcon()}
-            <Timer progress={this.state.progress} />
+            <Timer progress={progress} />
+          </View>
+          <View>
+            <Text style={{ marginBottom: '3%', marginLeft: '7%' }}>
+              {parseFloat(progress / 1000)} seconds left
+            </Text>
           </View>
         </View>
       </View>
