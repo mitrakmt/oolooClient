@@ -5,7 +5,6 @@ import { Text, View, Button, ScrollView } from 'react-native'
 import { Actions } from 'react-native-router-flux'
 import PropTypes from 'prop-types'
 import InterestsAverageChart from './charts/InterestsAverageChart'
-import InterestsLineChart from './charts/InterestsLineChart'
 import ProfileImage from '../../shared-components/profile-image/profileImage'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
 
@@ -84,7 +83,6 @@ class Results extends Component {
       <ScrollView>
         <View style={{ height: 'auto' }}>
           {this.renderBarCharts(averagesByInterest)}
-          {this.renderLineCharts(interestsOverTime)}
         </View>
       </ScrollView>
     )
@@ -100,20 +98,6 @@ class Results extends Component {
     return (
       <View>
         <InterestsAverageChart results={results} />
-      </View>
-    )
-  }
-
-  renderLineCharts = incomingData => {
-    const dataKeys = Object.keys(incomingData.data)
-
-    if (dataKeys.length === 0) {
-      return null
-    }
-
-    return (
-      <View>
-        <InterestsLineChart results={incomingData} />
       </View>
     )
   }
