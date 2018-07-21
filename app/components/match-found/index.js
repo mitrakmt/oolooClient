@@ -74,7 +74,9 @@ class MatchFound extends Component {
     let {
       displayMatchFound: { player, opponent },
     } = this.props
-    const { playerImageIds } = this.props
+    const {
+      displayMatchFound: { playerImageIds },
+    } = this.props
     const opponentImageId = this.findOpponentImageId(playerImageIds)
 
     player = !player ? 'Player' : player
@@ -182,8 +184,8 @@ MatchFound.propTypes = {
     player: PropTypes.string,
     opponent: PropTypes.string,
     interests: PropTypes.array,
+    playerImageIds: PropTypes.array,
   }).isRequired,
-  playerImageIds: PropTypes.arrayOf(PropTypes.number).isRequired,
   gameStart: PropTypes.func.isRequired,
 }
 
