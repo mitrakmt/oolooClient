@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, Button, Image } from 'react-native'
+import { Text, View, Button } from 'react-native'
 import { Actions } from 'react-native-router-flux'
 import CountdownCircle from 'react-native-countdown-circle'
 import * as Keychain from 'react-native-keychain'
@@ -12,7 +12,7 @@ import { startTheGame } from '../../services/redux/actions/gameplay'
 import { socketConnected } from '../../services/redux/actions/socket'
 import { matchFound } from '../../services/redux/actions/matchfound'
 import events from '../../services/socket-io-client/'
-import AvatarIcon from '../assets/images/avatar_icon.png'
+import ProfileImage from '../../shared-components/profile-image/profileImage'
 
 const DEV_API_URL = `https://ooloo-api-dev.herokuapp.com`
 
@@ -68,6 +68,7 @@ class MatchSearch extends Component {
 
   createAndStoreSocket = auth => {
     const { connectSocket, foundMatchAction } = this.props
+    console.log('foundMatchAction, foundMatchAction', foundMatchAction)
 
     const socket = io(`${DEV_API_URL}/?token=${auth}`)
 
@@ -111,7 +112,7 @@ class MatchSearch extends Component {
             </View>
 
             <View style={styles.countdownContainer}>
-              <Image style={styles.playerAvatar} source={AvatarIcon} />
+              <ProfileImage id={this.props.id} style={styles.playerAvatar} />
               <CountdownCircle
                 seconds={!isError ? 15 : 1}
                 radius={37}
@@ -145,9 +146,10 @@ class MatchSearch extends Component {
   }
 }
 
-function mapStateToProps({ auth }) {
+function mapStateToProps({ auth, user }) {
   return {
     auth,
+    id: user.id,
   }
 }
 
@@ -155,6 +157,7 @@ MatchSearch.propTypes = {
   auth: PropTypes.string.isRequired,
   connectSocket: PropTypes.func.isRequired,
   foundMatchAction: PropTypes.func.isRequired,
+  id: PropTypes.number.isRequired,
 }
 
 export default connect(

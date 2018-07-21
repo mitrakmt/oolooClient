@@ -1,12 +1,12 @@
 import AnimateNumber from 'react-native-animate-number'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
-import { Text, View, Button, ScrollView, Image } from 'react-native'
+import { Text, View, Button, ScrollView } from 'react-native'
 import { Actions } from 'react-native-router-flux'
 import PropTypes from 'prop-types'
 import InterestsAverageChart from './charts/InterestsAverageChart'
 import InterestsLineChart from './charts/InterestsLineChart'
-import AvatarIcon from '../assets/images/avatar_icon.png'
+import ProfileImage from '../../shared-components/profile-image/profileImage'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
 
 import {
@@ -33,6 +33,16 @@ class Results extends Component {
 
   componentWillMount() {
     tracker.trackScreenView('Results')
+  }
+
+  findOpponentImageId = playerImageIds => {
+    let foundOppId = null
+    for (let i = 0; i < playerImageIds.length; i += 1) {
+      if (playerImageIds[i] !== this.props.id) {
+        foundOppId = playerImageIds[i]
+      }
+    }
+    return foundOppId
   }
 
   checkBarChartData = () => {
@@ -158,9 +168,14 @@ class Results extends Component {
     })
 
   render() {
-    const { playerIndex, gameResults } = this.props
+    const {
+      playerIndex,
+      gameResults,
+      displayMatchFound: { playerImageIds },
+    } = this.props
 
     const { usernames, numberOfQuestions } = this.state
+    const opponentImageId = this.findOpponentImageId(playerImageIds)
 
     const opponentResults = prepResultsFor(
       gameResults,
@@ -189,7 +204,7 @@ class Results extends Component {
         <View style={styles.ResultsContainer}>
           <View style={styles.versusContainer}>
             <View style={styles.avatarContainer}>
-              <Image style={styles.playerAvatar} source={AvatarIcon} />
+              <ProfileImage style={styles.playerAvatar} id={this.props.id} />
               <Text
                 style={{
                   marginTop: '5%',
@@ -210,7 +225,7 @@ class Results extends Component {
             </View>
 
             <View style={styles.avatarContainer}>
-              <Image style={styles.playerAvatar} source={AvatarIcon} />
+              <ProfileImage style={styles.playerAvatar} id={opponentImageId} />
 
               <Text
                 style={{
@@ -267,12 +282,16 @@ class Results extends Component {
 function mapStateToProps({
   gameResults,
   gameStart: { numberOfQuestions, playerIndex, usernames },
+  user,
+  displayMatchFound,
 }) {
   return {
     gameResults,
     numberOfQuestions,
     usernames,
     playerIndex,
+    id: user.id,
+    displayMatchFound,
   }
 }
 
@@ -283,7 +302,7 @@ Results.propTypes = {
     player: PropTypes.string,
     opponent: PropTypes.string,
   }).isRequired,
-
+  id: PropTypes.number.isRequired,
   gameResults: PropTypes.shape({
     remainingTime: PropTypes.number,
     score: PropTypes.array,
@@ -298,6 +317,9 @@ Results.propTypes = {
       data: PropTypes.object,
       time: PropTypes.string,
     }),
+  }).isRequired,
+  displayMatchFound: PropTypes.shape({
+    playerImageIds: PropTypes.array,
   }).isRequired,
 }
 
