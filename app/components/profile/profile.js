@@ -271,7 +271,7 @@ class Profile extends Component {
 
   renderProfileView = () => {
     const placeholderObject = {
-      label: 'Tap to add an interest',
+      label: 'Tap to add a topic',
       value: 100,
     }
     const data =
@@ -338,8 +338,11 @@ class Profile extends Component {
                 {this.state.profileImage && (
                   <Button
                     onPress={this.deleteProfileImage}
-                    title="Delete Image"
+                    title="Delete picture"
                   />
+                )}
+                {!this.state.profileImage && (
+                  <Text>Tap the circle to add a picture!</Text>
                 )}
               </PhotoUpload>
               <View style={styles.profileContainerText}>
@@ -365,7 +368,7 @@ class Profile extends Component {
             </View>
 
             <View style={styles.interestsContainer}>
-              <Text style={styles.userInfoText}>Interests</Text>
+              <Text style={styles.userInfoText}>Quiz Topics</Text>
               <View
                 style={{
                   width: '80%',
