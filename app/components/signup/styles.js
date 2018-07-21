@@ -99,7 +99,7 @@ const buttonContainerStyle = {
   display: 'flex',
   alignItems: 'center',
   marginBottom: 10,
-  marginTop: 150,
+  marginTop: 100,
 }
 
 const textInputStyles = {

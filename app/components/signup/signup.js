@@ -22,6 +22,8 @@ class Signup extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      errorMessage: '',
+      isError: false,
       password: '',
       username: '',
       school: '',
@@ -158,26 +160,33 @@ class Signup extends Component {
     if (haveUser) {
       this.signupUser(username, password, email, school)
     } else {
-      this.handleError('Email validation failed')
+      this.handleError('Required: valid email')
     }
   }
 
-  handleError = error => {
-    console.log(error)
+  handleError = errorMessage => {
+    this.setState({
+      errorMessage,
+      isError: true,
+    })
   }
 
   signupUser = async (username, password, email, school) => {
     const payload = prepPayload(username, password, email, school)
+    if (password.length < 6) {
+      this.handleError('Password length must be 6 or more')
+      return
+    }
 
     try {
       const serverResponse = await fetchUser(payload)
       if (!serverResponse) {
-        this.handleError('failed fetch user?')
+        this.handleError('Email or username taken')
       } else {
         this.storeToken(username, serverResponse)
       }
     } catch (err) {
-      this.handleError('failed fetch user')
+      this.handleError('Signup failed')
     }
   }
 
@@ -190,9 +199,7 @@ class Signup extends Component {
     // Fires off Redux auth action
     authUser(Authorization)
 
-    // Navigate to Home/Let's Play
     Actions.moreInfo()
-    // Actions.home()
   }
 
   render() {
@@ -313,6 +320,20 @@ class Signup extends Component {
                 underlineColorAndroid="transparent"
               />
             </View>
+
+            {this.state.isError && (
+              <View style={styles.errorContainerStyle}>
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    color: '#f14169',
+                    marginTop: 50,
+                  }}
+                >
+                  {this.state.errorMessage}
+                </Text>
+              </View>
+            )}
 
             <View style={styles.buttonContainerStyle}>
               <View style={styles.buttonStyles}>
