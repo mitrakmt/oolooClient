@@ -1,10 +1,14 @@
 import { Actions } from 'react-native-router-flux'
 
-const matchFound = ({ interests, playerIndex, usernames }, callback) => {
+const matchFound = (
+  { interests, playerIndex, usernames, playerImageIds },
+  callback,
+) => {
   // Create matchFound payload to display in MatchFound view
   const matchFoundObj = {}
 
   matchFoundObj.interests = interests
+  matchFoundObj.playerImageIds = playerImageIds
 
   usernames.forEach((name, idx) => {
     if (idx === playerIndex) {
