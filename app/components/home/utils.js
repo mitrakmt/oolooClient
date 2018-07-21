@@ -14,6 +14,14 @@ export const prepGetPayload = token => {
   return payload
 }
 
+export const getUser = async payload => {
+  const serverResponse = await fetch(`${API_URL}/user`, payload)
+    .then(response => response.json())
+    .then(user => user)
+
+  return serverResponse
+}
+
 export const getNews = async payload => {
   const serverResponse = await fetch(`${API_URL}/news`, payload)
     .then(response => response.json())

@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import { Text, View, Image } from 'react-native'
+import { Text, View } from 'react-native'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import SlotMachine from 'react-native-slot-machine'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import events from '../../services/socket-io-client/'
 import { startTheGame } from '../../services/redux/actions/gameplay'
-import AvatarIcon from '../assets/images/avatar_icon.png'
+import ProfileImage from '../../shared-components/profile-image/profileImage'
 import styles from './styles'
 
 const MedicalIcons = ['stethoscope', 'heartbeat', 'ambulance', 'flask']
@@ -41,6 +41,16 @@ class MatchFound extends Component {
     }
   }
 
+  findOpponentImageId = playerImageIds => {
+    let foundOppId = null
+    for (let i = 0; i < playerImageIds.length; i += 1) {
+      if (playerImageIds[i] !== this.props.id) {
+        foundOppId = playerImageIds[i]
+      }
+    }
+    return foundOppId
+  }
+
   renderSlotIcon = index => {
     const displayIndex = index > 3 ? index % 2 : index
     return (
@@ -64,6 +74,10 @@ class MatchFound extends Component {
     let {
       displayMatchFound: { player, opponent },
     } = this.props
+    const {
+      displayMatchFound: { playerImageIds },
+    } = this.props
+    const opponentImageId = this.findOpponentImageId(playerImageIds)
 
     player = !player ? 'Player' : player
     opponent = !opponent ? 'Average Scores:' : opponent
@@ -90,7 +104,10 @@ class MatchFound extends Component {
 
               <View style={styles.avatarFoundContainer}>
                 <View style={styles.avatarContainer}>
-                  <Image style={styles.playerAvatar} source={AvatarIcon} />
+                  <ProfileImage
+                    style={styles.playerAvatar}
+                    id={this.props.id}
+                  />
                   <Text
                     style={{
                       marginTop: '5%',
@@ -102,7 +119,10 @@ class MatchFound extends Component {
                   </Text>
                 </View>
                 <View style={styles.avatarContainer}>
-                  <Image style={styles.playerAvatar} source={AvatarIcon} />
+                  <ProfileImage
+                    style={styles.playerAvatar}
+                    id={opponentImageId}
+                  />
                   <Text
                     style={{
                       marginTop: '5%',
@@ -134,10 +154,11 @@ class MatchFound extends Component {
   }
 }
 
-function mapStateToProps({ socket, displayMatchFound }) {
+function mapStateToProps({ socket, displayMatchFound, user }) {
   return {
     socket,
     displayMatchFound,
+    id: user.id,
   }
 }
 
@@ -158,13 +179,13 @@ MatchFound.propTypes = {
     subs: PropTypes.array,
     _callbacks: PropTypes.object,
   }).isRequired,
-
+  id: PropTypes.number.isRequired,
   displayMatchFound: PropTypes.shape({
     player: PropTypes.string,
     opponent: PropTypes.string,
     interests: PropTypes.array,
+    playerImageIds: PropTypes.array,
   }).isRequired,
-
   gameStart: PropTypes.func.isRequired,
 }
 
