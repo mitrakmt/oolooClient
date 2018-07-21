@@ -68,7 +68,6 @@ class MatchSearch extends Component {
 
   createAndStoreSocket = auth => {
     const { connectSocket, foundMatchAction } = this.props
-    console.log('foundMatchAction, foundMatchAction', foundMatchAction)
 
     const socket = io(`${DEV_API_URL}/?token=${auth}`)
 

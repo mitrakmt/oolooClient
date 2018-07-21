@@ -97,8 +97,6 @@ class Results extends Component {
 
     const results = incomingData.pop()
 
-    console.log('results to send to barChart ', results) // Leave for debugging
-
     return (
       <View>
         <InterestsAverageChart results={results} />
