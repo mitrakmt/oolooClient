@@ -1494,7 +1494,7 @@ base-64@0.1.0, base-64@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/base-64/-/base-64-0.1.0.tgz#780a99c84e7d600260361511c4877613bf24f6bb"
 
-base64-arraybuffer@0.1.5, base64-arraybuffer@^0.1.5:
+base64-arraybuffer@0.1.5:
   version "0.1.5"
   resolved "https://registry.yarnpkg.com/base64-arraybuffer/-/base64-arraybuffer-0.1.5.tgz#73926771923b5a19747ad666aa5cd4bf9c6e9ce8"
 
@@ -5279,10 +5279,6 @@ react-native-fs@^2.5.1:
 react-native-google-analytics-bridge@^5.7.1:
   version "5.7.1"
   resolved "https://registry.yarnpkg.com/react-native-google-analytics-bridge/-/react-native-google-analytics-bridge-5.7.1.tgz#16ad57392f4fdf8cde2e3a162b5b792afa04d485"
-
-react-native-image-base64@^0.1.3:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/react-native-image-base64/-/react-native-image-base64-0.1.3.tgz#bfc9eaf7cd3ec705aa25f00f6a11d0c379217fe8"
 
 react-native-image-picker@^0.26.7:
   version "0.26.10"
