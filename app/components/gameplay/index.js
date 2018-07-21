@@ -272,7 +272,7 @@ class GamePlay extends Component {
           </View>
           <View>
             <Text style={{ marginBottom: '3%', marginLeft: '7%' }}>
-              {parseFloat(progress / 1000)} seconds left
+              {parseFloat(progress / 1000).toFixed(0)} seconds left
             </Text>
           </View>
         </View>
