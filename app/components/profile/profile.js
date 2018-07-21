@@ -472,7 +472,6 @@ class Profile extends Component {
 }
 
 function mapStateToProps({ auth, user, interests, userInterests }) {
-  console.log('user', user.id)
   return {
     auth,
     user,
