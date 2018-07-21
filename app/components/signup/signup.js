@@ -158,12 +158,12 @@ class Signup extends Component {
     if (haveUser) {
       this.signupUser(username, password, email, school)
     } else {
-      this.handleError()
+      this.handleError('Email validation failed')
     }
   }
 
-  handleError = () => {
-    console.log('error')
+  handleError = error => {
+    console.log(error)
   }
 
   signupUser = async (username, password, email, school) => {
@@ -172,12 +172,12 @@ class Signup extends Component {
     try {
       const serverResponse = await fetchUser(payload)
       if (!serverResponse) {
-        this.handleError()
+        this.handleError('failed fetch user?')
       } else {
         this.storeToken(username, serverResponse)
       }
     } catch (err) {
-      this.handleError()
+      this.handleError('failed fetch user')
     }
   }
 

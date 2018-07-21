@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Image } from 'react-native'
 import PropTypes from 'prop-types'
-import AWS from 'aws-sdk'
+import AWS from 'aws-sdk/dist/aws-sdk-react-native'
 
 class ProfileImage extends Component {
   constructor(props) {

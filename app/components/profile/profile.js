@@ -17,7 +17,7 @@ import Icon from 'react-native-vector-icons/Ionicons'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import PropTypes from 'prop-types'
 import SelectInput from 'react-native-select-input-ios'
-import AWS from 'aws-sdk'
+import AWS from 'aws-sdk/dist/aws-sdk-react-native'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
 import {
   prepPayload,
