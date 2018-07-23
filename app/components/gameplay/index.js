@@ -196,16 +196,16 @@ class GamePlay extends Component {
     }
 
     return possibleAnswers.map((choice, idx) => (
-      <Animated.View
+      <TouchableWithoutFeedback
+        onPress={() => this.onButtonPress(`${choice}`, idx)}
         key={generateRandomKey(choice, questionNumber)}
-        style={
-          idx === chosenAnswer
-            ? [animatedStyle, styles.buttonStyles]
-            : styles.buttonStyles
-        }
       >
-        <TouchableWithoutFeedback
-          onPress={() => this.onButtonPress(`${choice}`, idx)}
+        <Animated.View
+          style={
+            idx === chosenAnswer
+              ? [animatedStyle, styles.buttonStyles]
+              : styles.buttonStyles
+          }
         >
           <Animated.Text
             style={
@@ -216,8 +216,8 @@ class GamePlay extends Component {
           >
             {choice}
           </Animated.Text>
-        </TouchableWithoutFeedback>
-      </Animated.View>
+        </Animated.View>
+      </TouchableWithoutFeedback>
     ))
   }
 
