@@ -16,7 +16,7 @@ import {
 } from './utils'
 import { userAuthenticated } from '../../services/redux/actions/auth'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
-import AvatarIcon from '../assets/images/avatar_icon.png'
+import AvatarIcon from './img/ooloo-login-avatar.png'
 
 class Signup extends Component {
   constructor(props) {

@@ -16,7 +16,7 @@ import { Actions } from 'react-native-router-flux'
 import styles from './styles'
 import { prepPayload, fetchUser, createAnimatedStyles } from './utils'
 import { userAuthenticated } from '../../services/redux/actions/auth'
-import AvatarIcon from '../assets/images/avatar_icon.png'
+import AvatarIcon from './img/ooloo-login-avatar.png'
 import tracker from '../../services/analytics-tracker/analyticsTracker'
 
 class Login extends Component {
