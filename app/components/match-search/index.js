@@ -14,7 +14,7 @@ import { matchFound } from '../../services/redux/actions/matchfound'
 import events from '../../services/socket-io-client/'
 import ProfileImage from '../../shared-components/profile-image/profileImage'
 
-const DEV_API_URL = `https://ooloo-api-dev.herokuapp.com`
+const DEV_API_URL = `https://ooloo-api-prod.herokuapp.com/api`
 
 class MatchSearch extends Component {
   constructor(props) {

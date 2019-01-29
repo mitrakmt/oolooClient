@@ -44,6 +44,9 @@ const selectStyles = StyleSheet.create({
     marginTop: MARGIN_LARGE,
     backgroundColor: '#fff',
   },
+  userInfoContainer: {
+    marginLeft: 10,
+  },
   selectInputSmall: {
     width: SCREEN_WIDTH * 0.5 - MARGIN_LARGE * 2,
   },
@@ -312,37 +315,37 @@ class Profile extends Component {
                 backgroundColor="white"
               />
             </View>
-            <View style={styles.userInfoContainer}>
-              <PhotoUpload
-                onPhotoSelect={avatar => {
-                  if (avatar) {
-                    this.savePhoto(avatar)
-                    this.setState({
-                      profileImage: avatar,
-                    })
-                  }
+            <PhotoUpload
+              onPhotoSelect={avatar => {
+                if (avatar) {
+                  this.savePhoto(avatar)
+                  this.setState({
+                    profileImage: avatar,
+                  })
+                }
+              }}
+            >
+              <Image
+                style={{
+                  width: 100,
+                  height: 100,
+                  borderRadius: 50,
                 }}
-              >
-                <Image
-                  style={{
-                    width: 100,
-                    height: 100,
-                    borderRadius: 50,
-                  }}
-                  source={{
-                    uri: this.state.profileImage
-                      ? this.state.profileImage
-                      : 'https://www.sparklabs.com/forum/styles/comboot/theme/images/default_avatar.jpg',
-                  }}
+                source={{
+                  uri: this.state.profileImage
+                    ? this.state.profileImage
+                    : 'https://www.sparklabs.com/forum/styles/comboot/theme/images/default_avatar.jpg',
+                }}
+              />
+              {this.state.profileImage && (
+                <Button
+                  onPress={this.deleteProfileImage}
+                  title="Delete picture"
                 />
-                {this.state.profileImage && (
-                  <Button
-                    onPress={this.deleteProfileImage}
-                    title="Delete picture"
-                  />
-                )}
-                {!this.state.profileImage && <Text>Add an image!</Text>}
-              </PhotoUpload>
+              )}
+              {!this.state.profileImage && <Text>Add an image!</Text>}
+            </PhotoUpload>
+            <View style={styles.userInfoContainer}>
               <View style={styles.profileContainerText}>
                 <Text style={styles.userInfoText}>
                   {this.props.user.username}

@@ -130,7 +130,7 @@ class GamePlay extends Component {
     const transform = [{ rotate: tickTock }]
 
     return (
-      <View style={{ marginLeft: '7%' }}>
+      <View style={{ marginLeft: 7 }}>
         <Animated.Text style={[{ transform }]}>
           <Icon name="stopwatch" size={25} />
         </Animated.Text>
@@ -266,12 +266,12 @@ class GamePlay extends Component {
             {this.renderAnswerChoices()}
           </View>
 
-          <View style={{ flexDirection: 'row', marginBottom: '3%' }}>
+          <View style={{ flexDirection: 'row', marginBottom: 3 }}>
             {this.renderAnimatedIcon()}
             <Timer progress={progress} />
           </View>
           <View>
-            <Text style={{ marginBottom: '3%', marginLeft: '7%' }}>
+            <Text style={{ marginBottom: 3, marginLeft: 7 }}>
               {parseFloat(progress / 1000).toFixed(0)} seconds left
             </Text>
           </View>

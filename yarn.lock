@@ -5342,6 +5342,14 @@ react-native-slot-machine@^0.3.1:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/react-native-slot-machine/-/react-native-slot-machine-0.3.1.tgz#0ad693dd24ac31879c5d751a2fd55c476af4e291"
 
+react-native-sound-player@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/react-native-sound-player/-/react-native-sound-player-0.4.0.tgz#b1388644a2f7f07e1d82aa88aeee2e12aef142b9"
+
+react-native-sound@^0.10.9:
+  version "0.10.9"
+  resolved "https://registry.yarnpkg.com/react-native-sound/-/react-native-sound-0.10.9.tgz#6b00b0f4afd017cde09fbb9d171df1b5d5b851a8"
+
 react-native-svg-charts@^5.2.0:
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/react-native-svg-charts/-/react-native-svg-charts-5.2.0.tgz#eda090136250d02f9d1d8c971663afaee4ed2f4f"

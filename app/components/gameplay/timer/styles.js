@@ -3,7 +3,7 @@ const timerOuterView = {
   flexDirection: 'row',
   height: 30,
   marginLeft: '3%',
-  marginRight: '7%',
+  marginRight: 7,
 }
 
 const borderView = {

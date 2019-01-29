@@ -93,6 +93,7 @@ class EditUser extends Component {
   }
 
   handleSchoolInput = school => {
+    console.log('school', school)
     this.setState({
       university: school.name,
     })
@@ -215,7 +216,11 @@ class EditUser extends Component {
                   fontSize={17}
                   placeholder="Graduation Year"
                   autoCapitalize="none"
-                  value={this.state.graduationYear.toString()}
+                  value={
+                    this.state.graduationYear
+                      ? this.state.graduationYear.toString()
+                      : ''
+                  }
                   onFocus={() => this.toggleField('graduationYear')}
                   onChangeText={this.handleGraduationYearInput}
                   onEndEditing={() => this.toggleField('graduationYear')}

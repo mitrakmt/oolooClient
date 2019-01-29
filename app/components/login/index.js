@@ -104,9 +104,9 @@ class Login extends Component {
       const { password, onFocusPassword, passwordInput } = this.state
 
       if (password.length === 0) {
-        this.setState({ password: 'Password', togglePassword: false })
+        this.setState({ togglePassword: false })
       } else if (password.match(/Password/i)) {
-        this.setState({ password: '', togglePassword: true })
+        this.setState({ togglePassword: true })
       }
 
       // toggle onFocus styling for password

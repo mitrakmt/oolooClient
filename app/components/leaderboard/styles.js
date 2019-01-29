@@ -95,7 +95,7 @@ const buttonContainer = {
 }
 
 const leaderboardContainerStyle = {
-  margin: '7%',
+  margin: 7,
 }
 
 const playerLeaderboardStyles = {}

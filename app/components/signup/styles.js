@@ -105,7 +105,7 @@ const buttonContainerStyle = {
 const textInputStyles = {
   textAlign: 'center',
   fontWeight: 'bold',
-  marginTop: '7%',
+  marginTop: 7,
   color: '#385557',
 }
 
