@@ -17,7 +17,7 @@ import EditUserInfo from './components/edit-user-info/editUserInfo'
 
 import rootReducer from './services/redux/reducers'
 
-const environment = 'Development'
+const environment = 'Production'
 const devMiddleware = []
 
 if (environment === 'Development') {
@@ -65,21 +65,18 @@ const App = () => (
           title="Home/Let's Play"
           hideNavBar="false"
         />
-
         <Scene
           key="matchSearch"
           component={MatchSearch}
           title="Match Search"
           hideNavBar="false"
         />
-
         <Scene
           key="matchFound"
           component={MatchFound}
           title="Match Found"
           hideNavBar="false"
         />
-
         <Scene
           key="profile"
           component={Profile}

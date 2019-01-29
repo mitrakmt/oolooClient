@@ -55,6 +55,7 @@ class MatchSearch extends Component {
   retrieveStoredToken = async () => {
     // Retreive the credentials
     let credentials = await Keychain.getGenericPassword()
+    console.log('creds', credentials)
 
     if (credentials) {
       credentials = credentials.password
@@ -72,7 +73,7 @@ class MatchSearch extends Component {
     const socket = io(`${DEV_API_URL}/?token=${auth}`)
 
     socket.on('matchFound', data => events.matchFound(data, foundMatchAction))
-
+    console.log('socket', socket)
     connectSocket(socket)
   }
 

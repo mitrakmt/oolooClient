@@ -330,6 +330,7 @@ class Profile extends Component {
                   width: 100,
                   height: 100,
                   borderRadius: 50,
+                  marginLeft: 10,
                 }}
                 source={{
                   uri: this.state.profileImage
@@ -343,7 +344,11 @@ class Profile extends Component {
                   title="Delete picture"
                 />
               )}
-              {!this.state.profileImage && <Text>Add an image!</Text>}
+              {!this.state.profileImage && (
+                <Text style={{ marginTop: 15, marginLeft: 10 }}>
+                  Add an image!
+                </Text>
+              )}
             </PhotoUpload>
             <View style={styles.userInfoContainer}>
               <View style={styles.profileContainerText}>

@@ -101,7 +101,7 @@ const leaderboardContainerStyle = {
 const playerLeaderboardStyles = {}
 
 const playersLeaderboardTextStyles = {
-  fontSize: 16,
+  fontSize: 12,
   fontWeight: '500',
   color: colors.darkCyan,
   marginBottom: '4%',
@@ -112,7 +112,7 @@ const schoolLeaderboardStyles = {
 }
 
 const schoolLeaderboardTextStyles = {
-  fontSize: 16,
+  fontSize: 12,
   color: colors.darkCyan,
   fontWeight: '500',
   marginBottom: '4%',
@@ -120,7 +120,7 @@ const schoolLeaderboardTextStyles = {
 }
 
 const mySchoolsLeaderboardEntry = {
-  fontSize: 16,
+  fontSize: 12,
   color: '#1a2d30',
   fontWeight: '700',
   marginBottom: '4%',
@@ -128,7 +128,7 @@ const mySchoolsLeaderboardEntry = {
 }
 
 const myPlayersLeaderboardEntry = {
-  fontSize: 16,
+  fontSize: 12,
   color: '#1a2d30',
   fontWeight: '700',
   marginBottom: '4%',
